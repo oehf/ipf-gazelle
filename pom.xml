@@ -8,8 +8,8 @@
     <packaging>pom</packaging>
 
     <properties>
-      <assembly-plugin-version>2.4</assembly-plugin-version>
-      <download-plugin-version>0.1</download-plugin-version>
+      <assembly-plugin-version>2.2-beta-5</assembly-plugin-version>
+      <download-plugin-version>0.1-SNAPSHOT</download-plugin-version>
     </properties>
 
     <organization>
