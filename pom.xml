@@ -9,7 +9,7 @@
 
     <properties>
       <assembly-plugin-version>2.2-beta-5</assembly-plugin-version>
-      <download-plugin-version>0.1-SNAPSHOT</download-plugin-version>
+      <download-plugin-version>0.1</download-plugin-version>
     </properties>
 
     <organization>
