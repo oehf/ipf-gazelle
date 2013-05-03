@@ -67,7 +67,7 @@ public abstract class AbstractGazelleProfileValidatorTest {
         } catch (IOException ioe){
             ioe.printStackTrace();
         }
-        return message;
+        return message.replaceAll("\n", "\r");
     }
 
     protected HapiContext createHapiContext(boolean validating) throws IOException {
