@@ -31,6 +31,7 @@
         <download-plugin-version>0.1</download-plugin-version>
         <jar-plugin-version>2.4</jar-plugin-version>
 
+        <camel-version>2.11.0</camel-version>
         <commons-io-version>2.4</commons-io-version>
         <hapi-version>2.1</hapi-version>
         <ipf-version>2.5.0</ipf-version>
@@ -81,9 +82,24 @@
     <dependencyManagement>
         <dependencies>
             <dependency>
+                <groupId>org.openehealth.ipf.commons</groupId>
+                <artifactId>ipf-commons-core</artifactId>
+                <version>${ipf-version}</version>
+            </dependency>
+            <dependency>
                 <groupId>org.openehealth.ipf.modules</groupId>
                 <artifactId>ipf-modules-hl7</artifactId>
                 <version>${ipf-version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.openehealth.ipf.platform-camel</groupId>
+                <artifactId>ipf-platform-camel-ihe-mllp</artifactId>
+                <version>${ipf-version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.camel</groupId>
+                <artifactId>camel-core</artifactId>
+                <version>${camel-version}</version>
             </dependency>
             <dependency>
                 <groupId>ca.uhn.hapi</groupId>
@@ -97,7 +113,22 @@
             </dependency>
             <dependency>
                 <groupId>ca.uhn.hapi</groupId>
+                <artifactId>hapi-structures-v24</artifactId>
+                <version>${hapi-version}</version>
+            </dependency>
+            <dependency>
+                <groupId>ca.uhn.hapi</groupId>
                 <artifactId>hapi-structures-v25</artifactId>
+                <version>${hapi-version}</version>
+            </dependency>
+            <dependency>
+                <groupId>ca.uhn.hapi</groupId>
+                <artifactId>hapi-structures-v251</artifactId>
+                <version>${hapi-version}</version>
+            </dependency>
+            <dependency>
+                <groupId>ca.uhn.hapi</groupId>
+                <artifactId>hapi-structures-v26</artifactId>
                 <version>${hapi-version}</version>
             </dependency>
             <dependency>

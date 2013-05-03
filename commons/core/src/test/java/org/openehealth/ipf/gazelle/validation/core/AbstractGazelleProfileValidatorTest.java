@@ -67,10 +67,11 @@ public abstract class AbstractGazelleProfileValidatorTest {
         } catch (IOException ioe){
             ioe.printStackTrace();
         }
+        assert message != null;
         return message.replaceAll("\n", "\r");
     }
 
-    protected HapiContext createHapiContext(boolean validating) throws IOException {
+    protected HapiContext createHapiContext(boolean validating) {
         HapiContext hapiContext = new DefaultHapiContext();
         hapiContext.setProfileStore(new GazzelleProfileStore());
         hapiContext.getParserConfiguration().setValidating(validating);

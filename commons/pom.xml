@@ -14,5 +14,6 @@
 
     <modules>
         <module>core</module>
+        <module>camel</module>
     </modules>
 </project>

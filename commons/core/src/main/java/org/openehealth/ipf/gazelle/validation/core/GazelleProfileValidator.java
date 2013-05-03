@@ -52,6 +52,7 @@ import ca.uhn.hl7v2.parser.EncodingCharacters;
 import ca.uhn.hl7v2.parser.PipeParser;
 import ca.uhn.hl7v2.util.Terser;
 
+import static org.openehealth.ipf.gazelle.validation.core.util.MessageUtils.*;
 /**
  * A slightly modified conformance profile validator from HAPI
  * to comply the Gazelle GUI Client validation results..
@@ -103,10 +104,10 @@ public class GazelleProfileValidator extends HapiContextSupport implements Profi
     public HL7Exception[] validate(Message message, StaticDef profile, GazelleProfile gazelleProfile)
             throws ProfileException, HL7Exception {
         List<HL7Exception> exList = new ArrayList<HL7Exception>();
-        Terser t = new Terser(message);
+        Terser terser = new Terser(message);
 
         // check msg type, event type, msg struct ID, version
-        String msgType = t.get("/MSH-9-1");
+        String msgType = messageType(terser);
         if (!msgType.equals(gazelleProfile.type())) {
             HL7Exception e = new ProfileNotFollowedException("Message type " + msgType
                     + " doesn't match profile type of " + gazelleProfile.type());
@@ -114,7 +115,7 @@ public class GazelleProfileValidator extends HapiContextSupport implements Profi
             exList.add(e);
         }
 
-        String evType = t.get("/MSH-9-2");
+        String evType = triggerEvent(terser);
         if (!evType.equals(gazelleProfile.event())
                 && !gazelleProfile.event().equalsIgnoreCase("ALL")) {
             HL7Exception e = new ProfileNotFollowedException("Event type " + evType
@@ -123,7 +124,7 @@ public class GazelleProfileValidator extends HapiContextSupport implements Profi
             exList.add(e);
         }
 
-        String msgStruct = t.get("/MSH-9-3");
+        String msgStruct = messageStructure(terser);
         if (msgStruct == null || !msgStruct.equals(gazelleProfile.structure())) {
             HL7Exception e = new ProfileNotFollowedException("Message structure " + msgStruct
                     + " doesn't match profile structure of " + gazelleProfile.structure());
@@ -131,7 +132,7 @@ public class GazelleProfileValidator extends HapiContextSupport implements Profi
             exList.add(e);
         }
 
-        String msgVersion = t.get("/MSH-12-1");
+        String msgVersion = messageVersion(terser);
         if (msgVersion == null || !msgVersion.equals(gazelleProfile.hl7version())) {
             HL7Exception e = new ProfileNotFollowedException("Message version " + msgVersion
                     + " doesn't match profile version of " + gazelleProfile.hl7version());
@@ -148,18 +149,7 @@ public class GazelleProfileValidator extends HapiContextSupport implements Profi
      */
     public HL7Exception[] validate(Message message, StaticDef profile) throws ProfileException,
             HL7Exception {
-        return validate(message, profile, guessGazelleProfile(profile));
-    }
-
-    private GazelleProfile guessGazelleProfile(StaticDef profile){
-         for (GazelleProfile gazelleProfile: GazelleProfile.values()) {
-             if (profile.getEventType().equals(gazelleProfile.event())
-              && profile.getMsgType().equals(gazelleProfile.type())
-              && profile.getMsgStructID().equals(gazelleProfile.structure())){
-                 return gazelleProfile;
-             }
-         }
-        return null;
+        return validate(message, profile, guessGazelleProfile(message));
     }
 
     private List<HL7Exception> testGroup(Group group, AbstractSegmentContainer profile, String profileID) throws ProfileException {
