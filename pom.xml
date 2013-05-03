@@ -8,9 +8,30 @@
     <packaging>pom</packaging>
 
     <properties>
-        <assembly-plugin-version>2.4</assembly-plugin-version>
-        <download-plugin-version>0.1</download-plugin-version>
+        <!-- Default Bundle Properties -->
+        <osgi.export.pkg>*</osgi.export.pkg>
+        <osgi.import.pkg>org.slf4j.*;version="[1.6,2)",*</osgi.import.pkg>
+        <osgi.dynamic.import.pkg />
+        <osgi.private.pkg />
+        <osgi.bundle.activator />
+        <osgi.bundle.classpath />
+        <osgi.embed.dependency />
+        <osgi.fragment.host />
+        <osgi.require.bundle />
+        <osgi.spring.context />
+        <ipf.extension.classes />
+        <ipf.extension.beans />
+        <eclipse.supplement.bundle />
+        <osgi.bundle.vendor>Open eHealth Foundation</osgi.bundle.vendor>
+        <osgi.bundle.license>Apache License, Version 2.0;url=http://www.apache.org/licenses/LICENSE-2.0;description=OpenSource license provided by the Apache foundation</osgi.bundle.license>
+        <osgi.bundle.category>healthcare</osgi.bundle.category>
 
+        <assembly-plugin-version>2.4</assembly-plugin-version>
+        <bundle-plugin-version>2.0.1</bundle-plugin-version>
+        <download-plugin-version>0.1</download-plugin-version>
+        <jar-plugin-version>2.4</jar-plugin-version>
+
+        <commons-io-version>2.4</commons-io-version>
         <hapi-version>2.1</hapi-version>
         <ipf-version>2.5.0</ipf-version>
         <junit-version>4.10</junit-version>
@@ -80,6 +101,11 @@
                 <version>${hapi-version}</version>
             </dependency>
             <dependency>
+                <groupId>commons-io</groupId>
+                <artifactId>commons-io</artifactId>
+                <version>${commons-io-version}</version>
+            </dependency>
+            <dependency>
                 <groupId>junit</groupId>
                 <artifactId>junit</artifactId>
                 <version>${junit-version}</version>
@@ -100,8 +126,97 @@
                     <artifactId>maven-download-plugin</artifactId>
                     <version>${download-plugin-version}</version>
                 </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-jar-plugin</artifactId>
+                    <version>${jar-plugin-version}</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.felix</groupId>
+                    <artifactId>maven-bundle-plugin</artifactId>
+                    <version>${bundle-plugin-version}</version>  <configuration>
+                    <excludeDependencies>*;scope=provided|runtime</excludeDependencies>
+                </configuration>
+                    <extensions>true</extensions>
+                </plugin>
             </plugins>
         </pluginManagement>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.felix</groupId>
+                <artifactId>maven-bundle-plugin</artifactId>
+                <configuration>
+                    <unpackBundle>true</unpackBundle>
+                    <manifestLocation>META-INF</manifestLocation>
+                    <instructions>
+                        <!-- remove the qualifier from ANY versioning rule -->
+                        <_versionpolicy>"$(version;===;$(@))"</_versionpolicy>
+
+                        <!-- This doesn't work with the 2.0.1 version of the plug-in, but probably later-->
+                        <!--_versionpolicy-impl>[$(version;==;$(@)),$(version;=+;$(@)))</_versionpolicy-impl-->
+                        <!--_versionpolicy-uses>[$(version;=;$(@)),$(version;+;$(@)))</_versionpolicy-uses-->
+                        <!-- enable simple spring xml file analysis -->
+                        <_plugin>aQute.lib.spring.SpringComponent</_plugin>
+                        <!-- Changed behavior in the > 2.0.0 bundle version forces us to do it this way -->
+                        <Bundle-SymbolicName>${project.groupId}.${project.artifactId}</Bundle-SymbolicName>
+                        <Export-Package>${osgi.export.pkg}</Export-Package>
+                        <Import-Package>${osgi.import.pkg}</Import-Package>
+                        <DynamicImport-Package>${osgi.dynamic.import.pkg}</DynamicImport-Package>
+                        <Private-Package>${osgi.private.pkg}</Private-Package>
+                        <Bundle-Activator>${osgi.bundle.activator}</Bundle-Activator>
+                        <Bundle-ClassPath>${osgi.bundle.classpath}</Bundle-ClassPath>
+                        <Embed-Dependency>${osgi.embed.dependency}</Embed-Dependency>
+                        <Fragment-Host>${osgi.fragment.host}</Fragment-Host>
+                        <Require-Bundle>${osgi.require.bundle}</Require-Bundle>
+                        <Bundle-Category>${osgi.bundle.category}</Bundle-Category>
+
+                        <!-- project specifics -->
+                        <Bundle-Description>${project.description}</Bundle-Description>
+                        <Bundle-Vendor>${osgi.bundle.vendor}</Bundle-Vendor>
+                        <Bundle-License>${osgi.bundle.license}</Bundle-License>
+
+                        <!-- custom headers (not according to OSGi-Spec standard) -->
+                        <Spring-Context>${osgi.spring.context}</Spring-Context>
+                        <Extension-Classes>${ipf.extension.classes}</Extension-Classes>
+                        <Extension-Beans>${ipf.extension.beans}</Extension-Beans>
+                        <Eclipse-SupplementBundle>${eclipse.supplement.bundle}</Eclipse-SupplementBundle>
+
+                        <Build-Time>$(now)</Build-Time>
+                    </instructions>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>bundle-manifest</id>
+                        <phase>process-classes</phase>
+                        <goals>
+                            <goal>manifest</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <id>bundle-install</id>
+                        <phase>install</phase>
+                        <goals>
+                            <goal>install</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <id>bundle-deploy</id>
+                        <phase>deploy</phase>
+                        <goals>
+                            <goal>deploy</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <artifactId>maven-jar-plugin</artifactId>
+                <configuration>
+                    <archive>
+                        <manifestFile>META-INF/MANIFEST.MF</manifestFile>
+                    </archive>
+                </configuration>
+            </plugin>
+        </plugins>
     </build>
 
     <repositories>

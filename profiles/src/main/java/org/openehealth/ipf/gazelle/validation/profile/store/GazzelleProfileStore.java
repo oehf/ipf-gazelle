@@ -13,18 +13,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.openehealth.ipf.gazelle.validation.core;
+package org.openehealth.ipf.gazelle.validation.profile.store;
 
-import ca.uhn.hl7v2.conf.store.ReadOnlyProfileStore;
+import ca.uhn.hl7v2.conf.store.ProfileStore;
 import org.apache.commons.io.IOUtils;
 
 import java.io.IOException;
 import java.io.InputStream;
 
 /**
- *
+ * @author Boris Stanojevic
  */
-public class GazzelleProfileStore extends ReadOnlyProfileStore {
+public class GazzelleProfileStore implements ProfileStore {
 
     private static final String DEFAULT_CLASSPATH_PREFIX = "/org/openehealth/ipf/gazelle/validation/profile/v2/";
 
@@ -50,6 +50,11 @@ public class GazzelleProfileStore extends ReadOnlyProfileStore {
         }
 
         return result;
+    }
+
+    @Override
+    public void persistProfile(String ID, String profile) throws IOException {
+        throw new UnsupportedOperationException("Can't persist profile -- this profile store is read-only");
     }
 
 }

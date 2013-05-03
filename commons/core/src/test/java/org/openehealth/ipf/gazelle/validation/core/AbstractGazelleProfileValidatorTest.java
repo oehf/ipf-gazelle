@@ -26,6 +26,7 @@ import ca.uhn.hl7v2.conf.store.DefaultCodeStoreRegistry;
 import ca.uhn.hl7v2.model.Message;
 import org.apache.commons.io.IOUtils;
 import org.junit.Before;
+import org.openehealth.ipf.gazelle.validation.profile.store.GazzelleProfileStore;
 
 import java.io.IOException;
 
