@@ -32,6 +32,7 @@ import org.apache.commons.lang3.Validate;
 import org.openehealth.ipf.commons.core.modules.api.ValidationException;
 import org.openehealth.ipf.gazelle.validation.core.GazelleProfile;
 import org.openehealth.ipf.gazelle.validation.core.GazelleProfileValidator;
+import org.openehealth.ipf.gazelle.validation.core.IHETransaction;
 import org.openehealth.ipf.gazelle.validation.profile.store.GazzelleProfileStore;
 
 import java.io.IOException;
@@ -68,6 +69,16 @@ public class GazelleProfileValidators {
         };
     }
 
+    public Processor gazelleValidatingProcessor(final IHETransaction iheTransaction) {
+        return new Processor() {
+            @Override
+            public void process(Exchange exchange) throws Exception {
+                doValidate(exchange,
+                        guessGazelleProfile(iheTransaction, exchange.getIn().getBody(Message.class)));
+            }
+        };
+    }
+
     public Processor gazelleValidatingProcessor() {
         return new Processor() {
             @Override
@@ -79,6 +90,9 @@ public class GazelleProfileValidators {
 
     protected void doValidate(Exchange exchange, final GazelleProfile gazelleProfile)
             throws IOException, ProfileException, HL7Exception {
+
+        Validate.notNull(gazelleProfile, "Gazelle profile not found, check your MSH9 and MSH12 values.");
+
         Message message = exchange.getIn().getBody(Message.class);
         Validate.notNull(message, "Exchange does not contain required 'ca.uhn.hl7v2.model.Message' type");
 

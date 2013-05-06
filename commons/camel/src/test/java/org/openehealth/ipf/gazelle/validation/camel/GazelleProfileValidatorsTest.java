@@ -16,13 +16,7 @@
 package org.openehealth.ipf.gazelle.validation.camel;
 
 
-import ca.uhn.hl7v2.DefaultHapiContext;
 import ca.uhn.hl7v2.HL7Exception;
-import ca.uhn.hl7v2.HapiContext;
-import ca.uhn.hl7v2.conf.ProfileException;
-import ca.uhn.hl7v2.conf.parser.ProfileParser;
-import ca.uhn.hl7v2.conf.spec.RuntimeProfile;
-import ca.uhn.hl7v2.conf.store.DefaultCodeStoreRegistry;
 import ca.uhn.hl7v2.model.Message;
 import ca.uhn.hl7v2.parser.Parser;
 import ca.uhn.hl7v2.parser.PipeParser;
@@ -31,11 +25,12 @@ import org.apache.camel.ProducerTemplate;
 import org.apache.camel.impl.DefaultCamelContext;
 import org.apache.camel.impl.DefaultProducerTemplate;
 import org.apache.commons.io.IOUtils;
-import org.junit.Test;
-import org.openehealth.ipf.gazelle.validation.core.GazelleProfile;
-import org.openehealth.ipf.gazelle.validation.profile.store.GazzelleProfileStore;
+import org.junit.*;
+import org.openehealth.ipf.commons.core.modules.api.ValidationException;
 
 import java.io.IOException;
+
+import static junit.framework.Assert.fail;
 
 /**
  * @author Boris Stanojevic
@@ -44,15 +39,53 @@ public class GazelleProfileValidatorsTest {
 
     CamelContext camelContext = new DefaultCamelContext();
 
+    ProducerTemplate template;
+
     Parser parser = new PipeParser();
+
+    @Before
+    public void onBeforeClass() throws Exception {
+        camelContext.addRoutes(new TestRouteBuilder());
+        camelContext.start();
+        template = new DefaultProducerTemplate(camelContext);
+        template.start();
+    }
+
+    @After
+    public void onAfterClass() throws Exception {
+        template.stop();
+        camelContext.stop();
+    }
+
+    @Test
+    public void testIti8() {
+        try {
+            template.sendBody("direct:iti8", getParsedMessage("hl7/iti-8.hl7"));
+            fail();
+        } catch (Exception e){
+            assert e.getCause().getMessage().contains("Message validation failed");
+            assert e.getCause().getClass().isAssignableFrom(ValidationException.class);
+        }
+    }
 
     @Test
     public void testIti10() throws Exception {
-        camelContext.addRoutes(new TestRouteBuilder());
-        camelContext.start();
-        ProducerTemplate template = new DefaultProducerTemplate(camelContext);
-        template.start();
         template.sendBody("direct:iti10", getParsedMessage("hl7/iti-10.hl7"));
+    }
+
+    @Test
+    public void testIti21() throws Exception {
+        template.sendBody("direct:iti21", getParsedMessage("hl7/iti-21.hl7"));
+    }
+
+    @Test
+    public void testIti21WrongIHETransaction() {
+        try {
+            template.sendBody("direct:iti8", getParsedMessage("hl7/iti-21.hl7"));
+            fail();
+        } catch (Exception e){
+            assert e.getCause().getMessage().contains("Gazelle profile not found, check your MSH9 and MSH12 values.");
+        }
     }
 
     protected String getMessageAsString(String resourcePath){

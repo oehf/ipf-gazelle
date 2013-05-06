@@ -4,6 +4,7 @@ import ca.uhn.hl7v2.HL7Exception;
 import ca.uhn.hl7v2.model.Message;
 import ca.uhn.hl7v2.util.Terser;
 import org.openehealth.ipf.gazelle.validation.core.GazelleProfile;
+import org.openehealth.ipf.gazelle.validation.core.IHETransaction;
 
 /**
  * @author Boris Stanojevic
@@ -51,6 +52,29 @@ public class MessageUtils {
                 && gazelleProfile.event().equals(triggerEvent(terser))
                 && gazelleProfile.structure().equals(messageStructure(terser))
                 && gazelleProfile.hl7version().equals(messageVersion(terser))){
+                return gazelleProfile;
+            }
+        }
+        return null;
+    }
+
+    /**
+     * Finds out the exact profile inside the one specific IHETransaction
+     * the given message belongs to.
+     *
+     * @param iheTransaction concrete IHETransaction
+     * @param message hapi message
+     * @return GazelleProfile that matches message type, event, structure & version
+     * @throws HL7Exception
+     */
+    public static GazelleProfile guessGazelleProfile(IHETransaction iheTransaction, Message message)
+            throws HL7Exception {
+        Terser terser = new Terser(message);
+        for (GazelleProfile gazelleProfile: iheTransaction.transactionTypes()){
+            if (gazelleProfile.type().equals(messageType(terser))
+                    && gazelleProfile.event().equals(triggerEvent(terser))
+                    && gazelleProfile.structure().equals(messageStructure(terser))
+                    && gazelleProfile.hl7version().equals(messageVersion(terser))){
                 return gazelleProfile;
             }
         }
