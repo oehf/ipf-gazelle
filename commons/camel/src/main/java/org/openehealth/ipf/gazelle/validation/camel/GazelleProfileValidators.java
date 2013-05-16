@@ -15,7 +15,6 @@
  */
 package org.openehealth.ipf.gazelle.validation.camel;
 
-
 import ca.uhn.hl7v2.DefaultHapiContext;
 import ca.uhn.hl7v2.HL7Exception;
 import ca.uhn.hl7v2.HapiContext;
@@ -50,7 +49,7 @@ public class GazelleProfileValidators {
 
     private HapiContext hapiContext;
 
-    private Map<String, RuntimeProfile> parsedProfileMap = new HashMap();
+    private final Map<String, RuntimeProfile> parsedProfileMap = new HashMap<String, RuntimeProfile>();
 
     public GazelleProfileValidators(){
         this.hapiContext = createHapiContext();
@@ -91,7 +90,7 @@ public class GazelleProfileValidators {
     protected void doValidate(Exchange exchange, final GazelleProfile gazelleProfile)
             throws IOException, ProfileException, HL7Exception {
 
-        Validate.notNull(gazelleProfile, "Gazelle profile not found, check your MSH9 and MSH12 values.");
+        Validate.notNull(gazelleProfile, "Gazelle profile not found, check your MSH-9 and MSH-12 values.");
 
         Message message = exchange.getIn().getBody(Message.class);
         Validate.notNull(message, "Exchange does not contain required 'ca.uhn.hl7v2.model.Message' type");
@@ -100,7 +99,7 @@ public class GazelleProfileValidators {
         RuntimeProfile runtimeProfile = parseProfile(gazelleProfile.profileId());
         HL7Exception[] exceptions = validator.validate(message, runtimeProfile.getMessage(), gazelleProfile);
 
-        List<HL7Exception> fatalExceptions = new ArrayList();
+        List<HL7Exception> fatalExceptions = new ArrayList<HL7Exception>();
         for (HL7Exception exception: exceptions){
             if (exception.getSeverity().equals(Severity.ERROR)){
                 fatalExceptions.add(exception);
@@ -121,7 +120,7 @@ public class GazelleProfileValidators {
         return hapiContext;
     }
 
-    protected RuntimeProfile parseProfile(String profileId) throws ProfileException, IOException {
+    synchronized protected RuntimeProfile parseProfile(String profileId) throws ProfileException, IOException {
         RuntimeProfile runtimeProfile;
         if (parsedProfileMap.containsKey(profileId)){
             runtimeProfile = parsedProfileMap.get(profileId);
