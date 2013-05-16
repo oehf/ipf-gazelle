@@ -24,17 +24,17 @@ import java.io.InputStream;
 /**
  * @author Boris Stanojevic
  */
-public class GazzelleProfileStore implements ProfileStore {
+public class GazelleProfileStore implements ProfileStore {
 
     private static final String DEFAULT_CLASSPATH_PREFIX = "/org/openehealth/ipf/gazelle/validation/profile/v2/";
 
     private String prefix;
 
-    public GazzelleProfileStore() {
+    public GazelleProfileStore() {
         this(DEFAULT_CLASSPATH_PREFIX);
     }
 
-    public GazzelleProfileStore(String prefix) {
+    public GazelleProfileStore(String prefix) {
         super();
         this.prefix = prefix;
     }

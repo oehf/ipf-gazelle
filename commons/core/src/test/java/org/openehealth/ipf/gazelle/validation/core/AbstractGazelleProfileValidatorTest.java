@@ -26,7 +26,7 @@ import ca.uhn.hl7v2.conf.store.DefaultCodeStoreRegistry;
 import ca.uhn.hl7v2.model.Message;
 import org.apache.commons.io.IOUtils;
 import org.junit.Before;
-import org.openehealth.ipf.gazelle.validation.profile.store.GazzelleProfileStore;
+import org.openehealth.ipf.gazelle.validation.profile.store.GazelleProfileStore;
 
 import java.io.IOException;
 
@@ -73,7 +73,7 @@ public abstract class AbstractGazelleProfileValidatorTest {
 
     protected HapiContext createHapiContext(boolean validating) {
         HapiContext hapiContext = new DefaultHapiContext();
-        hapiContext.setProfileStore(new GazzelleProfileStore());
+        hapiContext.setProfileStore(new GazelleProfileStore());
         hapiContext.getParserConfiguration().setValidating(validating);
         hapiContext.setCodeStoreRegistry(new DefaultCodeStoreRegistry());
         return hapiContext;

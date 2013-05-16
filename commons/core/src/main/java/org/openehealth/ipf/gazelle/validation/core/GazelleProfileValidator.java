@@ -132,7 +132,7 @@ public class GazelleProfileValidator extends HapiContextSupport implements Profi
             exList.add(e);
         }
 
-        String msgVersion = messageVersion(terser);
+        String msgVersion = message.getVersion();
         if (msgVersion == null || !msgVersion.equals(gazelleProfile.hl7version())) {
             HL7Exception e = new ProfileNotFollowedException("Message version " + msgVersion
                     + " doesn't match profile version of " + gazelleProfile.hl7version());

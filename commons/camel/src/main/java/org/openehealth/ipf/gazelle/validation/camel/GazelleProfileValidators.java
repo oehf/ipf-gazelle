@@ -33,7 +33,7 @@ import org.openehealth.ipf.commons.core.modules.api.ValidationException;
 import org.openehealth.ipf.gazelle.validation.core.GazelleProfile;
 import org.openehealth.ipf.gazelle.validation.core.GazelleProfileValidator;
 import org.openehealth.ipf.gazelle.validation.core.IHETransaction;
-import org.openehealth.ipf.gazelle.validation.profile.store.GazzelleProfileStore;
+import org.openehealth.ipf.gazelle.validation.profile.store.GazelleProfileStore;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -114,7 +114,7 @@ public class GazelleProfileValidators {
 
     protected HapiContext createHapiContext() {
         HapiContext hapiContext = new DefaultHapiContext();
-        hapiContext.setProfileStore(new GazzelleProfileStore());
+        hapiContext.setProfileStore(new GazelleProfileStore());
         hapiContext.getParserConfiguration().setValidating(false);
         hapiContext.setCodeStoreRegistry(new DefaultCodeStoreRegistry());
 
