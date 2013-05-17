@@ -87,6 +87,11 @@ public class GazelleProfileValidator extends HapiContextSupport implements Profi
             }
         }
 
+        if (staticDef == null){
+            violations.add(new HL7Exception("No Static Definitions found in HL7V2XConformance profile"));
+            violations.toArray(new HL7Exception[violations.size()]);
+        }
+
         checkMSHTypeField(staticDef.getMsgType(), terser, violations);
         checkMSHEventField(staticDef.getEventType(), terser, violations);
         checkMSHStructureField(staticDef.getMsgStructID(), terser, violations);
@@ -109,13 +114,13 @@ public class GazelleProfileValidator extends HapiContextSupport implements Profi
                 SegmentType structure = ((SegmentType)struct);
                 usage = structure.getUsage();
                 name = structure.getName();
-                max = structure.getMax().equals("*")? Integer.MAX_VALUE : Integer.valueOf(structure.getMax());
+                max = structure.getMax().equals("*")? Short.MAX_VALUE : Short.valueOf(structure.getMax());
                 min = structure.getMin().intValue();
             } else if (struct.getClass().isAssignableFrom(HL7V2XStaticDef.SegGroup.class)){
                 HL7V2XStaticDef.SegGroup segGroup = ((HL7V2XStaticDef.SegGroup)struct);
                 usage = segGroup.getUsage();
                 name = segGroup.getName();
-                max = segGroup.getMax().equals("*")? Integer.MAX_VALUE : Integer.valueOf(segGroup.getMax());
+                max = segGroup.getMax().equals("*")? Short.MAX_VALUE : Short.valueOf(segGroup.getMax());
                 min = segGroup.getMin().intValue();
             }
 
@@ -164,7 +169,7 @@ public class GazelleProfileValidator extends HapiContextSupport implements Profi
                             profileNotFollowedAssert(!rep.isEmpty(), STRUCTURE_NOT_DEFINED_IN_PROFILE, childName));
                     }
                 } catch (HL7Exception he) {
-                    exList.add(new HL7Exception("Problem checking profile"));
+                    exList.add(new HL7Exception("Problem checking profile:" + he.getMessage()));
                 }
             }
         }
@@ -241,7 +246,7 @@ public class GazelleProfileValidator extends HapiContextSupport implements Profi
                             instancesWithContent.add(instance);
                     }
 
-                    int max = field.getMax().equals("*")? Integer.MAX_VALUE : Integer.valueOf(field.getMax());
+                    int max = field.getMax().equals("*")? Short.MAX_VALUE : Short.valueOf(field.getMax());
                     exList.addAll(testCardinality(instancesWithContent.size(), field.getMin().intValue(),
                                   max, field.getUsage(), field.getName()));
 
@@ -292,7 +297,7 @@ public class GazelleProfileValidator extends HapiContextSupport implements Profi
                             profileNotFollowedAssert(!rep.isEmpty(), FIELD_NOT_DEFINED_IN_PROFILE, i, segment.getName()));
                     }
                 } catch (HL7Exception he) {
-                    exList.add(new HL7Exception("Problem testing against profile"));
+                    exList.add(new HL7Exception("Problem testing against profile: " + he.getMessage()));
                 }
             }
         }
@@ -380,8 +385,7 @@ public class GazelleProfileValidator extends HapiContextSupport implements Profi
                             WRONG_CONSTANT_VALUE, encoded, constant));
             }
 
-            //TODO : check against table
-            //exList.addAll(testTypeAgainstTable(type, profile));
+            //TODO : check against table, or do we need this check?
         }
 
         return exList;
@@ -432,7 +436,8 @@ public class GazelleProfileValidator extends HapiContextSupport implements Profi
                         try {
                             Type child = comp.getComponent(i - 1);
                             exList.addAll(testType(child, subComponent.getDatatype(), subComponent.getUsage(),
-                                    subComponent.getName(), subComponent.getLength().intValue(), subComponent.getConstantValue(),null));
+                                subComponent.getName(), subComponent.getLength().intValue(),
+                                subComponent.getConstantValue(), null));
                         } catch (DataTypeException de) {
                             exList.add(profileNotHL7Compliant(SUBCOMPONENT_TYPE_MISSMATCH, type.getName(), i));
                         }
@@ -461,7 +466,7 @@ public class GazelleProfileValidator extends HapiContextSupport implements Profi
                     extra.append(s).append(enc.getComponentSeparator());
                 }
             } catch (DataTypeException de) {
-                exList.add(new HL7Exception("Problem testing against profile"));
+                exList.add(new HL7Exception("Problem testing against profile:" + de.getMessage()));
             }
         }
         CollectionUtils.addIgnoreNull(exList,
