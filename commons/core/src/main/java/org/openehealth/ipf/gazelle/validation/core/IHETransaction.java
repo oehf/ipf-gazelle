@@ -103,6 +103,8 @@ public enum IHETransaction {
         this.transactionTypes = Arrays.asList(transactionTypes);
     }
 
-    public List<GazelleProfile> transactionTypes(){return transactionTypes;};
+    public List<GazelleProfile> transactionTypes() {
+        return transactionTypes;
+    }
 
 }

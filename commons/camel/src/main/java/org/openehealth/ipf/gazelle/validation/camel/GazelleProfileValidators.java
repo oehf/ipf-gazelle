@@ -15,7 +15,6 @@
  */
 package org.openehealth.ipf.gazelle.validation.camel;
 
-
 import ca.uhn.hl7v2.DefaultHapiContext;
 import ca.uhn.hl7v2.HL7Exception;
 import ca.uhn.hl7v2.HapiContext;
@@ -31,7 +30,7 @@ import org.openehealth.ipf.gazelle.validation.core.GazelleProfile;
 import org.openehealth.ipf.gazelle.validation.core.stub.HL7V2XConformanceProfile;
 import org.openehealth.ipf.gazelle.validation.core.GazelleProfileValidator;
 import org.openehealth.ipf.gazelle.validation.core.IHETransaction;
-import org.openehealth.ipf.gazelle.validation.profile.store.GazzelleProfileStore;
+import org.openehealth.ipf.gazelle.validation.profile.store.GazelleProfileStore;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
@@ -52,7 +51,7 @@ public class GazelleProfileValidators {
 
     private HapiContext hapiContext;
 
-    private Map<String, HL7V2XConformanceProfile> parsedProfileMap = new HashMap();
+    private final Map<String, HL7V2XConformanceProfile> parsedProfileMap = new HashMap();
 
     private static Unmarshaller unmarshaler;
 
@@ -104,7 +103,7 @@ public class GazelleProfileValidators {
     protected void doValidate(Exchange exchange, final GazelleProfile gazelleProfile)
             throws IOException, JAXBException {
 
-        Validate.notNull(gazelleProfile, "Gazelle profile not found, check your MSH9 and MSH12 values.");
+        Validate.notNull(gazelleProfile, "Gazelle profile not found, check your MSH-9 and MSH-12 values.");
 
         Message message = exchange.getIn().getBody(Message.class);
         Validate.notNull(message, "Exchange does not contain required 'ca.uhn.hl7v2.model.Message' type");
@@ -113,7 +112,7 @@ public class GazelleProfileValidators {
         HL7V2XConformanceProfile staticDef = parseProfile(gazelleProfile.profileId());
         HL7Exception[] exceptions = validator.validate(message, staticDef);
 
-        List<HL7Exception> fatalExceptions = new ArrayList();
+        List<HL7Exception> fatalExceptions = new ArrayList<HL7Exception>();
         for (HL7Exception exception: exceptions){
             if (exception.getSeverity().equals(Severity.ERROR)){
                 fatalExceptions.add(exception);
@@ -127,14 +126,14 @@ public class GazelleProfileValidators {
 
     protected HapiContext createHapiContext() {
         HapiContext hapiContext = new DefaultHapiContext();
-        hapiContext.setProfileStore(new GazzelleProfileStore());
+        hapiContext.setProfileStore(new GazelleProfileStore());
         hapiContext.getParserConfiguration().setValidating(false);
         hapiContext.setCodeStoreRegistry(new DefaultCodeStoreRegistry());
 
         return hapiContext;
     }
 
-    protected HL7V2XConformanceProfile parseProfile(String profileId) throws JAXBException, IOException {
+    synchronized protected HL7V2XConformanceProfile parseProfile(String profileId) throws JAXBException, IOException {
         String profileString = hapiContext.getProfileStore().getProfile(profileId);
         HL7V2XConformanceProfile conformanceProfile;
         if (parsedProfileMap.containsKey(profileId)){

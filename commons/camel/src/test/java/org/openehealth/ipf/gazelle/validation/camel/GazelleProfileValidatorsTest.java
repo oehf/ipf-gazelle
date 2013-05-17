@@ -16,6 +16,8 @@
 package org.openehealth.ipf.gazelle.validation.camel;
 
 
+import java.io.IOException;
+
 import ca.uhn.hl7v2.HL7Exception;
 import ca.uhn.hl7v2.model.Message;
 import ca.uhn.hl7v2.parser.Parser;
@@ -25,12 +27,12 @@ import org.apache.camel.ProducerTemplate;
 import org.apache.camel.impl.DefaultCamelContext;
 import org.apache.camel.impl.DefaultProducerTemplate;
 import org.apache.commons.io.IOUtils;
-import org.junit.*;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
 import org.openehealth.ipf.commons.core.modules.api.ValidationException;
 
-import java.io.IOException;
-
-import static junit.framework.Assert.fail;
+import static org.junit.Assert.fail;
 
 /**
  * @author Boris Stanojevic
@@ -84,7 +86,7 @@ public class GazelleProfileValidatorsTest {
             template.sendBody("direct:iti8", getParsedMessage("hl7/iti-21.hl7"));
             fail();
         } catch (Exception e){
-            assert e.getCause().getMessage().contains("Gazelle profile not found, check your MSH9 and MSH12 values.");
+            assert e.getCause().getMessage().contains("Gazelle profile not found, check your MSH-9 and MSH-12 values.");
         }
     }
 
