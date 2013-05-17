@@ -53,12 +53,12 @@ public class GazelleProfileValidators {
 
     private final Map<String, HL7V2XConformanceProfile> parsedProfileMap = new HashMap();
 
-    private static Unmarshaller unmarshaler;
+    private static Unmarshaller unmarshaller;
 
     static {
         try {
             JAXBContext jaxbContext = JAXBContext.newInstance(HL7V2XConformanceProfile.class);
-            unmarshaler = jaxbContext.createUnmarshaller();
+            unmarshaller = jaxbContext.createUnmarshaller();
         } catch (JAXBException jaxbException){
              throw new RuntimeException(jaxbException.getMessage());
         }
@@ -140,7 +140,7 @@ public class GazelleProfileValidators {
             conformanceProfile = parsedProfileMap.get(profileId);
         } else {
             conformanceProfile =
-                    (HL7V2XConformanceProfile)unmarshaler.unmarshal(new ByteArrayInputStream(profileString.getBytes()));
+                    (HL7V2XConformanceProfile)unmarshaller.unmarshal(new ByteArrayInputStream(profileString.getBytes()));
             parsedProfileMap.put(profileId, conformanceProfile);
         }
         return conformanceProfile;

@@ -97,8 +97,7 @@ public class GazelleProfileValidator extends HapiContextSupport implements Profi
     }
 
 
-    private List<HL7Exception> testGroup(Group group, List<Object> profile){
-            //throws ProfileException {
+    protected List<HL7Exception> testGroup(Group group, List<Object> profile){
         List<HL7Exception> exList = new ArrayList<HL7Exception>();
         List<String> allowedStructures = new ArrayList<String>();
         for (Object struct : profile) {
@@ -110,21 +109,13 @@ public class GazelleProfileValidator extends HapiContextSupport implements Profi
                 SegmentType structure = ((SegmentType)struct);
                 usage = structure.getUsage();
                 name = structure.getName();
-                if (structure.getMax().equals("*")){
-                    max = Integer.MAX_VALUE;
-                } else {
-                    max = Integer.valueOf(structure.getMax());
-                }
+                max = structure.getMax().equals("*")? Integer.MAX_VALUE : Integer.valueOf(structure.getMax());
                 min = structure.getMin().intValue();
             } else if (struct.getClass().isAssignableFrom(HL7V2XStaticDef.SegGroup.class)){
                 HL7V2XStaticDef.SegGroup segGroup = ((HL7V2XStaticDef.SegGroup)struct);
                 usage = segGroup.getUsage();
                 name = segGroup.getName();
-                if (segGroup.getMax().equals("*")){
-                    max = Integer.MAX_VALUE;
-                } else {
-                    max = Integer.valueOf(segGroup.getMax());
-                }
+                max = segGroup.getMax().equals("*")? Integer.MAX_VALUE : Integer.valueOf(segGroup.getMax());
                 min = segGroup.getMin().intValue();
             }
 
@@ -146,7 +137,6 @@ public class GazelleProfileValidator extends HapiContextSupport implements Profi
                             exList.addAll(childExceptions);
                         }
                     }
-
                 } catch (HL7Exception he) {
                     exList.add(profileNotHL7Compliant(PROFILE_STRUCTURE_NOT_EXIST_IN_JAVA_CLASS, name));
                 }
@@ -164,7 +154,7 @@ public class GazelleProfileValidator extends HapiContextSupport implements Profi
      * mentioned in the profile with usage other than X). Returns a list of exceptions representing
      * structures that appear in the message but are not supposed to.
      */
-    private List<HL7Exception> checkForExtraStructures(Group group, List<String> allowedStructures) {
+    protected List<HL7Exception> checkForExtraStructures(Group group, List<String> allowedStructures) {
         List<HL7Exception> exList = new ArrayList<HL7Exception>();
         for (String childName : group.getNames()) {
             if (!allowedStructures.contains(childName)) {
@@ -211,7 +201,7 @@ public class GazelleProfileValidator extends HapiContextSupport implements Profi
     /**
      * Tests a structure (segment or group) against the corresponding part of a profile.
      */
-    public List<HL7Exception> testStructure(Structure s, Object profile){
+    protected List<HL7Exception> testStructure(Structure s, Object profile){
         List<HL7Exception> exList = new ArrayList<HL7Exception>();
         if (profile instanceof SegmentType) {
             if (Segment.class.isAssignableFrom(s.getClass())) {
@@ -225,13 +215,14 @@ public class GazelleProfileValidator extends HapiContextSupport implements Profi
                 exList.addAll(testGroup((Group) s, ((HL7V2XStaticDef.SegGroup) profile).getSegGroupsAndSegments()));
             } else {
                 exList.add(profileNotHL7Compliant(PROFILE_STRUCTURE_MISSMATCH,
-                        "group", s.getClass().getName()));            }
+                        "group", s.getClass().getName()));
+            }
         }
         return exList;
     }
 
 
-    public List<HL7Exception> testSegment(Segment segment, SegmentType profile) {
+    protected List<HL7Exception> testSegment(Segment segment, SegmentType profile) {
         List<HL7Exception> exList = new ArrayList<HL7Exception>();
         List<Integer> allowedFields = new ArrayList<Integer>();
         int i = 1;
@@ -250,19 +241,9 @@ public class GazelleProfileValidator extends HapiContextSupport implements Profi
                             instancesWithContent.add(instance);
                     }
 
-                    int max;
-                    if (field.getMax().equals("*")){
-                        max = Integer.MAX_VALUE;
-                    } else {
-                        max = Integer.valueOf(field.getMax());
-                    }
-
+                    int max = field.getMax().equals("*")? Integer.MAX_VALUE : Integer.valueOf(field.getMax());
                     exList.addAll(testCardinality(instancesWithContent.size(), field.getMin().intValue(),
                                   max, field.getUsage(), field.getName()));
-
-                    for (HL7Exception exc: exList){
-                        exc.setFieldPosition(i);
-                    }
 
                     // test field instances with content
                     if (validateChildren) {
@@ -300,7 +281,7 @@ public class GazelleProfileValidator extends HapiContextSupport implements Profi
      *
      * @param allowedFields an array of Integers containing field #s of allowed fields
      */
-    private List<HL7Exception> checkForExtraFields(Segment segment, List<Integer> allowedFields){
+    protected List<HL7Exception> checkForExtraFields(Segment segment, List<Integer> allowedFields){
         ArrayList<HL7Exception> exList = new ArrayList<HL7Exception>();
         for (int i = 1; i <= segment.numFields(); i++) {
             if (!allowedFields.contains(new Integer(i))) {
@@ -386,7 +367,7 @@ public class GazelleProfileValidator extends HapiContextSupport implements Profi
                 CollectionUtils.addIgnoreNull(exList,
                         profileNotFollowedAssert(!(type.getClass().getSimpleName().equals("Varies")
                                 || type.getClass().getSimpleName().equals("QIP")),
-                                HL7_DATATYPE_MISSMATCH, type.getName(), dataType));
+                            HL7_DATATYPE_MISSMATCH, type.getName(), dataType));
             }
 
             // check length
@@ -469,7 +450,7 @@ public class GazelleProfileValidator extends HapiContextSupport implements Profi
     }
 
     /** Tests for extra components (ie any not defined in the profile) */
-    private List<HL7Exception> checkExtraComponents(Composite comp, int numInProfile) {
+    protected List<HL7Exception> checkExtraComponents(Composite comp, int numInProfile) {
         List<HL7Exception> exList = new ArrayList<HL7Exception>();
 
         StringBuffer extra = new StringBuffer();
@@ -490,7 +471,7 @@ public class GazelleProfileValidator extends HapiContextSupport implements Profi
     }
 
     /** Returns true is there is content in the given type */
-    private boolean hasContent(Type type) {
+    protected boolean hasContent(Type type) {
         boolean has = false;
         String encoded = PipeParser.encode(type, enc);
         if (encoded != null && encoded.length() > 0)
