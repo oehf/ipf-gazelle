@@ -32,6 +32,7 @@
         <jar-plugin-version>2.4</jar-plugin-version>
 
         <camel-version>2.11.0</camel-version>
+        <commons-collections-version>3.2.1</commons-collections-version>
         <commons-io-version>2.4</commons-io-version>
         <hapi-version>2.1</hapi-version>
         <ipf-version>2.5.0</ipf-version>
@@ -135,6 +136,11 @@
                 <groupId>commons-io</groupId>
                 <artifactId>commons-io</artifactId>
                 <version>${commons-io-version}</version>
+            </dependency>
+            <dependency>
+                <groupId>commons-collections</groupId>
+                <artifactId>commons-collections</artifactId>
+                <version>${commons-collections-version}</version>
             </dependency>
             <dependency>
                 <groupId>junit</groupId>

@@ -20,26 +20,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import ca.uhn.hl7v2.*;
-import ca.uhn.hl7v2.conf.check.ProfileNotFollowedException;
-import ca.uhn.hl7v2.conf.check.ProfileNotHL7CompliantException;
-import ca.uhn.hl7v2.conf.check.Validator;
-import ca.uhn.hl7v2.conf.check.XElementPresentException;
 import ca.uhn.hl7v2.model.primitive.TSComponentOne;
+import org.apache.commons.collections.CollectionUtils;
+import org.openehealth.ipf.gazelle.validation.core.stub.HL7V2XConformanceProfile;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import ca.uhn.hl7v2.conf.ProfileException;
-import ca.uhn.hl7v2.conf.spec.message.AbstractComponent;
-import ca.uhn.hl7v2.conf.spec.message.AbstractSegmentContainer;
-import ca.uhn.hl7v2.conf.spec.message.Component;
-import ca.uhn.hl7v2.conf.spec.message.Field;
-import ca.uhn.hl7v2.conf.spec.message.ProfileStructure;
-import ca.uhn.hl7v2.conf.spec.message.Seg;
-import ca.uhn.hl7v2.conf.spec.message.SegGroup;
-import ca.uhn.hl7v2.conf.spec.message.StaticDef;
-import ca.uhn.hl7v2.conf.spec.message.SubComponent;
-import ca.uhn.hl7v2.conf.store.CodeStore;
-import ca.uhn.hl7v2.conf.store.ProfileStoreFactory;
 import ca.uhn.hl7v2.model.Composite;
 import ca.uhn.hl7v2.model.DataTypeException;
 import ca.uhn.hl7v2.model.Group;
@@ -52,20 +38,25 @@ import ca.uhn.hl7v2.parser.EncodingCharacters;
 import ca.uhn.hl7v2.parser.PipeParser;
 import ca.uhn.hl7v2.util.Terser;
 
+import org.openehealth.ipf.gazelle.validation.core.stub.HL7V2XStaticDef;
+import org.openehealth.ipf.gazelle.validation.core.stub.SegmentType;
+
 import static org.openehealth.ipf.gazelle.validation.core.util.MessageUtils.*;
+import static org.openehealth.ipf.gazelle.validation.core.util.ProfileAssertions.profileNotFollowedAssert;
+import static org.openehealth.ipf.gazelle.validation.core.util.ProfileAssertions.profileNotHL7Compliant;
+import static org.openehealth.ipf.gazelle.validation.core.util.ProfileValidationMessage.*;
+
 /**
  * A slightly modified conformance profile validator from HAPI
  * to comply the Gazelle GUI Client validation results..
  *
- * Note: this class is currently NOT thread-safe!
  *
  */
-public class GazelleProfileValidator extends HapiContextSupport implements ProfileValidator {
+public class GazelleProfileValidator extends HapiContextSupport implements ProfileValidator<HL7V2XConformanceProfile> {
 
-    private EncodingCharacters enc; // used to check for content in parts of a message
+    private EncodingCharacters enc;
     private static final Logger log = LoggerFactory.getLogger(GazelleProfileValidator.class);
     private boolean validateChildren = true;
-    private CodeStore codeStore;
 
     public GazelleProfileValidator() {
         this(new DefaultHapiContext());
@@ -84,141 +75,106 @@ public class GazelleProfileValidator extends HapiContextSupport implements Profi
         this.validateChildren = validateChildren;
     }
 
-    /**
-     * <p>
-     * Provides a code store to use to provide the code tables which will be used to validate coded
-     * value types. If a code store has not been set (which is the default),
-     * {@link ProfileStoreFactory} will be checked for an appropriate code store, and if none is
-     * found then coded values will not be validated.
-     * </p>
-     */
-    public void setCodeStore(CodeStore theCodeStore) {
-        codeStore = theCodeStore;
-    }
-
-    /**
-     *
-     * @see ProfileValidator#validate
-     */
     @Override
-    public HL7Exception[] validate(Message message, StaticDef profile, GazelleProfile gazelleProfile)
-            throws ProfileException, HL7Exception {
-        List<HL7Exception> exList = new ArrayList<HL7Exception>();
+    public HL7Exception[] validate(Message message, HL7V2XConformanceProfile profile) {
+        List<HL7Exception> violations = new ArrayList<HL7Exception>();
         Terser terser = new Terser(message);
 
-        // check msg type, event type, msg struct ID, version
-        String msgType = messageType(terser);
-        if (!msgType.equals(gazelleProfile.type())) {
-            HL7Exception e = new ProfileNotFollowedException("Message type " + msgType
-                    + " doesn't match profile type of " + gazelleProfile.type());
-            e.setError(ErrorCode.UNSUPPORTED_MESSAGE_TYPE);
-            exList.add(e);
+        HL7V2XStaticDef staticDef = null;
+        for (Object ref : profile.getDynamicDevesAndHL7V2XStaticDevesAndHL7V2XStaticDefReves()){
+            if (ref.getClass().isAssignableFrom(HL7V2XStaticDef.class)){
+                staticDef = (HL7V2XStaticDef)ref;
+            }
         }
 
-        String evType = triggerEvent(terser);
-        if (!evType.equals(gazelleProfile.event())
-                && !gazelleProfile.event().equalsIgnoreCase("ALL")) {
-            HL7Exception e = new ProfileNotFollowedException("Event type " + evType
-                    + " doesn't match profile type of " + gazelleProfile.event());
-            e.setError(ErrorCode.UNSUPPORTED_EVENT_CODE);
-            exList.add(e);
-        }
+        checkMSHTypeField(staticDef.getMsgType(), terser, violations);
+        checkMSHEventField(staticDef.getEventType(), terser, violations);
+        checkMSHStructureField(staticDef.getMsgStructID(), terser, violations);
+        checkMSHVersionField(profile.getHL7Version(), terser, violations);
 
-        String msgStruct = messageStructure(terser);
-        if (msgStruct == null || !msgStruct.equals(gazelleProfile.structure())) {
-            HL7Exception e = new ProfileNotFollowedException("Message structure " + msgStruct
-                    + " doesn't match profile structure of " + gazelleProfile.structure());
-            e.setError(ErrorCode.UNSUPPORTED_PROCESSING_ID);
-            exList.add(e);
-        }
-
-        String msgVersion = messageVersion(terser);
-        if (msgVersion == null || !msgVersion.equals(gazelleProfile.hl7version())) {
-            HL7Exception e = new ProfileNotFollowedException("Message version " + msgVersion
-                    + " doesn't match profile version of " + gazelleProfile.hl7version());
-            e.setError(ErrorCode.UNSUPPORTED_VERSION_ID);
-            exList.add(e);
-        }
-
-        exList.addAll(testGroup(message, profile, profile.getIdentifier()));
-        return exList.toArray(new HL7Exception[exList.size()]);
+        violations.addAll(testGroup(message, staticDef.getSegmentsAndSegGroups()));
+        return violations.toArray(new HL7Exception[violations.size()]);
     }
 
-    /**
-     * @see Validator#validate
-     */
-    public HL7Exception[] validate(Message message, StaticDef profile) throws ProfileException,
-            HL7Exception {
-        return validate(message, profile, guessGazelleProfile(message));
-    }
 
-    private List<HL7Exception> testGroup(Group group, AbstractSegmentContainer profile, String profileID) throws ProfileException {
+    private List<HL7Exception> testGroup(Group group, List<Object> profile){
+            //throws ProfileException {
         List<HL7Exception> exList = new ArrayList<HL7Exception>();
         List<String> allowedStructures = new ArrayList<String>();
+        for (Object struct : profile) {
+            String name = null;
+            String usage = "";
+            int max = 0;
+            int min = 0;
+            if (struct.getClass().isAssignableFrom(SegmentType.class)){
+                SegmentType structure = ((SegmentType)struct);
+                usage = structure.getUsage();
+                name = structure.getName();
+                if (structure.getMax().equals("*")){
+                    max = Integer.MAX_VALUE;
+                } else {
+                    max = Integer.valueOf(structure.getMax());
+                }
+                min = structure.getMin().intValue();
+            } else if (struct.getClass().isAssignableFrom(HL7V2XStaticDef.SegGroup.class)){
+                HL7V2XStaticDef.SegGroup segGroup = ((HL7V2XStaticDef.SegGroup)struct);
+                usage = segGroup.getUsage();
+                name = segGroup.getName();
+                if (segGroup.getMax().equals("*")){
+                    max = Integer.MAX_VALUE;
+                } else {
+                    max = Integer.valueOf(segGroup.getMax());
+                }
+                min = segGroup.getMin().intValue();
+            }
 
-        for (ProfileStructure struct : profile) {
+            if (!usage.equalsIgnoreCase("X")){
+                CollectionUtils.addIgnoreNull(allowedStructures, name);
 
-            // only test a structure in detail if it isn't X
-            if (!struct.getUsage().equalsIgnoreCase("X")) {
-                allowedStructures.add(struct.getName());
-
-                // see which instances have content
                 try {
                     List<Structure> instancesWithContent = new ArrayList<Structure>();
-                    for (Structure instance : group.getAll(struct.getName())) {
+                    for (Structure instance : group.getAll(name)) {
                         if (!instance.isEmpty())
                             instancesWithContent.add(instance);
                     }
-
-                    HL7Exception ce = testCardinality(instancesWithContent.size(), struct.getMin(),
-                            struct.getMax(), struct.getUsage(), struct.getName(), ErrorCode.SEGMENT_SEQUENCE_ERROR);
-                    if (ce != null)
-                        exList.add(ce);
+                    exList.addAll(testCardinality(instancesWithContent.size(), min, max, usage, name));
 
                     // test children on instances with content
                     if (validateChildren) {
                         for (Structure s : instancesWithContent) {
-                            List<HL7Exception> childExceptions = testStructure(s, struct, profileID);
+                            List<HL7Exception> childExceptions = testStructure(s, struct);
                             exList.addAll(childExceptions);
                         }
                     }
 
                 } catch (HL7Exception he) {
-                    HL7Exception exc = new ProfileNotHL7CompliantException(struct.getName() +
-                            " is expected by the message profile but does not appear in the Java class" +
-                            " representing the message structure");
-                    exc.setSeverity(Severity.INFO);
-                    exList.add(exc);
+                    exList.add(profileNotHL7Compliant(PROFILE_STRUCTURE_NOT_EXIST_IN_JAVA_CLASS, name));
                 }
             }
         }
 
         // complain about X structures that have content
         exList.addAll(checkForExtraStructures(group, allowedStructures));
-
         return exList;
     }
+
 
     /**
      * Checks a group's children against a list of allowed structures for the group (ie those
      * mentioned in the profile with usage other than X). Returns a list of exceptions representing
      * structures that appear in the message but are not supposed to.
      */
-    private List<HL7Exception> checkForExtraStructures(Group group, List<String> allowedStructures)
-            throws ProfileException {
+    private List<HL7Exception> checkForExtraStructures(Group group, List<String> allowedStructures) {
         List<HL7Exception> exList = new ArrayList<HL7Exception>();
         for (String childName : group.getNames()) {
             if (!allowedStructures.contains(childName)) {
                 try {
                     for (Structure rep : group.getAll(childName)) {
-                        if (!rep.isEmpty()) {
-                            HL7Exception e = new XElementPresentException("The structure "
-                                    + childName + " appears in the message but not in the profile");
-                            exList.add(e);
-                        }
+                        CollectionUtils.addIgnoreNull(exList,
+                            profileNotFollowedAssert(!rep.isEmpty(), STRUCTURE_NOT_DEFINED_IN_PROFILE, childName));
                     }
                 } catch (HL7Exception he) {
-                    throw new ProfileException("Problem checking profile", he);
+                    exList.add(new HL7Exception("Problem checking profile"));
                 }
             }
         }
@@ -237,60 +193,49 @@ public class GazelleProfileValidator extends HapiContextSupport implements Profi
      * @param name the name of the repeating structure (used in exception msg)
      * @return null if cardinality OK, exception otherwise
      */
-    protected HL7Exception testCardinality(int reps, int min, int max, String usage, String name, ErrorCode errorCode) {
-        HL7Exception e = null;
-        if (reps > 0 && usage.equalsIgnoreCase("X")) {
-            e = new ProfileNotFollowedException("Element '" + name
-                    + "' is present in the message but specified as not used (X) by the profile");
-            e.setError(errorCode);
-            e.setSeverity(Severity.WARNING);
-        } else if (reps < min && usage.equalsIgnoreCase("R")) {
-            e = new ProfileNotFollowedException(name + " must have at least " + min
-                    + " repetitions (has " + reps + ")");
-            e.setError(errorCode);
-        } else if (max > 0 && reps > max) {
-            e = new ProfileNotFollowedException(name + " must have no more than " + max
-                    + " repetitions (has " + reps + ")");
-            e.setError(errorCode);
-        }
-        return e;
+    protected List<HL7Exception> testCardinality(int reps, int min, int max, String usage, String name) {
+        List<HL7Exception> violations = new ArrayList<HL7Exception>();
+        CollectionUtils.addIgnoreNull(violations, profileNotFollowedAssert(reps < min && usage.equalsIgnoreCase("R"),
+                LESS_THAN_MINIMUM_CARDINALITY, name, min, reps));
+
+        CollectionUtils.addIgnoreNull(violations, profileNotFollowedAssert(max > 0 && reps > max,
+                MORE_THAN_MAXIMUM_CARDINALITY, name, max, reps));
+
+        CollectionUtils.addIgnoreNull(violations, profileNotFollowedAssert(reps > 0 && usage.equalsIgnoreCase("X"),
+                NOT_SUPPORTED_ELEMENT_PRESENT, name));
+
+        return violations;
     }
+
 
     /**
      * Tests a structure (segment or group) against the corresponding part of a profile.
      */
-    public List<HL7Exception> testStructure(Structure s, ProfileStructure profile, String profileID)
-            throws ProfileException {
+    public List<HL7Exception> testStructure(Structure s, Object profile){
         List<HL7Exception> exList = new ArrayList<HL7Exception>();
-        if (profile instanceof Seg) {
+        if (profile instanceof SegmentType) {
             if (Segment.class.isAssignableFrom(s.getClass())) {
-                exList.addAll(testSegment((Segment) s, (Seg) profile, profileID));
+                exList.addAll(testSegment((Segment) s, (SegmentType) profile));
             } else {
-                HL7Exception e = new ProfileNotHL7CompliantException(
-                        "Mismatch between a segment in the profile and the structure "
-                                + s.getClass().getName() + " in the message");
-                e.setError(ErrorCode.APPLICATION_INTERNAL_ERROR);
-                exList.add(e);
+                exList.add(profileNotHL7Compliant(PROFILE_STRUCTURE_MISSMATCH,
+                        "segment", s.getClass().getName()));
             }
-        } else if (profile instanceof SegGroup) {
+        } else if (profile instanceof HL7V2XStaticDef.SegGroup) {
             if (Group.class.isAssignableFrom(s.getClass())) {
-                exList.addAll(testGroup((Group) s, (SegGroup) profile, profileID));
+                exList.addAll(testGroup((Group) s, ((HL7V2XStaticDef.SegGroup) profile).getSegGroupsAndSegments()));
             } else {
-                exList.add(new ProfileNotHL7CompliantException(
-                        "Mismatch between a group in the profile and the structure "
-                                + s.getClass().getName() + " in the message"));
-            }
+                exList.add(profileNotHL7Compliant(PROFILE_STRUCTURE_MISSMATCH,
+                        "group", s.getClass().getName()));            }
         }
         return exList;
     }
 
-    private List<HL7Exception> testSegment(ca.uhn.hl7v2.model.Segment segment, Seg profile,
-                                             String profileID) throws ProfileException {
+
+    public List<HL7Exception> testSegment(Segment segment, SegmentType profile) {
         List<HL7Exception> exList = new ArrayList<HL7Exception>();
         List<Integer> allowedFields = new ArrayList<Integer>();
-
-        for (int i = 1; i <= profile.getFields(); i++) {
-            Field field = profile.getField(i);
+        int i = 1;
+        for (SegmentType.Field field : profile.getFields()) {
 
             // only test a field in detail if it isn't X
             if (!field.getUsage().equalsIgnoreCase("X")) {
@@ -305,11 +250,18 @@ public class GazelleProfileValidator extends HapiContextSupport implements Profi
                             instancesWithContent.add(instance);
                     }
 
-                    HL7Exception ce = testCardinality(instancesWithContent.size(), field.getMin(),
-                            field.getMax(), field.getUsage(), field.getName(), ErrorCode.REQUIRED_FIELD_MISSING);
-                    if (ce != null) {
-                        ce.setFieldPosition(i);
-                        exList.add(ce);
+                    int max;
+                    if (field.getMax().equals("*")){
+                        max = Integer.MAX_VALUE;
+                    } else {
+                        max = Integer.valueOf(field.getMax());
+                    }
+
+                    exList.addAll(testCardinality(instancesWithContent.size(), field.getMin().intValue(),
+                                  max, field.getUsage(), field.getName()));
+
+                    for (HL7Exception exc: exList){
+                        exc.setFieldPosition(i);
                     }
 
                     // test field instances with content
@@ -319,22 +271,19 @@ public class GazelleProfileValidator extends HapiContextSupport implements Profi
                             if (profile.getName().equalsIgnoreCase("MSH") && i < 3) {
                                 escape = false;
                             }
-                            List<HL7Exception> childExceptions = testField(s, field, escape, profileID);
+                            List<HL7Exception> childExceptions = testField(s, field, escape);
                             for (HL7Exception ex : childExceptions) {
                                 ex.setFieldPosition(i);
                             }
                             exList.addAll(childExceptions);
                         }
                     }
-
                 } catch (HL7Exception he) {
-                    exList.add(new ProfileNotHL7CompliantException("Field " + i
-                            + " not found in message"));
+                    exList.add(profileNotHL7Compliant(FIELD_NOT_FOUND, i));
                 }
             }
-
+            ++i;
         }
-
         // complain about X fields with content
         exList.addAll(checkForExtraFields(segment, allowedFields));
 
@@ -351,31 +300,61 @@ public class GazelleProfileValidator extends HapiContextSupport implements Profi
      *
      * @param allowedFields an array of Integers containing field #s of allowed fields
      */
-    private List<HL7Exception> checkForExtraFields(Segment segment, List<Integer> allowedFields)
-            throws ProfileException {
+    private List<HL7Exception> checkForExtraFields(Segment segment, List<Integer> allowedFields){
         ArrayList<HL7Exception> exList = new ArrayList<HL7Exception>();
         for (int i = 1; i <= segment.numFields(); i++) {
             if (!allowedFields.contains(new Integer(i))) {
                 try {
                     Type[] reps = segment.getField(i);
                     for (Type rep : reps) {
-                        if (!rep.isEmpty()) {
-                            HL7Exception e = new XElementPresentException("Field " + i + " in "
-                                    + segment.getName()
-                                    + " appears in the message but not in the profile");
-                            exList.add(e);
-                        }
+                        CollectionUtils.addIgnoreNull(exList,
+                            profileNotFollowedAssert(!rep.isEmpty(), FIELD_NOT_DEFINED_IN_PROFILE, i, segment.getName()));
                     }
                 } catch (HL7Exception he) {
-                    throw new ProfileException("Problem testing against profile", he);
+                    exList.add(new HL7Exception("Problem testing against profile"));
                 }
             }
         }
         return exList;
     }
 
-    public List<HL7Exception> testType(Type type, AbstractComponent<?> profile, String encoded, String profileID) {
-        return testType(type, profile, encoded, profileID, true);
+    protected List<HL7Exception> testField(Type type, SegmentType.Field profile, boolean escape) {
+        List<HL7Exception> exList = new ArrayList<HL7Exception>();
+
+        // account for MSH 1 & 2 which aren't escaped
+        String encoded = null;
+        if (!escape && Primitive.class.isAssignableFrom(type.getClass()))
+            encoded = ((Primitive) type).getValue();
+
+        exList.addAll(testType(type, profile.getDatatype(), profile.getUsage(), profile.getName(),
+                      profile.getLength().intValue(), profile.getConstantValue(),encoded, false));
+
+        // test children
+        if (validateChildren) {
+            if (profile.getComponents().size() > 0 && !profile.getUsage().equals("X")) {
+                if (Composite.class.isAssignableFrom(type.getClass())) {
+                    Composite comp = (Composite) type;
+                    int i = 1;
+                    for (SegmentType.Field.Component component : profile.getComponents()) {
+                        try {
+                            exList.addAll(testComponent(comp.getComponent(i - 1), component));
+                        } catch (DataTypeException de) {
+                            exList.add(profileNotHL7Compliant(COMPONENT_TYPE_MISSMATCH, type.getName(), i));
+                        }
+                        ++i;
+                    }
+                    exList.addAll(checkExtraComponents(comp, profile.getComponents().size()));
+                } else {
+                    exList.add(profileNotHL7Compliant(WRONG_FIELD_TYPE, type.getClass().getName()));
+                }
+            }
+        }
+        return exList;
+    }
+
+    protected List<HL7Exception> testType(Type type, String dataType, String usage, String name,
+                                       int length, String constant, String encoded) {
+        return testType(type, dataType, usage, name, length, constant, encoded, true);
     }
 
     /**
@@ -384,63 +363,44 @@ public class GazelleProfileValidator extends HapiContextSupport implements Profi
      * @param encoded optional encoded form of type (if you want to specify this -- if null, default
      *            pipe-encoded form is used to check length and constant val)
      */
-    public List<HL7Exception> testType(Type type, AbstractComponent<?> profile, String encoded,
-                                       String profileID, boolean testUsage) {
+    protected List<HL7Exception> testType(Type type, String dataType, String usage, String name, int length,
+                                       String constant, String encoded, boolean testUsage) {
         ArrayList<HL7Exception> exList = new ArrayList<HL7Exception>();
         if (encoded == null)
             encoded = PipeParser.encode(type, this.enc);
 
         if (testUsage){
-            HL7Exception ue = testUsage(encoded, profile.getUsage(), profile.getName());
-            if (ue != null)
-                exList.add(ue);
+            HL7Exception ue = testUsage(encoded, usage, name);
+            CollectionUtils.addIgnoreNull(exList, ue);
         }
 
-        if (!profile.getUsage().equals("X")) {
+        if (!usage.equals("X")) {
             // check datatype
-
             if ((type instanceof ca.uhn.hl7v2.model.v231.datatype.TSComponentOne
-                || type instanceof ca.uhn.hl7v2.model.v24.datatype.TSComponentOne)
-                && !profile.getDatatype().equals("ST")) {
+                    || type instanceof ca.uhn.hl7v2.model.v24.datatype.TSComponentOne)
+                    && !dataType.equals("ST")) {
 
-                HL7Exception he = new HL7Exception(
-                        "HL7 datatype ST does not match the one declared in the profile (" + profile.getDatatype() + ")");
-                he.setError(ErrorCode.DATA_TYPE_ERROR);
-                exList.add(he);
-            } else if (!(type instanceof TSComponentOne)
-                && type.getName().indexOf(profile.getDatatype()) < 0) {
+                exList.add(profileNotHL7Compliant(HL7_DATATYPE_MISSMATCH, type.getName(), dataType));
+            } else if (!(type instanceof TSComponentOne) && type.getName().indexOf(dataType) < 0) {
 
-                if (!(type.getClass().getSimpleName().equals("Varies") || type.getClass().getSimpleName().equals("QIP"))) {
-
-                    HL7Exception he = new HL7Exception("HL7 datatype " + type.getName()
-                            + " does not match the one declared in the profile (" + profile.getDatatype() + ")");
-                    he.setError(ErrorCode.DATA_TYPE_ERROR);
-                    exList.add(he);
-                }
+                CollectionUtils.addIgnoreNull(exList,
+                        profileNotFollowedAssert(!(type.getClass().getSimpleName().equals("Varies")
+                                || type.getClass().getSimpleName().equals("QIP")),
+                                HL7_DATATYPE_MISSMATCH, type.getName(), dataType));
             }
 
             // check length
-            if (encoded.length() > profile.getLength()){
-                HL7Exception ex = new ProfileNotFollowedException("The type '" + profile.getName()
-                        + "' has length " + encoded.length() + " which exceeds max of "
-                        + profile.getLength());
-                ex.setError(ErrorCode.DATA_TYPE_ERROR);
-                ex.setSeverity(Severity.WARNING);
-                exList.add(ex);
-            }
+            CollectionUtils.addIgnoreNull(exList, profileNotFollowedAssert(encoded.length() > length,
+                            LENGTH_EXCEEDED, name, encoded.length(), length));
 
             // check constant value
-            if (profile.getConstantValue() != null && profile.getConstantValue().length() > 0) {
-                if (!encoded.equals(profile.getConstantValue())){
-                    HL7Exception he = new ProfileNotFollowedException("'" + encoded
-                            + "' doesn't equal constant value of '" + profile.getConstantValue()
-                            + "'");
-                    he.setError(ErrorCode.DATA_TYPE_ERROR);
-                    exList.add(he);
-                }
+            if (constant != null && constant.length() > 0) {
+                CollectionUtils.addIgnoreNull(exList, profileNotFollowedAssert(!encoded.equals(constant),
+                            WRONG_CONSTANT_VALUE, encoded, constant));
             }
 
-            exList.addAll(testTypeAgainstTable(type, profile, profileID));
+            //TODO : check against table
+            //exList.addAll(testTypeAgainstTable(type, profile));
         }
 
         return exList;
@@ -455,12 +415,10 @@ public class GazelleProfileValidator extends HapiContextSupport implements Profi
      * @param name the name of the element (for use in exception messages)
      * @return null if there is no problem, an HL7Exception otherwise
      */
-    private HL7Exception testUsage(String encoded, String usage, String name) {
+    protected HL7Exception testUsage(String encoded, String usage, String name) {
         HL7Exception e = null;
         if (usage.equalsIgnoreCase("R")) {
-            if (encoded.length() == 0){
-                e = new ProfileNotFollowedException("Required element '" + name + "' is missing");
-            }
+            e = profileNotFollowedAssert(encoded.length() == 0, REQUIRED_ELEMENT_MISSING, name);
         } else if (usage.equalsIgnoreCase("RE")) {
             // can't test anything
         } else if (usage.equalsIgnoreCase("O")) {
@@ -470,150 +428,40 @@ public class GazelleProfileValidator extends HapiContextSupport implements Profi
         } else if (usage.equalsIgnoreCase("CE")) {
             // can't test anything
         } else if (usage.equalsIgnoreCase("X")) {
-            if (encoded.length() > 0){
-                e = new XElementPresentException("Element \"" + name
-                        + "\" is present but specified as not used (X)");
-            }
+            e = profileNotFollowedAssert(encoded.length() > 0, NOT_SUPPORTED_ELEMENT_PRESENT, name);
         } else if (usage.equalsIgnoreCase("B")) {
             // can't test anything
         }
         return e;
     }
 
-    /**
-     * Tests table values for ID, IS, and CE types. An empty list is returned for all other types or
-     * if the table name or number is missing.
-     */
-    private List<HL7Exception> testTypeAgainstTable(Type type, AbstractComponent<?> profile,
-                                                    String profileID) {
-        ArrayList<HL7Exception> exList = new ArrayList<HL7Exception>();
-        if (profile.getTable() != null
-                && (type.getName().equals("IS") || type.getName().equals("ID"))) {
-            String codeSystem = makeTableName(profile.getTable());
-            String value = ((Primitive) type).getValue();
-            addTableTestResult(exList, profileID, codeSystem, value);
-        } else if (type.getName().equals("CE")) {
-            String value = Terser.getPrimitive(type, 1, 1).getValue();
-            String codeSystem = Terser.getPrimitive(type, 3, 1).getValue();
-            addTableTestResult(exList, profileID, codeSystem, value);
-
-            value = Terser.getPrimitive(type, 4, 1).getValue();
-            codeSystem = Terser.getPrimitive(type, 6, 1).getValue();
-            addTableTestResult(exList, profileID, codeSystem, value);
-        }
-        return exList;
-    }
-
-    private void addTableTestResult(List<HL7Exception> exList, String profileID,
-                                    String codeSystem, String value) {
-        if (codeSystem != null && value != null) {
-            HL7Exception e = testValueAgainstTable(profileID, codeSystem, value);
-            if (e != null)
-                exList.add(e);
-        }
-    }
-
-    private HL7Exception testValueAgainstTable(String profileID, String codeSystem, String value) {
-        HL7Exception ret = null;
-        if (!validateChildren) {
-            return ret;
-        }
-
-        CodeStore store = codeStore;
-        if (codeStore == null) {
-            store = getHapiContext().getCodeStoreRegistry().getCodeStore(profileID, codeSystem);
-        }
-
-        if (store == null) {
-            log.warn(
-                    "Not checking value {}: no code store was found for profile {} code system {}",
-                    new Object[] { value, profileID, codeSystem });
-        } else {
-            if (!store.knowsCodes(codeSystem)) {
-                log.warn("Not checking value {}: Don't have a table for code system {}", value,
-                        codeSystem);
-            } else if (!store.isValidCode(codeSystem, value)) {
-                ret = new ProfileNotFollowedException("Code '" + value + "' not found in table "
-                        + codeSystem + ", profile " + profileID);
-            }
-        }
-        return ret;
-    }
-
-    private String makeTableName(String hl7Table) {
-        return String.format("HL7%1$4s", hl7Table).replace(" ", "0");
-    }
-
-    private List<HL7Exception> testField(Type type, Field profile, boolean escape, String profileID) throws ProfileException {
+    protected List<HL7Exception> testComponent(Type type, SegmentType.Field.Component profile) {
         List<HL7Exception> exList = new ArrayList<HL7Exception>();
-
-        // account for MSH 1 & 2 which aren't escaped
-        String encoded = null;
-        if (!escape && Primitive.class.isAssignableFrom(type.getClass()))
-            encoded = ((Primitive) type).getValue();
-
-        exList.addAll(testType(type, profile, encoded, profileID, false));
+        exList.addAll(testType(type, profile.getDatatype(), profile.getUsage(), profile.getName(),
+                      profile.getLength().intValue(), profile.getConstantValue(), null));
 
         // test children
-        if (validateChildren) {
-            if (profile.getComponents() > 0 && !profile.getUsage().equals("X")) {
-                if (Composite.class.isAssignableFrom(type.getClass())) {
-                    Composite comp = (Composite) type;
-                    for (int i = 1; i <= profile.getComponents(); i++) {
-                        Component childProfile = profile.getComponent(i);
-                        try {
-                            Type child = comp.getComponent(i - 1);
-                            exList.addAll(testComponent(child, childProfile, profileID));
-                        } catch (DataTypeException de) {
-                            HL7Exception he = new ProfileNotHL7CompliantException("Component '" + type.getName()
-                                    + "'[" + i + "] is defined in the profile but does not exist "
-                                    + "in the Java class representing the segment");
-                            he.setError(ErrorCode.DATA_TYPE_ERROR);
-                            exList.add(he);
-                        }
-                    }
-                    exList.addAll(checkExtraComponents(comp, profile.getComponents()));
-                } else {
-                    HL7Exception he = new ProfileNotHL7CompliantException("A field has type primitive "
-                            + type.getClass().getName() + " but the profile defines components");
-                    he.setError(ErrorCode.DATA_TYPE_ERROR);
-                    he.setSeverity(Severity.INFO);
-                    exList.add(he);
-                }
-            }
-        }
-
-        return exList;
-    }
-
-    private List<HL7Exception> testComponent(Type type, Component profile, String profileID) throws ProfileException {
-        List<HL7Exception> exList = new ArrayList<HL7Exception>();
-        exList.addAll(testType(type, profile, null, profileID));
-
-        // test children
-        if (profile.getSubComponents() > 0 && !profile.getUsage().equals("X") && hasContent(type)){
+        if (profile.getSubComponents().size() > 0 && !profile.getUsage().equals("X") && hasContent(type)){
             if (Composite.class.isAssignableFrom(type.getClass())) {
                 Composite comp = (Composite) type;
 
                 if (validateChildren) {
-                    for (int i = 1; i <= profile.getSubComponents(); i++) {
-                        SubComponent childProfile = profile.getSubComponent(i);
+                    int i = 1;
+                    for (SegmentType.Field.Component.SubComponent subComponent : profile.getSubComponents()) {
                         try {
                             Type child = comp.getComponent(i - 1);
-                            exList.addAll(testType(child, childProfile, null, profileID));
+                            exList.addAll(testType(child, subComponent.getDatatype(), subComponent.getUsage(),
+                                    subComponent.getName(), subComponent.getLength().intValue(), subComponent.getConstantValue(),null));
                         } catch (DataTypeException de) {
-                            exList.add(new ProfileNotHL7CompliantException(
-                                    "SubComponent '" + type.getName() + "'[" + i +
-                                    "] is defined in the profile but does not exist in" +
-                                    " the Java class representing the message"));
+                            exList.add(profileNotHL7Compliant(SUBCOMPONENT_TYPE_MISSMATCH, type.getName(), i));
                         }
+                        ++i;
                     }
                 }
 
-                exList.addAll(checkExtraComponents(comp, profile.getSubComponents()));
+                exList.addAll(checkExtraComponents(comp, profile.getSubComponents().size()));
             } else {
-                exList.add(new ProfileNotFollowedException("A component has primitive type "
-                        + type.getClass().getName() + " but the profile defines subcomponents"));
+                exList.add(profileNotFollowedAssert(true, WRONG_COMPONENT_TYPE, type.getClass().getName()));
             }
         }
 
@@ -621,8 +469,7 @@ public class GazelleProfileValidator extends HapiContextSupport implements Profi
     }
 
     /** Tests for extra components (ie any not defined in the profile) */
-    private List<HL7Exception> checkExtraComponents(Composite comp, int numInProfile)
-            throws ProfileException {
+    private List<HL7Exception> checkExtraComponents(Composite comp, int numInProfile) {
         List<HL7Exception> exList = new ArrayList<HL7Exception>();
 
         StringBuffer extra = new StringBuffer();
@@ -633,14 +480,11 @@ public class GazelleProfileValidator extends HapiContextSupport implements Profi
                     extra.append(s).append(enc.getComponentSeparator());
                 }
             } catch (DataTypeException de) {
-                throw new ProfileException("Problem testing against profile", de);
+                exList.add(new HL7Exception("Problem testing against profile"));
             }
         }
-
-        if (extra.toString().length() > 0) {
-            exList.add(new XElementPresentException(
-                    "The following components are not defined in the profile: " + extra.toString()));
-        }
+        CollectionUtils.addIgnoreNull(exList,
+            profileNotFollowedAssert(extra.toString().length() > 0, COMPONENT_NOT_DEFINED_IN_PROFILE, extra.toString()));
 
         return exList;
     }

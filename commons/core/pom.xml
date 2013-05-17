@@ -42,6 +42,10 @@
             <artifactId>hapi-structures-v26</artifactId>
         </dependency>
         <dependency>
+            <groupId>commons-collections</groupId>
+            <artifactId>commons-collections</artifactId>
+        </dependency>
+        <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
             <scope>test</scope>
@@ -54,6 +58,29 @@
     </dependencies>
 
     <build>
+        <!--plugins>
+            <plugin>
+                <groupId>org.jvnet.jaxb2.maven2</groupId>
+                <artifactId>maven-jaxb2-plugin</artifactId>
+                <version>0.8.3</version>
+                <executions>
+                    <execution>
+                        <id>profile-stubs</id>
+                        <phase>generate-sources</phase>
+                        <configuration>
+                            <schemaDirectory>src/main/resources</schemaDirectory>
+                            <bindingDirectory>src/main/resources</bindingDirectory>
+                            <extension>true</extension>
+                            <removeOldOutput>true</removeOldOutput>
+                            <generateDirectory>target/generated-sources/xjc2</generateDirectory>
+                        </configuration>
+                        <goals>
+                            <goal>generate</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins -->
         <resources>
             <resource>
                 <directory>.</directory>

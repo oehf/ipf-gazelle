@@ -21,13 +21,20 @@ import ca.uhn.hl7v2.HapiContext;
 import ca.uhn.hl7v2.Severity;
 import ca.uhn.hl7v2.conf.ProfileException;
 import ca.uhn.hl7v2.conf.parser.ProfileParser;
+import ca.uhn.hl7v2.conf.spec.MetaData;
 import ca.uhn.hl7v2.conf.spec.RuntimeProfile;
 import ca.uhn.hl7v2.conf.store.DefaultCodeStoreRegistry;
 import ca.uhn.hl7v2.model.Message;
 import org.apache.commons.io.IOUtils;
 import org.junit.Before;
+import org.openehealth.ipf.gazelle.validation.core.stub.HL7V2XConformanceProfile;
+import org.openehealth.ipf.gazelle.validation.core.stub.HL7V2XStaticDef;
 import org.openehealth.ipf.gazelle.validation.profile.store.GazzelleProfileStore;
 
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBException;
+import javax.xml.bind.Unmarshaller;
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
 
 /**
@@ -37,9 +44,13 @@ public abstract class AbstractGazelleProfileValidatorTest {
 
     protected HapiContext hapiContext;
 
+    protected Unmarshaller unmarshaller;
+
     @Before
-    public void onBefore() throws IOException {
+    public void onBefore() throws IOException, JAXBException {
         hapiContext = createHapiContext(false);
+        JAXBContext jaxbContext = JAXBContext.newInstance(HL7V2XConformanceProfile.class);
+        unmarshaller = jaxbContext.createUnmarshaller();
     }
 
     protected void printOutExceptions(HL7Exception[] exceptions){
@@ -83,7 +94,18 @@ public abstract class AbstractGazelleProfileValidatorTest {
             throws ProfileException, IOException {
         String profileString = hapiContext.getProfileStore().getProfile(profileId);
         ProfileParser profileParser = new ProfileParser(false);
-        return profileParser.parse(profileString);
+        RuntimeProfile runtimeProfile = profileParser.parse(profileString);
+        MetaData metaData = new MetaData();
+        metaData.setVersion(runtimeProfile.getHL7Version());
+        runtimeProfile.getMessage().setMetaData(metaData);
+        return runtimeProfile;
+    }
+
+    protected HL7V2XConformanceProfile unmarshalProfile(String profileId)
+            throws ProfileException, IOException, JAXBException {
+
+        String profileString = hapiContext.getProfileStore().getProfile(profileId);
+        return (HL7V2XConformanceProfile)unmarshaller.unmarshal(new ByteArrayInputStream(profileString.getBytes()));
     }
 
     protected Message getParsedMessage(String path) throws HL7Exception {

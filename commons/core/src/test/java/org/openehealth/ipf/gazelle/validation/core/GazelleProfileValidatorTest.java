@@ -17,8 +17,8 @@ package org.openehealth.ipf.gazelle.validation.core;
 
 import ca.uhn.hl7v2.HL7Exception;
 import ca.uhn.hl7v2.Severity;
-import ca.uhn.hl7v2.conf.spec.RuntimeProfile;
 import org.junit.Test;
+import org.openehealth.ipf.gazelle.validation.core.stub.HL7V2XConformanceProfile;
 
 import static junit.framework.Assert.assertEquals;
 
@@ -29,41 +29,41 @@ public class GazelleProfileValidatorTest extends AbstractGazelleProfileValidator
 
     @Test
     public void testIti8() throws Exception {
-        RuntimeProfile runtimeProfile = parseProfile(GazelleProfile.ITI_8_ADT_A40.profileId());
+        HL7V2XConformanceProfile runtimeProfile = unmarshalProfile(GazelleProfile.ITI_8_ADT_A40.profileId());
         GazelleProfileValidator validator = new GazelleProfileValidator(hapiContext);
 
-        HL7Exception[] exceptions = validator.validate(getParsedMessage("hl7/iti-8.hl7"), runtimeProfile.getMessage());
+        HL7Exception[] exceptions = validator.validate(getParsedMessage("hl7/iti-8.hl7"), runtimeProfile);
         printOutExceptions(exceptions);
 
-        assertEquals(countExceptions(exceptions,  Severity.ERROR), 1);
-        assertEquals(countExceptions(exceptions,  Severity.WARNING), 3);
-        assertEquals(countExceptions(exceptions,  Severity.INFO), 1);
+        assertEquals(1, countExceptions(exceptions,  Severity.ERROR));
+        assertEquals(3, countExceptions(exceptions,  Severity.WARNING));
+        assertEquals(1, countExceptions(exceptions,  Severity.INFO));
     }
 
     @Test
     public void testIti21() throws Exception {
-        RuntimeProfile runtimeProfile = parseProfile(GazelleProfile.ITI_21_QBP_Q22.profileId());
+        HL7V2XConformanceProfile runtimeProfile = unmarshalProfile(GazelleProfile.ITI_21_QBP_Q22.profileId());
         GazelleProfileValidator validator = new GazelleProfileValidator(hapiContext);
 
-        HL7Exception[] exceptions = validator.validate(getParsedMessage("hl7/iti-21.hl7"), runtimeProfile.getMessage());
+        HL7Exception[] exceptions = validator.validate(getParsedMessage("hl7/iti-21.hl7"), runtimeProfile);
         printOutExceptions(exceptions);
 
-        assertEquals(countExceptions(exceptions,  Severity.ERROR), 0);
-        assertEquals(countExceptions(exceptions,  Severity.WARNING), 1);
-        assertEquals(countExceptions(exceptions,  Severity.INFO), 2);
+        assertEquals(0, countExceptions(exceptions,  Severity.ERROR));
+        assertEquals(1, countExceptions(exceptions,  Severity.WARNING));
+        assertEquals(2, countExceptions(exceptions,  Severity.INFO));
     }
 
     @Test
     public void testIti10() throws Exception {
-        RuntimeProfile runtimeProfile = parseProfile(GazelleProfile.ITI_10_ADT_A31.profileId());
+        HL7V2XConformanceProfile runtimeProfile = unmarshalProfile(GazelleProfile.ITI_10_ADT_A31.profileId());
         GazelleProfileValidator validator = new GazelleProfileValidator(hapiContext);
 
-        HL7Exception[] exceptions = validator.validate(getParsedMessage("hl7/iti-10.hl7"), runtimeProfile.getMessage());
+        HL7Exception[] exceptions = validator.validate(getParsedMessage("hl7/iti-10.hl7"), runtimeProfile);
         printOutExceptions(exceptions);
 
-        assertEquals(countExceptions(exceptions,  Severity.ERROR), 1);
-        assertEquals(countExceptions(exceptions,  Severity.WARNING), 1);
-        assertEquals(countExceptions(exceptions,  Severity.INFO), 0);
+        assertEquals(1, countExceptions(exceptions,  Severity.ERROR));
+        assertEquals(1, countExceptions(exceptions,  Severity.WARNING));
+        assertEquals(0, countExceptions(exceptions,  Severity.INFO));
     }
 
 }
