@@ -23,7 +23,7 @@
         </dependency>
         <dependency>
             <groupId>ca.uhn.hapi</groupId>
-            <artifactId>hapi-structures-v231-alternatenames</artifactId>
+            <artifactId>hapi-structures-v231</artifactId>
         </dependency>
         <dependency>
             <groupId>ca.uhn.hapi</groupId>
@@ -50,11 +50,11 @@
             <artifactId>junit</artifactId>
             <scope>test</scope>
         </dependency>
-        <dependency>
-            <groupId>org.openehealth.ipf.platform-camel</groupId>
-            <artifactId>ipf-platform-camel-ihe-mllp</artifactId>
-            <scope>test</scope>
-        </dependency>
+        <!--<dependency>-->
+            <!--<groupId>org.openehealth.ipf.platform-camel</groupId>-->
+            <!--<artifactId>ipf-platform-camel-ihe-mllp</artifactId>-->
+            <!--<scope>test</scope>-->
+        <!--</dependency>-->
     </dependencies>
 
     <build>

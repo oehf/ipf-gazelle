@@ -36,7 +36,7 @@
         </dependency>
         <dependency>
             <groupId>ca.uhn.hapi</groupId>
-            <artifactId>hapi-structures-v231-alternatenames</artifactId>
+            <artifactId>hapi-structures-v231</artifactId>
             <scope>test</scope>
         </dependency>
         <dependency>
