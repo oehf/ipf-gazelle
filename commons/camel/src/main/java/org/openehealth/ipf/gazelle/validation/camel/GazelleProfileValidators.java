@@ -15,33 +15,25 @@
  */
 package org.openehealth.ipf.gazelle.validation.camel;
 
-import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
-import javax.xml.bind.Unmarshaller;
 
 import ca.uhn.hl7v2.DefaultHapiContext;
-import ca.uhn.hl7v2.HL7Exception;
 import ca.uhn.hl7v2.HapiContext;
 import ca.uhn.hl7v2.Severity;
 import ca.uhn.hl7v2.conf.store.DefaultCodeStoreRegistry;
 import ca.uhn.hl7v2.model.Message;
+import ca.uhn.hl7v2.validation.MessageRule;
 import org.apache.camel.Exchange;
 import org.apache.camel.Processor;
 import org.apache.commons.lang3.Validate;
 import org.openehealth.ipf.commons.core.modules.api.ValidationException;
-import org.openehealth.ipf.gazelle.validation.core.GazelleProfileValidator;
-import org.openehealth.ipf.gazelle.validation.core.stub.HL7V2XConformanceProfile;
+import org.openehealth.ipf.gazelle.validation.core.CachingGazelleProfileRule;
 import org.openehealth.ipf.gazelle.validation.profile.GazelleProfile;
 import org.openehealth.ipf.gazelle.validation.profile.IHETransaction;
 import org.openehealth.ipf.gazelle.validation.profile.store.GazelleProfileStore;
-
-import static org.openehealth.ipf.gazelle.validation.core.util.MessageUtils.guessGazelleProfile;
 
 /**
  * @author Boris Stanojevic
@@ -50,18 +42,6 @@ public class GazelleProfileValidators {
 
     private HapiContext hapiContext;
 
-    private final Map<String, HL7V2XConformanceProfile> parsedProfileMap = new HashMap();
-
-    private static Unmarshaller unmarshaller;
-
-    static {
-        try {
-            JAXBContext jaxbContext = JAXBContext.newInstance(HL7V2XConformanceProfile.class);
-            unmarshaller = jaxbContext.createUnmarshaller();
-        } catch (JAXBException jaxbException) {
-            throw new RuntimeException(jaxbException.getMessage());
-        }
-    }
 
     public GazelleProfileValidators() {
         this.hapiContext = createHapiContext();
@@ -79,9 +59,12 @@ public class GazelleProfileValidators {
      */
     public Processor gazelleValidatingProcessor(final GazelleProfile gazelleProfile) {
         return new Processor() {
+
+            private CachingGazelleProfileRule validator = new CachingGazelleProfileRule(gazelleProfile);
+
             @Override
             public void process(Exchange exchange) throws Exception {
-                doValidate(exchange, gazelleProfile);
+                doValidate(exchange, validator);
             }
         };
     }
@@ -95,28 +78,26 @@ public class GazelleProfileValidators {
      */
     public Processor gazelleValidatingProcessor(final IHETransaction iheTransaction) {
         return new Processor() {
+
+            private CachingGazelleProfileRule validator = new CachingGazelleProfileRule(iheTransaction);
+
             @Override
             public void process(Exchange exchange) throws Exception {
-                doValidate(exchange,
-                        guessGazelleProfile(iheTransaction, exchange.getIn().getBody(Message.class)));
+                doValidate(exchange, validator);
             }
         };
     }
 
-    protected void doValidate(Exchange exchange, final GazelleProfile gazelleProfile)
+    protected void doValidate(Exchange exchange, final MessageRule validator)
             throws IOException, JAXBException {
-
-        Validate.notNull(gazelleProfile, "Gazelle profile not found, check your MSH-9 and MSH-12 values.");
 
         Message message = exchange.getIn().getBody(Message.class);
         Validate.notNull(message, "Exchange does not contain required 'ca.uhn.hl7v2.model.Message' type");
 
-        GazelleProfileValidator validator = new GazelleProfileValidator(hapiContext);
-        HL7V2XConformanceProfile staticDef = parseProfile(gazelleProfile.profileId());
-        HL7Exception[] exceptions = validator.validate(message, staticDef);
+        ca.uhn.hl7v2.validation.ValidationException[] exceptions = validator.apply(message);
 
-        List<HL7Exception> fatalExceptions = new ArrayList<HL7Exception>();
-        for (HL7Exception exception : exceptions) {
+        List<ca.uhn.hl7v2.validation.ValidationException> fatalExceptions = new ArrayList<ca.uhn.hl7v2.validation.ValidationException>();
+        for (ca.uhn.hl7v2.validation.ValidationException exception : exceptions) {
             if (exception.getSeverity().equals(Severity.ERROR)) {
                 fatalExceptions.add(exception);
             }
@@ -132,38 +113,8 @@ public class GazelleProfileValidators {
         hapiContext.setProfileStore(new GazelleProfileStore());
         hapiContext.getParserConfiguration().setValidating(false);
         hapiContext.setCodeStoreRegistry(new DefaultCodeStoreRegistry());
-
         return hapiContext;
     }
 
-    synchronized protected HL7V2XConformanceProfile parseProfile(String profileId) throws JAXBException, IOException {
-        String profileString = hapiContext.getProfileStore().getProfile(profileId);
-        HL7V2XConformanceProfile conformanceProfile;
-        if (parsedProfileMap.containsKey(profileId)) {
-            conformanceProfile = parsedProfileMap.get(profileId);
-        } else {
-            conformanceProfile =
-                    (HL7V2XConformanceProfile) unmarshaller.unmarshal(new ByteArrayInputStream(profileString.getBytes()));
-            parsedProfileMap.put(profileId, conformanceProfile);
-        }
-        return conformanceProfile;
-    }
-
-//    protected StaticDef parseProfile(String profileId) throws ProfileException, IOException {
-//        RuntimeProfile runtimeProfile;
-//        if (parsedProfileMap.containsKey(profileId)){
-//            runtimeProfile = parsedProfileMap.get(profileId);
-//        } else {
-//            String profileString = hapiContext.getProfileStore().getProfile(profileId);
-//            ProfileParser profileParser = new ProfileParser(false);
-//
-//            runtimeProfile = profileParser.parse(profileString);
-//            MetaData metaData = new MetaData();
-//            metaData.setVersion(runtimeProfile.getHL7Version());
-//            runtimeProfile.getMessage().setMetaData(metaData);
-//            parsedProfileMap.put(profileId, runtimeProfile);
-//        }
-//        return runtimeProfile.getMessage();
-//    }
 
 }

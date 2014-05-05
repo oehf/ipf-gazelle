@@ -31,6 +31,7 @@ import ca.uhn.hl7v2.conf.spec.MetaData;
 import ca.uhn.hl7v2.conf.spec.RuntimeProfile;
 import ca.uhn.hl7v2.conf.store.DefaultCodeStoreRegistry;
 import ca.uhn.hl7v2.model.Message;
+import ca.uhn.hl7v2.validation.ValidationException;
 import org.apache.commons.io.IOUtils;
 import org.junit.Before;
 import org.openehealth.ipf.gazelle.validation.core.stub.HL7V2XConformanceProfile;
@@ -52,29 +53,37 @@ public abstract class AbstractGazelleProfileValidatorTest {
         unmarshaller = jaxbContext.createUnmarshaller();
     }
 
-    protected void printOutExceptions(HL7Exception[] exceptions){
-        for (HL7Exception exc: exceptions){
+    protected void printOutExceptions(ValidationException[] exceptions) {
+        for (ValidationException exc : exceptions) {
             switch (exc.getSeverity()) {
-                case ERROR:   System.err.println("ERROR:" + exc.getMessage());break;
-                case WARNING: System.out.println("WARNING:" + exc.getMessage());break;
-                case INFO:    System.out.println("INFO:" + exc.getMessage());break;
+                case ERROR:
+                    System.err.println("ERROR:" + exc.getMessage());
+                    break;
+                case WARNING:
+                    System.out.println("WARNING:" + exc.getMessage());
+                    break;
+                case INFO:
+                    System.out.println("INFO:" + exc.getMessage());
+                    break;
             }
         }
     }
 
-    protected int countExceptions(HL7Exception[] exceptions, Severity severity){
+    protected int countExceptions(ValidationException[] exceptions, Severity severity) {
         int count = 0;
-        for (HL7Exception exc: exceptions){
-            if (severity.equals(exc.getSeverity())){ ++count;}
+        for (ValidationException exc : exceptions) {
+            if (severity.equals(exc.getSeverity())) {
+                ++count;
+            }
         }
         return count;
     }
 
-    protected String getMessageAsString(String resourcePath){
+    protected String getMessageAsString(String resourcePath) {
         String message = null;
         try {
             message = IOUtils.toString(this.getClass().getClassLoader().getResource(resourcePath));
-        } catch (IOException ioe){
+        } catch (IOException ioe) {
             ioe.printStackTrace();
         }
         assert message != null;
@@ -104,7 +113,7 @@ public abstract class AbstractGazelleProfileValidatorTest {
             throws ProfileException, IOException, JAXBException {
 
         String profileString = hapiContext.getProfileStore().getProfile(profileId);
-        return (HL7V2XConformanceProfile)unmarshaller.unmarshal(new ByteArrayInputStream(profileString.getBytes()));
+        return (HL7V2XConformanceProfile) unmarshaller.unmarshal(new ByteArrayInputStream(profileString.getBytes()));
     }
 
     protected Message getParsedMessage(String path) throws HL7Exception {

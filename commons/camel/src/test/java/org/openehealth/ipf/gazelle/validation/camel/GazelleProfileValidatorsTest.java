@@ -18,7 +18,9 @@ package org.openehealth.ipf.gazelle.validation.camel;
 
 import java.io.IOException;
 
+import ca.uhn.hl7v2.DefaultHapiContext;
 import ca.uhn.hl7v2.HL7Exception;
+import ca.uhn.hl7v2.HapiContext;
 import ca.uhn.hl7v2.model.Message;
 import ca.uhn.hl7v2.parser.Parser;
 import ca.uhn.hl7v2.parser.PipeParser;
@@ -31,6 +33,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.openehealth.ipf.commons.core.modules.api.ValidationException;
+import org.openehealth.ipf.gazelle.validation.profile.store.GazelleProfileStore;
 
 import static org.junit.Assert.fail;
 
@@ -42,8 +45,6 @@ public class GazelleProfileValidatorsTest {
     CamelContext camelContext = new DefaultCamelContext();
 
     ProducerTemplate template;
-
-    Parser parser = new PipeParser();
 
     @Before
     public void onBeforeClass() throws Exception {
@@ -86,7 +87,7 @@ public class GazelleProfileValidatorsTest {
             template.sendBody("direct:iti8", getParsedMessage("hl7/iti-21.hl7"));
             fail();
         } catch (Exception e){
-            assert e.getCause().getMessage().contains("Gazelle profile not found, check your MSH-9 and MSH-12 values.");
+            assert e.getCause().getMessage().contains("No matching profile");
         }
     }
 
@@ -102,6 +103,9 @@ public class GazelleProfileValidatorsTest {
     }
 
     protected Message getParsedMessage(String path) throws HL7Exception {
-        return parser.parse(getMessageAsString(path));
+        HapiContext context = new DefaultHapiContext();
+        context.setProfileStore(new GazelleProfileStore());
+        context.getParserConfiguration().setValidating(false);
+        return context.getPipeParser().parse(getMessageAsString(path));
     }
 }

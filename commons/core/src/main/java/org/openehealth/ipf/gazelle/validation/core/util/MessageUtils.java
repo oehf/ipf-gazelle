@@ -20,11 +20,11 @@ import java.util.List;
 import ca.uhn.hl7v2.HL7Exception;
 import ca.uhn.hl7v2.model.Message;
 import ca.uhn.hl7v2.util.Terser;
-import org.apache.commons.collections.CollectionUtils;
+import ca.uhn.hl7v2.validation.ValidationException;
 import org.openehealth.ipf.gazelle.validation.profile.GazelleProfile;
 import org.openehealth.ipf.gazelle.validation.profile.IHETransaction;
 
-import static org.openehealth.ipf.gazelle.validation.core.util.ProfileAssertions.profileNotFollowedAssert;
+import static org.openehealth.ipf.gazelle.validation.core.util.ProfileAssertions.profileViolatedWhen;
 
 /**
  * @author Boris Stanojevic
@@ -94,33 +94,31 @@ public abstract class MessageUtils {
                 && gazelleProfile.hl7version().equals(messageVersion(terser));
     }
 
-    public static void checkMSHTypeField(String profileValue, Terser terser, List<HL7Exception> violations) {
+    public static void checkMSHTypeField(String profileValue, Terser terser, List<ValidationException> violations) {
         checkMSHField("/MSH-9-1", profileValue, terser, ProfileValidationMessage.WRONG_MSH_TYPE_FIELD, violations);
     }
 
-    public static void checkMSHEventField(String profileValue, Terser terser, List<HL7Exception> violations) {
+    public static void checkMSHEventField(String profileValue, Terser terser, List<ValidationException> violations) {
         checkMSHField("/MSH-9-2", profileValue, terser, ProfileValidationMessage.WRONG_MSH_EVENT_FIELD, violations);
     }
 
-    public static void checkMSHStructureField(String profileValue, Terser terser, List<HL7Exception> violations) {
+    public static void checkMSHStructureField(String profileValue, Terser terser, List<ValidationException> violations) {
         checkMSHField("/MSH-9-3", profileValue, terser, ProfileValidationMessage.WRONG_MSH_STRUCTURE_FIELD, violations);
     }
 
-    public static void checkMSHVersionField(String profileValue, Terser terser, List<HL7Exception> violations) {
+    public static void checkMSHVersionField(String profileValue, Terser terser, List<ValidationException> violations) {
         checkMSHField("/MSH-12-1", profileValue, terser, ProfileValidationMessage.WRONG_MSH_VERSION_FIELD, violations);
     }
 
     private static void checkMSHField(String fieldNo, String profileValue, Terser terser,
-                                      ProfileValidationMessage validationMessage, List<HL7Exception> violations) {
+                                      ProfileValidationMessage validationMessage, List<ValidationException> violations) {
         String mshValue = null;
         try {
             mshValue = mshField(fieldNo, terser);
         } catch (HL7Exception e) {
-            violations.add(e);
+            violations.add(new ValidationException(e));
         }
-        CollectionUtils.addIgnoreNull(violations,
-                profileNotFollowedAssert(mshValue == null || !mshValue.equals(profileValue),
-                        validationMessage, mshValue, profileValue)
-        );
+        profileViolatedWhen(mshValue == null || !mshValue.equals(profileValue), violations,
+                validationMessage, mshValue, profileValue);
     }
 }

@@ -15,9 +15,9 @@
  */
 package org.openehealth.ipf.gazelle.validation.core.util;
 
-import ca.uhn.hl7v2.HL7Exception;
-import ca.uhn.hl7v2.conf.check.ProfileNotFollowedException;
-import ca.uhn.hl7v2.conf.check.ProfileNotHL7CompliantException;
+import java.util.List;
+
+import ca.uhn.hl7v2.validation.ValidationException;
 
 /**
  * @author Boris Stanojevic
@@ -27,22 +27,21 @@ public abstract class ProfileAssertions {
     private ProfileAssertions() {
     }
 
-    public static HL7Exception profileNotFollowedAssert(boolean errorCondition,
-                                                        ProfileValidationMessage validationErrorMessage, Object... details) {
+    public static void profileViolatedWhen(boolean errorCondition, List<ValidationException> exceptions,
+                                           ProfileValidationMessage validationErrorMessage, Object... details) {
         if (errorCondition) {
-            HL7Exception he = new ProfileNotFollowedException(String.format(validationErrorMessage.errorMessage(), details));
+            ValidationException he = new ValidationException(String.format(validationErrorMessage.errorMessage(), details));
             he.setError(validationErrorMessage.errorCode());
             he.setSeverity(validationErrorMessage.severity());
-            return he;
+            exceptions.add(he);
         }
-        return null;
     }
 
-    public static HL7Exception profileNotHL7Compliant(ProfileValidationMessage validationErrorMessage, Object... details) {
-        HL7Exception he = new ProfileNotHL7CompliantException(String.format(validationErrorMessage.errorMessage(), details));
+    public static void profileNotHL7Compliant(List<ValidationException> exceptions, ProfileValidationMessage validationErrorMessage, Object... details) {
+        ValidationException he = new ValidationException(String.format(validationErrorMessage.errorMessage(), details));
         he.setError(validationErrorMessage.errorCode());
         he.setSeverity(validationErrorMessage.severity());
-        return he;
+        exceptions.add(he);
     }
 
 }
