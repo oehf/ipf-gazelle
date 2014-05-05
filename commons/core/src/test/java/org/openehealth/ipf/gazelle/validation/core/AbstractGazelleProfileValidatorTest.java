@@ -15,6 +15,12 @@
  */
 package org.openehealth.ipf.gazelle.validation.core;
 
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBException;
+import javax.xml.bind.Unmarshaller;
+
 import ca.uhn.hl7v2.DefaultHapiContext;
 import ca.uhn.hl7v2.HL7Exception;
 import ca.uhn.hl7v2.HapiContext;
@@ -29,12 +35,6 @@ import org.apache.commons.io.IOUtils;
 import org.junit.Before;
 import org.openehealth.ipf.gazelle.validation.core.stub.HL7V2XConformanceProfile;
 import org.openehealth.ipf.gazelle.validation.profile.store.GazelleProfileStore;
-
-import javax.xml.bind.JAXBContext;
-import javax.xml.bind.JAXBException;
-import javax.xml.bind.Unmarshaller;
-import java.io.ByteArrayInputStream;
-import java.io.IOException;
 
 /**
  * @author Boris Stanojevic

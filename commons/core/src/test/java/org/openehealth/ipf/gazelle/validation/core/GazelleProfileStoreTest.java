@@ -17,7 +17,10 @@ package org.openehealth.ipf.gazelle.validation.core;
 
 
 import ca.uhn.hl7v2.conf.store.ProfileStore;
+import org.junit.Before;
 import org.junit.Test;
+import org.openehealth.ipf.gazelle.validation.profile.ItiProfile;
+
 import java.io.IOException;
 import static junit.framework.Assert.*;
 
@@ -26,25 +29,38 @@ import static junit.framework.Assert.*;
  */
 public class GazelleProfileStoreTest extends AbstractGazelleProfileValidatorTest {
 
+    private ProfileStore profileStore;
+
+    @Before
+    public void setup() throws Exception {
+        profileStore = hapiContext.getProfileStore();
+    }
+
     @Test
-    public void testProfileStore() throws IOException {
-        ProfileStore profileStore = hapiContext.getProfileStore();
-        String profileString = profileStore.getProfile(GazelleProfile.ITI_30_ADT_A47.profileId());
+    public void testITI30ProfileStore() throws IOException {
+        String profileString = profileStore.getProfile(ItiProfile.ITI_30_ADT_A47.profileId());
         assertNotNull(profileString);
         assertTrue(profileString.contains("HL7v2xStaticDef"));
         assertTrue(profileString.contains("EventType=\"A47\""));
         assertTrue(profileString.contains("MsgStructID=\"ADT_A30\""));
+    }
 
-        profileString = profileStore.getProfile("BLAH");
-        assertNull(profileString);
-
-        profileString = hapiContext.getProfileStore().getProfile(null);
-        assertNull(profileString);
-
-        profileString = profileStore.getProfile(GazelleProfile.ITI_9_RSP_K23.profileId());
+    @Test
+    public void testITI9ProfileStore() throws IOException {
+        String profileString = profileStore.getProfile(ItiProfile.ITI_9_RSP_K23.profileId());
         assertNotNull(profileString);
         assertTrue(profileString.contains("HL7v2xStaticDef"));
         assertTrue(profileString.contains("EventType=\"K23\""));
         assertTrue(profileString.contains("MsgStructID=\"RSP_K23\""));
+    }
+
+    @Test(expected = NullPointerException.class)
+    public void testNonExistingProfile() throws IOException {
+        profileStore.getProfile("BLAH");
+    }
+
+    @Test(expected = NullPointerException.class)
+    public void testNullProfile() throws IOException {
+        profileStore.getProfile(null);
     }
 }

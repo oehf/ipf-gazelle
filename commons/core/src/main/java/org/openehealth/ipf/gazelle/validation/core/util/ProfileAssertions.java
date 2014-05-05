@@ -21,16 +21,14 @@ import ca.uhn.hl7v2.conf.check.ProfileNotHL7CompliantException;
 
 /**
  * @author Boris Stanojevic
- *
  */
 public abstract class ProfileAssertions {
 
-    private ProfileAssertions(){
-        throw new UnsupportedOperationException("Utility class");
+    private ProfileAssertions() {
     }
 
     public static HL7Exception profileNotFollowedAssert(boolean errorCondition,
-                               ProfileValidationMessage validationErrorMessage, Object... details) {
+                                                        ProfileValidationMessage validationErrorMessage, Object... details) {
         if (errorCondition) {
             HL7Exception he = new ProfileNotFollowedException(String.format(validationErrorMessage.errorMessage(), details));
             he.setError(validationErrorMessage.errorCode());

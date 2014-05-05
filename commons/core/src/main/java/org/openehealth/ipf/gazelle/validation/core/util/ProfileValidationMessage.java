@@ -45,7 +45,7 @@ public enum ProfileValidationMessage {
     WRONG_COMPONENT_TYPE("A component has primitive type %1s but the profile defines subcomponents", APPLICATION_INTERNAL_ERROR, ERROR),
     CODE_NOT_FOUND_IN_TABLE("Code '%1s' not found in table %2s, profile %3s",APPLICATION_INTERNAL_ERROR, ERROR),
     PROFILE_STRUCTURE_NOT_EXIST_IN_JAVA_CLASS("%1s is expected by the message profile but does not appear in the Java class representing the message structure", APPLICATION_INTERNAL_ERROR, INFO),
-    PROFILE_STRUCTURE_MISSMATCH("Mismatch between a %1s in the profile and the structure %2s in the message", APPLICATION_INTERNAL_ERROR, Severity.ERROR),
+    PROFILE_STRUCTURE_MISMATCH("Mismatch between a %1s in the profile and the structure %2s in the message", APPLICATION_INTERNAL_ERROR, Severity.ERROR),
     FIELD_NOT_FOUND("Field %1s not found in message", APPLICATION_INTERNAL_ERROR, ERROR),
     WRONG_FIELD_TYPE("A field has type primitive '%1s' but the profile defines components", DATA_TYPE_ERROR, INFO),
     SUBCOMPONENT_TYPE_MISSMATCH("SubComponent '%1s'[%2s] is defined in the profile but does not exist in the Java class representing the message", APPLICATION_INTERNAL_ERROR, ERROR),

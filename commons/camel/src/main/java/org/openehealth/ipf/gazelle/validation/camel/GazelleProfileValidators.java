@@ -15,6 +15,16 @@
  */
 package org.openehealth.ipf.gazelle.validation.camel;
 
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBException;
+import javax.xml.bind.Unmarshaller;
+
 import ca.uhn.hl7v2.DefaultHapiContext;
 import ca.uhn.hl7v2.HL7Exception;
 import ca.uhn.hl7v2.HapiContext;
@@ -23,24 +33,13 @@ import ca.uhn.hl7v2.conf.store.DefaultCodeStoreRegistry;
 import ca.uhn.hl7v2.model.Message;
 import org.apache.camel.Exchange;
 import org.apache.camel.Processor;
-
 import org.apache.commons.lang3.Validate;
 import org.openehealth.ipf.commons.core.modules.api.ValidationException;
-import org.openehealth.ipf.gazelle.validation.core.GazelleProfile;
-import org.openehealth.ipf.gazelle.validation.core.stub.HL7V2XConformanceProfile;
 import org.openehealth.ipf.gazelle.validation.core.GazelleProfileValidator;
-import org.openehealth.ipf.gazelle.validation.core.IHETransaction;
+import org.openehealth.ipf.gazelle.validation.core.stub.HL7V2XConformanceProfile;
+import org.openehealth.ipf.gazelle.validation.profile.GazelleProfile;
+import org.openehealth.ipf.gazelle.validation.profile.IHETransaction;
 import org.openehealth.ipf.gazelle.validation.profile.store.GazelleProfileStore;
-
-import javax.xml.bind.JAXBContext;
-import javax.xml.bind.JAXBException;
-import javax.xml.bind.Unmarshaller;
-import java.io.ByteArrayInputStream;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 import static org.openehealth.ipf.gazelle.validation.core.util.MessageUtils.guessGazelleProfile;
 
@@ -59,19 +58,25 @@ public class GazelleProfileValidators {
         try {
             JAXBContext jaxbContext = JAXBContext.newInstance(HL7V2XConformanceProfile.class);
             unmarshaller = jaxbContext.createUnmarshaller();
-        } catch (JAXBException jaxbException){
-             throw new RuntimeException(jaxbException.getMessage());
+        } catch (JAXBException jaxbException) {
+            throw new RuntimeException(jaxbException.getMessage());
         }
     }
 
-    public GazelleProfileValidators(){
+    public GazelleProfileValidators() {
         this.hapiContext = createHapiContext();
     }
 
-    public GazelleProfileValidators(HapiContext hapiContext){
+    public GazelleProfileValidators(HapiContext hapiContext) {
         this.hapiContext = hapiContext;
     }
 
+    /**
+     * Returns a validating Camel processor for a dedicated profile
+     *
+     * @param gazelleProfile
+     * @return a validating Camel processor for a dedicated profile
+     */
     public Processor gazelleValidatingProcessor(final GazelleProfile gazelleProfile) {
         return new Processor() {
             @Override
@@ -81,21 +86,19 @@ public class GazelleProfileValidators {
         };
     }
 
+    /**
+     * Returns a validating Camel processor for a message in a IHE transaction. The actual profile
+     * to be used is guessed from the message header
+     *
+     * @param iheTransaction
+     * @return a validating Camel processor for a message in a IHE transaction
+     */
     public Processor gazelleValidatingProcessor(final IHETransaction iheTransaction) {
         return new Processor() {
             @Override
             public void process(Exchange exchange) throws Exception {
                 doValidate(exchange,
                         guessGazelleProfile(iheTransaction, exchange.getIn().getBody(Message.class)));
-            }
-        };
-    }
-
-    public Processor gazelleValidatingProcessor() {
-        return new Processor() {
-            @Override
-            public void process(Exchange exchange) throws Exception {
-                doValidate(exchange, guessGazelleProfile(exchange.getIn().getBody(Message.class)));
             }
         };
     }
@@ -113,13 +116,13 @@ public class GazelleProfileValidators {
         HL7Exception[] exceptions = validator.validate(message, staticDef);
 
         List<HL7Exception> fatalExceptions = new ArrayList<HL7Exception>();
-        for (HL7Exception exception: exceptions){
-            if (exception.getSeverity().equals(Severity.ERROR)){
+        for (HL7Exception exception : exceptions) {
+            if (exception.getSeverity().equals(Severity.ERROR)) {
                 fatalExceptions.add(exception);
             }
         }
 
-        if (fatalExceptions.size() > 0){
+        if (fatalExceptions.size() > 0) {
             throw new ValidationException("Message validation failed", fatalExceptions);
         }
     }
@@ -136,11 +139,11 @@ public class GazelleProfileValidators {
     synchronized protected HL7V2XConformanceProfile parseProfile(String profileId) throws JAXBException, IOException {
         String profileString = hapiContext.getProfileStore().getProfile(profileId);
         HL7V2XConformanceProfile conformanceProfile;
-        if (parsedProfileMap.containsKey(profileId)){
+        if (parsedProfileMap.containsKey(profileId)) {
             conformanceProfile = parsedProfileMap.get(profileId);
         } else {
             conformanceProfile =
-                    (HL7V2XConformanceProfile)unmarshaller.unmarshal(new ByteArrayInputStream(profileString.getBytes()));
+                    (HL7V2XConformanceProfile) unmarshaller.unmarshal(new ByteArrayInputStream(profileString.getBytes()));
             parsedProfileMap.put(profileId, conformanceProfile);
         }
         return conformanceProfile;

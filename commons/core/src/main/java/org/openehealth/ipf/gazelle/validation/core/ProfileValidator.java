@@ -17,7 +17,6 @@ package org.openehealth.ipf.gazelle.validation.core;
 
 import ca.uhn.hl7v2.HL7Exception;
 import ca.uhn.hl7v2.model.Message;
-import org.openehealth.ipf.gazelle.validation.core.stub.HL7V2XConformanceProfile;
 
 /**
  * @author Boris Stanojevic
@@ -27,8 +26,8 @@ public interface ProfileValidator<T> {
     /**
      * Validates the given message against the given static definition from
      * a conformance profile and additional definition from {{GazelleProfile}} enum.
-     * Conformance profiles are XML representations of
-     * domain-specific constraints on a message (see HL7 2.5 section 2.12).
+     * Conformance profiles are XML representations of domain-specific constraints on a message (see HL7 2.5 section 2.12).
+     *
      * @param message given HL7 Message
      * @param profile conformance profile static definition
      * @return a list of exceptions representing points of non-conformance (may not be a complete list)

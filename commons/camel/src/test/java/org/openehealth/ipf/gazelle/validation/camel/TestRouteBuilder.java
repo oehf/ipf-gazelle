@@ -16,8 +16,8 @@
 package org.openehealth.ipf.gazelle.validation.camel;
 
 import org.apache.camel.builder.RouteBuilder;
-import org.openehealth.ipf.gazelle.validation.core.GazelleProfile;
-import org.openehealth.ipf.gazelle.validation.core.IHETransaction;
+import org.openehealth.ipf.gazelle.validation.profile.ItiProfile;
+import org.openehealth.ipf.gazelle.validation.profile.ItiTransactions;
 
 /**
  * @author Boris Stanojevic
@@ -30,15 +30,15 @@ public class TestRouteBuilder extends RouteBuilder {
     public void configure() throws Exception {
 
         from("direct:iti8")
-            .process(validators.gazelleValidatingProcessor(IHETransaction.ITI8))
+            .process(validators.gazelleValidatingProcessor(ItiTransactions.ITI8))
             .end();
 
         from("direct:iti10")
-            .process(validators.gazelleValidatingProcessor(GazelleProfile.ITI_10_ADT_A31))
+            .process(validators.gazelleValidatingProcessor(ItiProfile.ITI_10_ADT_A31))
             .end();
 
         from("direct:iti21")
-            .process(validators.gazelleValidatingProcessor())
+            .process(validators.gazelleValidatingProcessor(ItiTransactions.ITI21))
             .end();
 
     }

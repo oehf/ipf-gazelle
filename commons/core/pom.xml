@@ -14,7 +14,7 @@
     <dependencies>
         <dependency>
             <groupId>org.openehealth.ipf.gazelle</groupId>
-            <artifactId>gazelle-validation-profiles</artifactId>
+            <artifactId>gazelle-validation-profiles-core</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>
@@ -46,15 +46,33 @@
             <artifactId>commons-collections</artifactId>
         </dependency>
         <dependency>
+            <groupId>commons-io</groupId>
+            <artifactId>commons-io</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
             <scope>test</scope>
         </dependency>
-        <!--<dependency>-->
-            <!--<groupId>org.openehealth.ipf.platform-camel</groupId>-->
-            <!--<artifactId>ipf-platform-camel-ihe-mllp</artifactId>-->
-            <!--<scope>test</scope>-->
-        <!--</dependency>-->
+        <dependency>
+            <groupId>org.openehealth.ipf.gazelle</groupId>
+            <artifactId>gazelle-validation-profiles-iti</artifactId>
+            <version>${project.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.openehealth.ipf.gazelle</groupId>
+            <artifactId>gazelle-validation-profiles-rad</artifactId>
+            <version>${project.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.openehealth.ipf.gazelle</groupId>
+            <artifactId>gazelle-validation-profiles-card</artifactId>
+            <version>${project.version}</version>
+            <scope>test</scope>
+        </dependency>
     </dependencies>
 
     <build>

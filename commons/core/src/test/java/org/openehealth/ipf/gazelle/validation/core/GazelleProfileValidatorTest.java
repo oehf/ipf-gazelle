@@ -19,6 +19,7 @@ import ca.uhn.hl7v2.HL7Exception;
 import ca.uhn.hl7v2.Severity;
 import org.junit.Test;
 import org.openehealth.ipf.gazelle.validation.core.stub.HL7V2XConformanceProfile;
+import org.openehealth.ipf.gazelle.validation.profile.ItiProfile;
 
 import static junit.framework.Assert.assertEquals;
 
@@ -29,7 +30,7 @@ public class GazelleProfileValidatorTest extends AbstractGazelleProfileValidator
 
     @Test
     public void testIti8() throws Exception {
-        HL7V2XConformanceProfile runtimeProfile = unmarshalProfile(GazelleProfile.ITI_8_ADT_A40.profileId());
+        HL7V2XConformanceProfile runtimeProfile = unmarshalProfile(ItiProfile.ITI_8_ADT_A40.profileId());
         GazelleProfileValidator validator = new GazelleProfileValidator(hapiContext);
 
         HL7Exception[] exceptions = validator.validate(getParsedMessage("hl7/iti-8.hl7"), runtimeProfile);
@@ -42,7 +43,7 @@ public class GazelleProfileValidatorTest extends AbstractGazelleProfileValidator
 
     @Test
     public void testIti21() throws Exception {
-        HL7V2XConformanceProfile runtimeProfile = unmarshalProfile(GazelleProfile.ITI_21_QBP_Q22.profileId());
+        HL7V2XConformanceProfile runtimeProfile = unmarshalProfile(ItiProfile.ITI_21_QBP_Q22.profileId());
         GazelleProfileValidator validator = new GazelleProfileValidator(hapiContext);
 
         HL7Exception[] exceptions = validator.validate(getParsedMessage("hl7/iti-21.hl7"), runtimeProfile);
@@ -55,7 +56,7 @@ public class GazelleProfileValidatorTest extends AbstractGazelleProfileValidator
 
     @Test
     public void testIti10() throws Exception {
-        HL7V2XConformanceProfile runtimeProfile = unmarshalProfile(GazelleProfile.ITI_10_ADT_A31.profileId());
+        HL7V2XConformanceProfile runtimeProfile = unmarshalProfile(ItiProfile.ITI_10_ADT_A31.profileId());
         GazelleProfileValidator validator = new GazelleProfileValidator(hapiContext);
 
         HL7Exception[] exceptions = validator.validate(getParsedMessage("hl7/iti-10.hl7"), runtimeProfile);

@@ -17,6 +17,9 @@ package org.openehealth.ipf.gazelle.validation.core;
 
 
 import org.junit.Test;
+import org.openehealth.ipf.gazelle.validation.profile.CardProfile;
+import org.openehealth.ipf.gazelle.validation.profile.GazelleProfile;
+import org.openehealth.ipf.gazelle.validation.profile.RadProfile;
 
 /**
  * @author Boris Stanojevic
@@ -25,7 +28,7 @@ public class GazelleProfileTest {
 
     @Test
     public void testProfile(){
-        GazelleProfile profile = GazelleProfile.CARD_7_ACK_ALL;
+        GazelleProfile profile = CardProfile.CARD_7_ACK_ALL;
         assert profile.triggerEvent().equals("ACK^ALL^ACK");
         assert profile.type().equals("ACK");
         assert profile.structure().equals("ACK");
@@ -34,7 +37,7 @@ public class GazelleProfileTest {
         assert profile.profileId().equals("1.3.6.1.4.12559.11.1.1.146");
         assert profile.hl7version().equals("2.5");
 
-        profile = GazelleProfile.RAD_48_SIU_S12;
+        profile = RadProfile.RAD_48_SIU_S12;
         assert profile.triggerEvent().equals("SIU^S12^SIU_S12");
         assert profile.type().equals("SIU");
         assert profile.structure().equals("SIU_S12");
@@ -43,7 +46,7 @@ public class GazelleProfileTest {
         assert profile.profileId().equals("1.3.6.1.4.12559.11.1.1.4");
         assert profile.hl7version().equals("2.3.1");
 
-        GazelleProfile profile1 = GazelleProfile.RAD_48_SIU_S12;
+        GazelleProfile profile1 = RadProfile.RAD_48_SIU_S12;
         assert profile.equals(profile1);
     }
 }

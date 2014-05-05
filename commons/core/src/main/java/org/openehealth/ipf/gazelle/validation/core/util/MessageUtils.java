@@ -15,14 +15,14 @@
  */
 package org.openehealth.ipf.gazelle.validation.core.util;
 
+import java.util.List;
+
 import ca.uhn.hl7v2.HL7Exception;
 import ca.uhn.hl7v2.model.Message;
 import ca.uhn.hl7v2.util.Terser;
 import org.apache.commons.collections.CollectionUtils;
-import org.openehealth.ipf.gazelle.validation.core.GazelleProfile;
-import org.openehealth.ipf.gazelle.validation.core.IHETransaction;
-
-import java.util.List;
+import org.openehealth.ipf.gazelle.validation.profile.GazelleProfile;
+import org.openehealth.ipf.gazelle.validation.profile.IHETransaction;
 
 import static org.openehealth.ipf.gazelle.validation.core.util.ProfileAssertions.profileNotFollowedAssert;
 
@@ -31,10 +31,8 @@ import static org.openehealth.ipf.gazelle.validation.core.util.ProfileAssertions
  */
 public abstract class MessageUtils {
 
-    private MessageUtils(){
-        throw new UnsupportedOperationException("Utility class");
+    private MessageUtils() {
     }
-
 
     /**
      * @return event type of the message, e.g. 'ADT'
@@ -68,36 +66,21 @@ public abstract class MessageUtils {
         return t.get(mshFieldNo);
     }
 
-    /**
-     *
-     * @param message given hapi message
-     * @return GazelleProfile that matches message type, event, structure & version
-     * @throws HL7Exception
-     */
-    public static GazelleProfile guessGazelleProfile(Message message) throws HL7Exception {
-        Terser terser = new Terser(message);
-        for (GazelleProfile gazelleProfile: GazelleProfile.values()){
-            if (hasProfileHeader(gazelleProfile, terser)){
-                return gazelleProfile;
-            }
-        }
-        return null;
-    }
 
     /**
      * Finds out the exact profile inside the one specific IHETransaction
      * the given message belongs to.
      *
      * @param iheTransaction concrete IHETransaction
-     * @param message hapi message
+     * @param message        hapi message
      * @return GazelleProfile that matches message type, event, structure & version
      * @throws HL7Exception
      */
     public static GazelleProfile guessGazelleProfile(IHETransaction iheTransaction, Message message)
             throws HL7Exception {
         Terser terser = new Terser(message);
-        for (GazelleProfile gazelleProfile: iheTransaction.transactionTypes()){
-            if (hasProfileHeader(gazelleProfile, terser)){
+        for (GazelleProfile gazelleProfile : iheTransaction.transactionTypes()) {
+            if (hasProfileHeader(gazelleProfile, terser)) {
                 return gazelleProfile;
             }
         }
@@ -111,32 +94,33 @@ public abstract class MessageUtils {
                 && gazelleProfile.hl7version().equals(messageVersion(terser));
     }
 
-    public static void checkMSHTypeField(String profileValue, Terser terser, List<HL7Exception> violations){
+    public static void checkMSHTypeField(String profileValue, Terser terser, List<HL7Exception> violations) {
         checkMSHField("/MSH-9-1", profileValue, terser, ProfileValidationMessage.WRONG_MSH_TYPE_FIELD, violations);
     }
 
-    public static void checkMSHEventField(String profileValue, Terser terser, List<HL7Exception> violations){
+    public static void checkMSHEventField(String profileValue, Terser terser, List<HL7Exception> violations) {
         checkMSHField("/MSH-9-2", profileValue, terser, ProfileValidationMessage.WRONG_MSH_EVENT_FIELD, violations);
     }
 
-    public static void checkMSHStructureField(String profileValue, Terser terser, List<HL7Exception> violations){
+    public static void checkMSHStructureField(String profileValue, Terser terser, List<HL7Exception> violations) {
         checkMSHField("/MSH-9-3", profileValue, terser, ProfileValidationMessage.WRONG_MSH_STRUCTURE_FIELD, violations);
     }
 
-    public static void checkMSHVersionField(String profileValue, Terser terser, List<HL7Exception> violations){
+    public static void checkMSHVersionField(String profileValue, Terser terser, List<HL7Exception> violations) {
         checkMSHField("/MSH-12-1", profileValue, terser, ProfileValidationMessage.WRONG_MSH_VERSION_FIELD, violations);
     }
 
     private static void checkMSHField(String fieldNo, String profileValue, Terser terser,
-                                      ProfileValidationMessage validationMessage, List<HL7Exception> violations){
+                                      ProfileValidationMessage validationMessage, List<HL7Exception> violations) {
         String mshValue = null;
         try {
             mshValue = mshField(fieldNo, terser);
-        } catch (HL7Exception e){
+        } catch (HL7Exception e) {
             violations.add(e);
         }
         CollectionUtils.addIgnoreNull(violations,
-            profileNotFollowedAssert(mshValue == null || !mshValue.equals(profileValue),
-                    validationMessage, mshValue, profileValue));
+                profileNotFollowedAssert(mshValue == null || !mshValue.equals(profileValue),
+                        validationMessage, mshValue, profileValue)
+        );
     }
 }
