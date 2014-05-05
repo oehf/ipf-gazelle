@@ -49,6 +49,10 @@
             <scope>test</scope>
         </dependency>
         <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-simple</artifactId>
+        </dependency>
+        <dependency>
             <groupId>org.openehealth.ipf.gazelle</groupId>
             <artifactId>gazelle-validation-profiles-iti</artifactId>
             <version>${project.version}</version>
