@@ -32,17 +32,26 @@ import org.openehealth.ipf.gazelle.validation.profile.GazelleProfile;
 import org.openehealth.ipf.gazelle.validation.profile.IHETransaction;
 
 /**
+ * Factory for manually triggering a validation of a message depending on a profile or a defined
+ * IHETransaction. In general this should not be necessary when the HapiContext of the parsed
+ * message contains a ValidationContext that includes the corresponding
+ * {@link org.openehealth.ipf.gazelle.validation.core.GazelleProfileRule GazelleProfileRule}
+ * instance as one of its message rules. In that case it would be sufficient to use the
+ * <pre>conformsWithDefault</pre> predicate supplied by camel-hl7.
+ *
  * @author Boris Stanojevic
+ * @author Christian Ohr
  */
 public final class GazelleProfileValidators {
 
     private GazelleProfileValidators() {
     }
 
+
     /**
      * Returns a validating Camel processor for a dedicated profile
      *
-     * @param gazelleProfile
+     * @param gazelleProfile HL7 conformance profile
      * @return a validating Camel processor for a dedicated profile
      */
     public static Processor gazelleValidatingProcessor(final GazelleProfile gazelleProfile) {
@@ -80,6 +89,7 @@ public final class GazelleProfileValidators {
             throws IOException, JAXBException {
 
         Message message = exchange.getIn().getBody(Message.class);
+        // TODO make sure this also works the IPF HL7DSL MessageAdapter instances!
         Validate.notNull(message, "Exchange does not contain required 'ca.uhn.hl7v2.model.Message' type");
 
         ca.uhn.hl7v2.validation.ValidationException[] exceptions = validator.apply(message);

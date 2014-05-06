@@ -87,50 +87,37 @@ class GazelleProfileRule extends AbstractMessageRule {
         return violations.toArray(new ValidationException[violations.size()]);
     }
 
-
+    /**
+     * Tests the group (or message) against a list of profile descriptions that are either a
+     * {@link org.openehealth.ipf.gazelle.validation.core.stub.SegmentType} or a
+     * {@link org.openehealth.ipf.gazelle.validation.core.stub.HL7V2XStaticDef.SegGroup}.
+     *
+     * @param group   current message/group element
+     * @param profile available profile objcts to test the element against
+     * @return a list with identified violations against the profile(s)
+     */
     protected List<ValidationException> testGroup(Group group, List<Object> profile) {
         List<ValidationException> exList = new ArrayList<ValidationException>();
         List<String> allowedStructures = new ArrayList<String>();
-        for (Object struct : profile) {
-            String name = null;
-            String usage = "";
-            int max = 0;
-            int min = 0;
-            if (struct.getClass().isAssignableFrom(SegmentType.class)) {
-                SegmentType structure = (SegmentType) struct;
-                usage = structure.getUsage();
-                name = structure.getName();
-                max = structure.getMax().equals("*") ? Short.MAX_VALUE : Short.valueOf(structure.getMax());
-                min = structure.getMin().intValue();
-            } else if (struct.getClass().isAssignableFrom(HL7V2XStaticDef.SegGroup.class)) {
-                HL7V2XStaticDef.SegGroup segGroup = (HL7V2XStaticDef.SegGroup) struct;
-                usage = segGroup.getUsage();
-                name = segGroup.getName();
-                max = segGroup.getMax().equals("*") ? Short.MAX_VALUE : Short.valueOf(segGroup.getMax());
-                min = segGroup.getMin().intValue();
-            }
 
-            if (!usage.equalsIgnoreCase("X")) {
-                allowedStructures.add(name);
+        for (Object struct : profile) {
+            UsageInfo usage = new UsageInfo(struct);
+
+            if (!usage.disallowed()) {
+                allowedStructures.add(usage.name);
 
                 try {
-                    List<Structure> nonEmptyStructures = new ArrayList<Structure>();
-                    Structure[] structures = group.getAll(name);
-                    for (Structure structure : structures) {
-                        if (!structure.isEmpty())
-                            nonEmptyStructures.add(structure);
-                    }
-                    exList.addAll(testCardinality(nonEmptyStructures.size(), min, max, usage, name));
+                    List<Structure> nonEmptyStructures = nonEmpty(group.getAll(usage.name));
+                    exList.addAll(testCardinality(nonEmptyStructures.size(), usage));
 
                     // test children on instances with content
                     if (validateChildren) {
                         for (Structure structure : nonEmptyStructures) {
-                            List<ValidationException> childExceptions = testStructure(structure, struct);
-                            exList.addAll(childExceptions);
+                            exList.addAll(testStructure(structure, struct));
                         }
                     }
                 } catch (HL7Exception he) {
-                    profileNotHL7Compliant(exList, PROFILE_STRUCTURE_NOT_EXIST_IN_JAVA_CLASS, name);
+                    profileNotHL7Compliant(exList, PROFILE_STRUCTURE_NOT_EXIST_IN_JAVA_CLASS, usage.name);
                 }
             }
         }
@@ -168,23 +155,17 @@ class GazelleProfileRule extends AbstractMessageRule {
      * code is 'R' (see HL7 v2.5 section 2.12.6.4).
      *
      * @param reps  the number of reps
-     * @param min   the minimum number of reps
-     * @param max   the maximum number of reps (-1 means *)
-     * @param usage the usage code
-     * @param name  the name of the repeating structure (used in exception msg)
-     * @return null if cardinality OK, exception otherwise
+     * @param usage usage info
+     * @return exceptions
      */
-    protected List<ValidationException> testCardinality(int reps, int min, int max, String usage, String name) {
+    protected List<ValidationException> testCardinality(int reps, UsageInfo usage) {
         List<ValidationException> violations = new ArrayList<ValidationException>();
-        profileViolatedWhen(reps < min && usage.equalsIgnoreCase("R"),
-                violations, LESS_THAN_MINIMUM_CARDINALITY, name, min, reps);
-
-        profileViolatedWhen(max > 0 && reps > max,
-                violations, MORE_THAN_MAXIMUM_CARDINALITY, name, max, reps);
-
-        profileViolatedWhen(reps > 0 && usage.equalsIgnoreCase("X"),
-                violations, NOT_SUPPORTED_ELEMENT_PRESENT, name);
-
+        profileViolatedWhen(reps < usage.min && usage.required(),
+                violations, LESS_THAN_MINIMUM_CARDINALITY, usage.name, usage.min, reps);
+        profileViolatedWhen(usage.max > 0 && reps > usage.max,
+                violations, MORE_THAN_MAXIMUM_CARDINALITY, usage.name, usage.max, reps);
+        profileViolatedWhen(reps > 0 && usage.disallowed(),
+                violations, NOT_SUPPORTED_ELEMENT_PRESENT, usage.name);
         return violations;
     }
 
@@ -218,25 +199,15 @@ class GazelleProfileRule extends AbstractMessageRule {
         List<Integer> allowedFields = new ArrayList<Integer>();
         int i = 1;
         for (SegmentType.Field field : profile.getFields()) {
-
+            UsageInfo usage = new UsageInfo(field);
             // only test a field in detail if it isn't X
-            if (!field.getUsage().equalsIgnoreCase("X")) {
+            if (!usage.disallowed()) {
                 allowedFields.add(i);
 
                 // see which instances have content
                 try {
-                    Type[] fields = segment.getField(i);
-                    List<Type> nonEmptyFields = new ArrayList<Type>();
-                    for (Type f : fields) {
-                        if (!f.isEmpty())
-                            nonEmptyFields.add(f);
-                    }
-
-                    int max = field.getMax().equals("*") ? Short.MAX_VALUE : Short.valueOf(field.getMax());
-                    exList.addAll(
-                            testCardinality(nonEmptyFields.size(), field.getMin().intValue(),
-                                    max, field.getUsage(), field.getName())
-                    );
+                    List<Type> nonEmptyFields = nonEmpty(segment.getField(i));
+                    exList.addAll(testCardinality(nonEmptyFields.size(), usage));
 
                     // test field instances with content
                     if (validateChildren) {
@@ -294,17 +265,18 @@ class GazelleProfileRule extends AbstractMessageRule {
     protected List<ValidationException> testField(Type type, SegmentType.Field profile, boolean escape) {
         List<ValidationException> exList = new ArrayList<ValidationException>();
 
+        UsageInfo usage = new UsageInfo(profile);
+
         // account for MSH 1 & 2 which aren't escaped
         String encoded = null;
         if (!escape && Primitive.class.isAssignableFrom(type.getClass()))
             encoded = ((Primitive) type).getValue();
 
-        exList.addAll(testType(type, profile.getDatatype(), profile.getUsage(), profile.getName(),
-                profile.getLength().intValue(), profile.getConstantValue(), encoded, false));
+        exList.addAll(testType(type, profile.getDatatype(), usage, encoded, false));
 
         // test children
         if (validateChildren) {
-            if (profile.getComponents().size() > 0 && !profile.getUsage().equals("X")) {
+            if (profile.getComponents().size() > 0 && !usage.disallowed()) {
                 if (Composite.class.isAssignableFrom(type.getClass())) {
                     Composite comp = (Composite) type;
                     int i = 1;
@@ -312,7 +284,7 @@ class GazelleProfileRule extends AbstractMessageRule {
                         try {
                             exList.addAll(testComponent(comp.getComponent(i - 1), component));
                         } catch (DataTypeException de) {
-                            profileNotHL7Compliant(exList, COMPONENT_TYPE_MISSMATCH, type.getName(), i);
+                            profileNotHL7Compliant(exList, COMPONENT_TYPE_MISMATCH, type.getName(), i);
                         }
                         ++i;
                     }
@@ -325,9 +297,8 @@ class GazelleProfileRule extends AbstractMessageRule {
         return exList;
     }
 
-    protected List<ValidationException> testType(Type type, String dataType, String usage, String name,
-                                                 int length, String constant, String encoded) {
-        return testType(type, dataType, usage, name, length, constant, encoded, true);
+    protected List<ValidationException> testType(Type type, String dataType, UsageInfo usage, String encoded) {
+        return testType(type, dataType, usage, encoded, true);
     }
 
     /**
@@ -336,42 +307,40 @@ class GazelleProfileRule extends AbstractMessageRule {
      * @param encoded optional encoded form of type (if you want to specify this -- if null, default
      *                pipe-encoded form is used to check length and constant val)
      */
-    protected List<ValidationException> testType(Type type, String dataType, String usage, String name, int length,
-                                                 String constant, String encoded, boolean testUsage) {
+    protected List<ValidationException> testType(Type type, String dataType, UsageInfo usage, String encoded, boolean testUsage) {
         ArrayList<ValidationException> exList = new ArrayList<ValidationException>();
         if (encoded == null)
             encoded = PipeParser.encode(type, this.enc);
 
         if (testUsage) {
-            testUsage(exList, encoded, usage, name);
+            testUsage(exList, encoded, usage);
         }
 
-        if (!usage.equals("X")) {
+        if (!usage.disallowed()) {
             // check datatype
             if ((type instanceof ca.uhn.hl7v2.model.v231.datatype.TSComponentOne
                     || type instanceof ca.uhn.hl7v2.model.v24.datatype.TSComponentOne)
                     && !dataType.equals("ST")) {
-
-                profileNotHL7Compliant(exList, HL7_DATATYPE_MISSMATCH, type.getName(), dataType);
+                profileNotHL7Compliant(exList, HL7_DATATYPE_MISMATCH, type.getName(), dataType);
             } else if (!(type instanceof TSComponentOne) && !type.getName().contains(dataType)) {
-
                 profileViolatedWhen(!(type.getClass().getSimpleName().equals("Varies")
                                 || type.getClass().getSimpleName().equals("QIP")),
-                        exList, HL7_DATATYPE_MISSMATCH, type.getName(), dataType
+                        exList, HL7_DATATYPE_MISMATCH, type.getName(), dataType
                 );
             }
 
             // check length
-            profileViolatedWhen(encoded.length() > length,
-                    exList, LENGTH_EXCEEDED, name, encoded.length(), length);
+            profileViolatedWhen(encoded.length() > usage.length,
+                    exList, LENGTH_EXCEEDED, usage.name, encoded.length(), usage.length);
 
             // check constant value
-            if (constant != null && constant.length() > 0) {
-                profileViolatedWhen(!encoded.equals(constant),
-                        exList, WRONG_CONSTANT_VALUE, encoded, constant);
+            if (usage.constantValue != null && usage.constantValue.length() > 0) {
+                profileViolatedWhen(!encoded.equals(usage.constantValue),
+                        exList, WRONG_CONSTANT_VALUE, encoded, usage.constantValue);
             }
 
-            //TODO : check against table, or do we need this check?
+            // TODO : check against table, or do we need this check?
+            // Gazelle checks code system and issues a WARNING if a check fails
         }
 
         return exList;
@@ -383,12 +352,13 @@ class GazelleProfileRule extends AbstractMessageRule {
      *
      * @param encoded the pipe-encoded message element
      * @param usage   the usage code (e.g. "CE")
-     * @param name    the name of the element (for use in exception messages)
      * @return null if there is no problem, an HL7Exception otherwise
      */
-    protected HL7Exception testUsage(List<ValidationException> exList, String encoded, String usage, String name) {
-        if (usage.equalsIgnoreCase("R")) {
-            profileViolatedWhen(encoded.length() == 0, exList, REQUIRED_ELEMENT_MISSING, name);
+    protected void testUsage(List<ValidationException> exList, String encoded, UsageInfo usage) {
+        if (usage.required()) {
+            profileViolatedWhen(encoded.length() == 0, exList, REQUIRED_ELEMENT_MISSING, usage.name);
+        } else if (usage.disallowed()) {
+            profileViolatedWhen(encoded.length() > 0, exList, NOT_SUPPORTED_ELEMENT_PRESENT, usage.name);
         }
         /*
         else if (usage.equalsIgnoreCase("RE")) {
@@ -399,36 +369,32 @@ class GazelleProfileRule extends AbstractMessageRule {
             // can't test anything yet -- wait for condition syntax in v2.6
         } else if (usage.equalsIgnoreCase("CE")) {
             // can't test anything
-        } else if (usage.equalsIgnoreCase("X")) {
-            e = profileViolatedWhen(encoded.length() > 0, NOT_SUPPORTED_ELEMENT_PRESENT, name);
         } else if (usage.equalsIgnoreCase("B")) {
             // can't test anything
         }
         */
-        return null;
     }
 
     protected List<ValidationException> testComponent(Type type, SegmentType.Field.Component profile) {
         List<ValidationException> exList = new ArrayList<ValidationException>();
-        exList.addAll(testType(type, profile.getDatatype(), profile.getUsage(), profile.getName(),
-                profile.getLength().intValue(), profile.getConstantValue(), null));
+        UsageInfo usage = new UsageInfo(profile);
+        exList.addAll(testType(type, profile.getDatatype(), usage, null));
 
         // test children
         try {
-            if (profile.getSubComponents().size() > 0 && !profile.getUsage().equals("X") && hasContent(type)) {
+            if (profile.getSubComponents().size() > 0 && !usage.disallowed() && !type.isEmpty()) {
                 if (Composite.class.isAssignableFrom(type.getClass())) {
                     Composite comp = (Composite) type;
 
                     if (validateChildren) {
                         int i = 1;
                         for (SegmentType.Field.Component.SubComponent subComponent : profile.getSubComponents()) {
+                            UsageInfo scUsage = new UsageInfo(subComponent);
                             try {
                                 Type sub = comp.getComponent(i - 1);
-                                exList.addAll(testType(sub, subComponent.getDatatype(), subComponent.getUsage(),
-                                        subComponent.getName(), subComponent.getLength().intValue(),
-                                        subComponent.getConstantValue(), null));
+                                exList.addAll(testType(sub, subComponent.getDatatype(), scUsage, null));
                             } catch (DataTypeException de) {
-                                profileNotHL7Compliant(exList, SUBCOMPONENT_TYPE_MISSMATCH, type.getName(), i);
+                                profileNotHL7Compliant(exList, SUBCOMPONENT_TYPE_MISMATCH, type.getName(), i);
                             }
                             ++i;
                         }
@@ -468,11 +434,13 @@ class GazelleProfileRule extends AbstractMessageRule {
         return exList;
     }
 
-    /**
-     * Returns true is there is content in the given type
-     */
-    protected boolean hasContent(Type type) throws HL7Exception {
-        return !type.isEmpty();
+
+    private static <T extends Visitable> List<T> nonEmpty(T[] input) throws HL7Exception {
+        List<T> result = new ArrayList<T>();
+        for (T element : input) {
+            if (!element.isEmpty()) result.add(element);
+        }
+        return result;
     }
 
 }

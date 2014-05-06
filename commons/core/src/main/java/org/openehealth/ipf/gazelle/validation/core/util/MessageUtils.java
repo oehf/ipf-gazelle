@@ -80,14 +80,14 @@ public abstract class MessageUtils {
             throws HL7Exception {
         Terser terser = new Terser(message);
         for (GazelleProfile gazelleProfile : iheTransaction.transactionTypes()) {
-            if (hasProfileHeader(gazelleProfile, terser)) {
+            if (matches(gazelleProfile, terser)) {
                 return gazelleProfile;
             }
         }
         return null;
     }
 
-    private static boolean hasProfileHeader(GazelleProfile gazelleProfile, Terser terser) throws HL7Exception {
+    private static boolean matches(GazelleProfile gazelleProfile, Terser terser) throws HL7Exception {
         return gazelleProfile.type().equals(messageType(terser))
                 && gazelleProfile.event().equals(triggerEvent(terser))
                 && gazelleProfile.structure().equals(messageStructure(terser))
@@ -115,10 +115,11 @@ public abstract class MessageUtils {
         String mshValue = null;
         try {
             mshValue = mshField(fieldNo, terser);
+            profileViolatedWhen(mshValue == null || !mshValue.equals(profileValue), violations,
+                    validationMessage, mshValue, profileValue);
         } catch (HL7Exception e) {
-            violations.add(new ValidationException(e));
+            violations.add(new ValidationException("Could not obtain" + fieldNo, e));
         }
-        profileViolatedWhen(mshValue == null || !mshValue.equals(profileValue), violations,
-                validationMessage, mshValue, profileValue);
+
     }
 }
