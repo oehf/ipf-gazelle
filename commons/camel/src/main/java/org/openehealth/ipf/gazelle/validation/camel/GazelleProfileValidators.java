@@ -20,10 +20,7 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.xml.bind.JAXBException;
 
-import ca.uhn.hl7v2.DefaultHapiContext;
-import ca.uhn.hl7v2.HapiContext;
 import ca.uhn.hl7v2.Severity;
-import ca.uhn.hl7v2.conf.store.DefaultCodeStoreRegistry;
 import ca.uhn.hl7v2.model.Message;
 import ca.uhn.hl7v2.validation.MessageRule;
 import org.apache.camel.Exchange;
@@ -33,22 +30,13 @@ import org.openehealth.ipf.commons.core.modules.api.ValidationException;
 import org.openehealth.ipf.gazelle.validation.core.CachingGazelleProfileRule;
 import org.openehealth.ipf.gazelle.validation.profile.GazelleProfile;
 import org.openehealth.ipf.gazelle.validation.profile.IHETransaction;
-import org.openehealth.ipf.gazelle.validation.profile.store.GazelleProfileStore;
 
 /**
  * @author Boris Stanojevic
  */
-public class GazelleProfileValidators {
+public final class GazelleProfileValidators {
 
-    private HapiContext hapiContext;
-
-
-    public GazelleProfileValidators() {
-        this.hapiContext = createHapiContext();
-    }
-
-    public GazelleProfileValidators(HapiContext hapiContext) {
-        this.hapiContext = hapiContext;
+    private GazelleProfileValidators() {
     }
 
     /**
@@ -57,7 +45,7 @@ public class GazelleProfileValidators {
      * @param gazelleProfile
      * @return a validating Camel processor for a dedicated profile
      */
-    public Processor gazelleValidatingProcessor(final GazelleProfile gazelleProfile) {
+    public static Processor gazelleValidatingProcessor(final GazelleProfile gazelleProfile) {
         return new Processor() {
 
             private CachingGazelleProfileRule validator = new CachingGazelleProfileRule(gazelleProfile);
@@ -73,10 +61,10 @@ public class GazelleProfileValidators {
      * Returns a validating Camel processor for a message in a IHE transaction. The actual profile
      * to be used is guessed from the message header
      *
-     * @param iheTransaction
+     * @param iheTransaction IHE transaktion
      * @return a validating Camel processor for a message in a IHE transaction
      */
-    public Processor gazelleValidatingProcessor(final IHETransaction iheTransaction) {
+    public static Processor gazelleValidatingProcessor(final IHETransaction iheTransaction) {
         return new Processor() {
 
             private CachingGazelleProfileRule validator = new CachingGazelleProfileRule(iheTransaction);
@@ -88,7 +76,7 @@ public class GazelleProfileValidators {
         };
     }
 
-    protected void doValidate(Exchange exchange, final MessageRule validator)
+    private static void doValidate(Exchange exchange, final MessageRule validator)
             throws IOException, JAXBException {
 
         Message message = exchange.getIn().getBody(Message.class);
@@ -107,14 +95,5 @@ public class GazelleProfileValidators {
             throw new ValidationException("Message validation failed", fatalExceptions);
         }
     }
-
-    protected HapiContext createHapiContext() {
-        HapiContext hapiContext = new DefaultHapiContext();
-        hapiContext.setProfileStore(new GazelleProfileStore());
-        hapiContext.getParserConfiguration().setValidating(false);
-        hapiContext.setCodeStoreRegistry(new DefaultCodeStoreRegistry());
-        return hapiContext;
-    }
-
 
 }

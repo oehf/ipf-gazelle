@@ -39,9 +39,11 @@ import static org.openehealth.ipf.gazelle.validation.core.util.ProfileAssertions
 import static org.openehealth.ipf.gazelle.validation.core.util.ProfileValidationMessage.*;
 
 /**
- * A modified conformance profile validator from HAPI
+ * A modified conformance profile validator from HAPI. This implementation differs from HAPI's
+ * {@link ca.uhn.hl7v2.conf.check.DefaultValidator} and cannot be returned by {@link ca.uhn.hl7v2.HapiContext#getConformanceValidator()}
+ * due to its different signature.
  */
-public class GazelleProfileRule extends AbstractMessageRule {
+class GazelleProfileRule extends AbstractMessageRule {
 
     private EncodingCharacters enc;
     private static final Logger LOG = LoggerFactory.getLogger(GazelleProfileRule.class);

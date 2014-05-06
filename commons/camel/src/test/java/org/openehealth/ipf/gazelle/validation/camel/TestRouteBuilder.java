@@ -16,30 +16,27 @@
 package org.openehealth.ipf.gazelle.validation.camel;
 
 import org.apache.camel.builder.RouteBuilder;
-import org.openehealth.ipf.gazelle.validation.profile.ItiProfile;
-import org.openehealth.ipf.gazelle.validation.profile.ItiTransactions;
+import org.openehealth.ipf.gazelle.validation.profile.ItiPixPdqProfile;
+import org.openehealth.ipf.gazelle.validation.profile.PixPdqTransactions;
+
+import static org.openehealth.ipf.gazelle.validation.camel.GazelleProfileValidators.*;
 
 /**
  * @author Boris Stanojevic
  */
 public class TestRouteBuilder extends RouteBuilder {
 
-    private GazelleProfileValidators validators = new GazelleProfileValidators();
-
     @Override
     public void configure() throws Exception {
 
         from("direct:iti8")
-            .process(validators.gazelleValidatingProcessor(ItiTransactions.ITI8))
-            .end();
+                .process(gazelleValidatingProcessor(PixPdqTransactions.ITI8));
 
         from("direct:iti10")
-            .process(validators.gazelleValidatingProcessor(ItiProfile.ITI_10_ADT_A31))
-            .end();
+                .process(gazelleValidatingProcessor(ItiPixPdqProfile.ITI_10_ADT_A31));
 
         from("direct:iti21")
-            .process(validators.gazelleValidatingProcessor(ItiTransactions.ITI21))
-            .end();
+                .process(gazelleValidatingProcessor(PixPdqTransactions.ITI21));
 
     }
 }

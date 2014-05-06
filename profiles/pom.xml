@@ -13,7 +13,8 @@
 
     <modules>
 		<module>core</module>
-        <module>iti</module>
+        <module>iti-pam</module>
+		<module>iti-pixpdq</module>
         <module>lab</module>
         <module>card</module>
         <module>pat</module>

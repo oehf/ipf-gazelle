@@ -60,27 +60,55 @@ public class CachingGazelleProfileRule extends AbstractMessageRule {
     }
 
     private IHETransaction iheTransaction;
-    private GazelleProfile profile = null;
+    private GazelleProfile profile;
 
+    /**
+     * When this constructor is used, the conformance profile is guessed from the actual type of the
+     * message to be checked.
+     *
+     * @param iheTransaction IHETransaction enum
+     */
     public CachingGazelleProfileRule(IHETransaction iheTransaction) {
         this.iheTransaction = iheTransaction;
     }
 
+    /**
+     * When this constructor is used, a static confirmance profile is used for validation.
+     *
+     * @param profile GazelleProfile enum
+     */
     public CachingGazelleProfileRule(GazelleProfile profile) {
         this.profile = profile;
     }
 
+    /**
+     * Obtains a {@link org.openehealth.ipf.gazelle.validation.core.GazelleProfileRule} and checks the
+     * message against it.
+     *
+     * @param message
+     * @return
+     */
     @Override
     public ValidationException[] apply(Message message) {
         try {
             GazelleProfile profile = this.profile == null ? guessGazelleProfile(iheTransaction, message) : this.profile;
-            GazelleProfileRule validator = parseProfile(message.getParser().getHapiContext(), profile.profileId());
-            return validator.apply(message);
+            GazelleProfileRule rule = parseProfile(message.getParser().getHapiContext(), profile.profileId());
+            return rule.apply(message);
         } catch (Exception e) {
             return failed("No matching profile could be loaded for message of type " + message.getClass().getName());
         }
     }
 
+    /**
+     * Parses the confirmance profile and caches an instance of {@link org.openehealth.ipf.gazelle.validation.core.GazelleProfileRule}
+     * that checks against this profile.
+     *
+     * @param hapiContext HapiContext from the message
+     * @param profileId   profile id
+     * @return GazelleProfileRule
+     * @throws JAXBException
+     * @throws IOException
+     */
     synchronized protected GazelleProfileRule parseProfile(HapiContext hapiContext, String profileId) throws JAXBException, IOException {
         String profileString = hapiContext.getProfileStore().getProfile(profileId);
         GazelleProfileRule validator;
