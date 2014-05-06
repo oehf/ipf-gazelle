@@ -35,6 +35,7 @@ import ca.uhn.hl7v2.validation.ValidationException;
 import org.apache.commons.io.IOUtils;
 import org.junit.Before;
 import org.openehealth.ipf.gazelle.validation.core.stub.HL7V2XConformanceProfile;
+import org.openehealth.ipf.gazelle.validation.profile.ConformanceProfile;
 import org.openehealth.ipf.gazelle.validation.profile.store.GazelleProfileStore;
 
 /**
@@ -109,10 +110,10 @@ public abstract class AbstractGazelleProfileValidatorTest {
         return runtimeProfile;
     }
 
-    protected HL7V2XConformanceProfile unmarshalProfile(String profileId)
+    protected HL7V2XConformanceProfile unmarshalProfile(ConformanceProfile profile)
             throws ProfileException, IOException, JAXBException {
 
-        String profileString = hapiContext.getProfileStore().getProfile(profileId);
+        String profileString = hapiContext.getProfileStore().getProfile(profile.profileInfo().profileId());
         return (HL7V2XConformanceProfile) unmarshaller.unmarshal(new ByteArrayInputStream(profileString.getBytes()));
     }
 

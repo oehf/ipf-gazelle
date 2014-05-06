@@ -23,7 +23,7 @@ import static org.openehealth.ipf.gazelle.validation.profile.RadProfile.*;
 /**
  * @author Boris Stanojevic
  */
-public enum RadTransactions implements IHETransaction {
+public enum RadTransactions implements HL7v2InteractionId {
 
     RAD1  (RAD_1_ADT_A01, RAD_1_ADT_A04, RAD_1_ADT_A05, RAD_1_ADT_A11, RAD_1_ADT_A38),
     RAD2  (RAD_2_ORM_O01_NW_V25, RAD_2_ORM_O01_CA_V25, RAD_2_ORM_O01_NW_V231,
@@ -42,13 +42,13 @@ public enum RadTransactions implements IHETransaction {
     RAD36 (RAD_36_BAR_P01, RAD_36_BAR_P05, RAD_36_BAR_P06),
     RAD48 (RAD_48_SIU_S12, RAD_48_SIU_S13, RAD_48_SIU_S15);
 
-    private final List<GazelleProfile> transactionTypes;
+    private final List<ConformanceProfile> transactionTypes;
 
-    RadTransactions(GazelleProfile... transactionTypes){
+    RadTransactions(ConformanceProfile... transactionTypes){
         this.transactionTypes = Arrays.asList(transactionTypes);
     }
 
-    public List<GazelleProfile> transactionTypes() {
+    public List<ConformanceProfile> conformanceProfiles() {
         return transactionTypes;
     }
 

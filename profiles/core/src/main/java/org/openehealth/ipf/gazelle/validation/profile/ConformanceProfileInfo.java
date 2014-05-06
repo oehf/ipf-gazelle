@@ -16,15 +16,17 @@
 
 package org.openehealth.ipf.gazelle.validation.profile;
 
-import java.util.List;
-
-import org.openehealth.ipf.gazelle.validation.profile.GazelleProfile;
-
 /**
  *
  */
-public interface IHETransaction {
+public interface ConformanceProfileInfo {
 
-    public List<GazelleProfile> transactionTypes();
+    public String profileId();
+    public String transaction();
+    public String triggerEvent();
+    public String type();
+    public String event();
+    public String structure();
+    public String hl7version();
 
 }

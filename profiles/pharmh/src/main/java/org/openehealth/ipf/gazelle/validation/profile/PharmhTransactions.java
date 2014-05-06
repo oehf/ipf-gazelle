@@ -23,7 +23,7 @@ import static org.openehealth.ipf.gazelle.validation.profile.PharmhProfile.*;
 /**
  * @author Boris Stanojevic
  */
-public enum PharmhTransactions implements IHETransaction {
+public enum PharmhTransactions implements HL7v2InteractionId {
 
 
     PHARMH1 (PHARM_H1_ORP_O10, PHARM_H1_OMP_O09),
@@ -33,13 +33,13 @@ public enum PharmhTransactions implements IHETransaction {
     PHARMH5 (PHARM_H5_ORP_O10_MED_ADM_INFO, PHARM_H5_OMP_O09, PHARM_H5_ORP_O10_MED_DIS),
     PHARMH6 (PHARM_H6_RRE_O12, PHARM_H6_RDE_O11);
 
-    private final List<GazelleProfile> transactionTypes;
+    private final List<ConformanceProfile> transactionTypes;
 
-    PharmhTransactions(GazelleProfile... transactionTypes){
+    PharmhTransactions(ConformanceProfile... transactionTypes){
         this.transactionTypes = Arrays.asList(transactionTypes);
     }
 
-    public List<GazelleProfile> transactionTypes() {
+    public List<ConformanceProfile> conformanceProfiles() {
         return transactionTypes;
     }
 

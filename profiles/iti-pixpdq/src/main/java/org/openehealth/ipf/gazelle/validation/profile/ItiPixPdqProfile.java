@@ -18,7 +18,7 @@ package org.openehealth.ipf.gazelle.validation.profile;
 /**
  * @author Boris Stanojevic
  */
-public enum ItiPixPdqProfile implements GazelleProfile {
+public enum ItiPixPdqProfile implements ConformanceProfile {
 
     ITI_8_ADT_A08                 ("1.3.6.1.4.12559.11.1.1.23",  "ITI-8", "ADT^A08^ADT_A01", "2.3.1"),
     ITI_8_ADT_A01                 ("1.3.6.1.4.12559.11.1.1.24",  "ITI-8", "ADT^A01^ADT_A01", "2.3.1"),
@@ -46,23 +46,14 @@ public enum ItiPixPdqProfile implements GazelleProfile {
     ITI_64_ADT_A43                ("1.3.6.1.4.12559.11.1.1.213", "ITI-64", "ADT^A43^ADT_A43", "2.5"),
     ITI_64_ACK_A43                ("1.3.6.1.4.12559.11.1.1.214", "ITI-64", "ACK^A43^ACK", "2.5");
 
-    private final String profileId;
-    private final String transaction;
-    private final String triggerEvent;
-    private final String hl7version;
+    private final ConformanceProfileInfo info;
 
     ItiPixPdqProfile(String profileId, String transaction, String triggerEvent, String hl7version){
-        this.profileId = profileId;
-        this.triggerEvent = triggerEvent;
-        this.transaction = transaction;
-        this.hl7version = hl7version;
+        info = new ConformanceProfileInfoImpl(profileId, transaction, triggerEvent, hl7version);
     }
 
-    public String profileId()    { return profileId; }
-    public String transaction()  { return transaction; }
-    public String triggerEvent() { return triggerEvent; }
-    public String type()         { return triggerEvent.split("\\^")[0]; }
-    public String event()        { return triggerEvent.split("\\^").length > 1 ? triggerEvent.split("\\^")[1]:""; }
-    public String structure()    { return triggerEvent.split("\\^").length > 2 ? triggerEvent.split("\\^")[2]:""; }
-    public String hl7version()   { return hl7version; }
+    @Override
+    public ConformanceProfileInfo profileInfo() {
+        return info;
+    }
 }

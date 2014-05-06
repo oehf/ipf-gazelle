@@ -23,7 +23,7 @@ import static org.openehealth.ipf.gazelle.validation.profile.ItiPixPdqProfile.*;
 /**
  * @author Boris Stanojevic
  */
-public enum PixPdqTransactions implements IHETransaction {
+public enum PixPdqTransactions implements HL7v2InteractionId {
 
     ITI8  (ITI_8_ACK_A01, ITI_8_ACK_A04, ITI_8_ACK_A05, ITI_8_ACK_A08, ITI_8_ACK_A40,
            ITI_8_ADT_A08, ITI_8_ADT_A01, ITI_8_ADT_A04, ITI_8_ADT_A40, ITI_8_ADT_A05, ITI_8_ACK),
@@ -33,13 +33,13 @@ public enum PixPdqTransactions implements IHETransaction {
     ITI22 (ITI_22_ACK_J01, ITI_22_QBP_ZV1, ITI_22_RSP_ZV2, ITI_22_QCN_J01),
     ITI64 (ITI_64_ADT_A43, ITI_64_ACK_A43);
 
-    private final List<GazelleProfile> transactionTypes;
+    private final List<ConformanceProfile> transactionTypes;
 
-    PixPdqTransactions(GazelleProfile... transactionTypes){
+    PixPdqTransactions(ConformanceProfile... transactionTypes){
         this.transactionTypes = Arrays.asList(transactionTypes);
     }
 
-    public List<GazelleProfile> transactionTypes() {
+    public List<ConformanceProfile> conformanceProfiles() {
         return transactionTypes;
     }
 

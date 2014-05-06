@@ -16,18 +16,21 @@
 package org.openehealth.ipf.gazelle.validation.core;
 
 
+import java.io.IOException;
+
 import ca.uhn.hl7v2.conf.store.ProfileStore;
 import org.junit.Before;
 import org.junit.Test;
-import org.openehealth.ipf.gazelle.validation.profile.ItiProfile;
+import org.openehealth.ipf.gazelle.validation.profile.ItiPamProfile;
+import org.openehealth.ipf.gazelle.validation.profile.ItiPixPdqProfile;
 
-import java.io.IOException;
-import static junit.framework.Assert.*;
+import static junit.framework.Assert.assertNotNull;
+import static junit.framework.Assert.assertTrue;
 
 /**
  * @author Boris Stanojevic
  */
-public class GazelleProfileStoreTest extends AbstractGazelleProfileValidatorTest {
+public class ConformanceProfileStoreTest extends AbstractGazelleProfileValidatorTest {
 
     private ProfileStore profileStore;
 
@@ -38,7 +41,7 @@ public class GazelleProfileStoreTest extends AbstractGazelleProfileValidatorTest
 
     @Test
     public void testITI30ProfileStore() throws IOException {
-        String profileString = profileStore.getProfile(ItiProfile.ITI_30_ADT_A47.profileId());
+        String profileString = profileStore.getProfile(ItiPamProfile.ITI_30_ADT_A47.profileInfo().profileId());
         assertNotNull(profileString);
         assertTrue(profileString.contains("HL7v2xStaticDef"));
         assertTrue(profileString.contains("EventType=\"A47\""));
@@ -47,7 +50,7 @@ public class GazelleProfileStoreTest extends AbstractGazelleProfileValidatorTest
 
     @Test
     public void testITI9ProfileStore() throws IOException {
-        String profileString = profileStore.getProfile(ItiProfile.ITI_9_RSP_K23.profileId());
+        String profileString = profileStore.getProfile(ItiPixPdqProfile.ITI_9_RSP_K23.profileInfo().profileId());
         assertNotNull(profileString);
         assertTrue(profileString.contains("HL7v2xStaticDef"));
         assertTrue(profileString.contains("EventType=\"K23\""));

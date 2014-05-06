@@ -19,7 +19,7 @@ package org.openehealth.ipf.gazelle.validation.profile;
 /**
  * @author Boris Stanojevic
  */
-public enum RadProfile implements GazelleProfile {
+public enum RadProfile implements ConformanceProfile {
 
     RAD_4_ORM_O01                 ("1.3.6.1.4.12559.11.1.1.10",  "RAD-4",  "ORM^O01^ORM_O01", "2.3.1"),
     RAD_2_ORM_O01_NW_V25          ("1.3.6.1.4.12559.11.1.1.103", "RAD-2",  "ORM^O01^ORM_O01", "2.5"),
@@ -73,23 +73,14 @@ public enum RadProfile implements GazelleProfile {
     RAD_36_BAR_P05                ("1.3.6.1.4.12559.11.1.1.90",  "RAD-36", "BAR^P05^BAR_P01", "2.3.1"),
     RAD_36_BAR_P06                ("1.3.6.1.4.12559.11.1.1.91",  "RAD-36", "BAR^P06^BAR_P06", "2.3.1");
 
-    private final String profileId;
-    private final String transaction;
-    private final String triggerEvent;
-    private final String hl7version;
+    private final ConformanceProfileInfo info;
 
     RadProfile(String profileId, String transaction, String triggerEvent, String hl7version){
-        this.profileId = profileId;
-        this.triggerEvent = triggerEvent;
-        this.transaction = transaction;
-        this.hl7version = hl7version;
+        info = new ConformanceProfileInfoImpl(profileId, transaction, triggerEvent, hl7version);
     }
 
-    public String profileId()    { return profileId; }
-    public String transaction()  { return transaction; }
-    public String triggerEvent() { return triggerEvent; }
-    public String type()         { return triggerEvent.split("\\^")[0]; }
-    public String event()        { return triggerEvent.split("\\^").length > 1 ? triggerEvent.split("\\^")[1]:""; }
-    public String structure()    { return triggerEvent.split("\\^").length > 2 ? triggerEvent.split("\\^")[2]:""; }
-    public String hl7version()   { return hl7version; }
+    @Override
+    public ConformanceProfileInfo profileInfo() {
+        return info;
+    }
 }

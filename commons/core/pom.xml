@@ -53,7 +53,13 @@
         </dependency>
         <dependency>
             <groupId>org.openehealth.ipf.gazelle</groupId>
-            <artifactId>gazelle-validation-profiles-iti</artifactId>
+            <artifactId>gazelle-validation-profiles-iti-pixpdq</artifactId>
+            <version>${project.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.openehealth.ipf.gazelle</groupId>
+            <artifactId>gazelle-validation-profiles-iti-pam</artifactId>
             <version>${project.version}</version>
             <scope>test</scope>
         </dependency>

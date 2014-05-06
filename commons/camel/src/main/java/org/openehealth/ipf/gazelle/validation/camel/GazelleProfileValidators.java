@@ -28,8 +28,8 @@ import org.apache.camel.Processor;
 import org.apache.commons.lang3.Validate;
 import org.openehealth.ipf.commons.core.modules.api.ValidationException;
 import org.openehealth.ipf.gazelle.validation.core.CachingGazelleProfileRule;
-import org.openehealth.ipf.gazelle.validation.profile.GazelleProfile;
-import org.openehealth.ipf.gazelle.validation.profile.IHETransaction;
+import org.openehealth.ipf.gazelle.validation.profile.ConformanceProfile;
+import org.openehealth.ipf.gazelle.validation.profile.HL7v2InteractionId;
 
 /**
  * Factory for manually triggering a validation of a message depending on a profile or a defined
@@ -51,13 +51,13 @@ public final class GazelleProfileValidators {
     /**
      * Returns a validating Camel processor for a dedicated profile
      *
-     * @param gazelleProfile HL7 conformance profile
+     * @param conformanceProfile HL7 conformance profile
      * @return a validating Camel processor for a dedicated profile
      */
-    public static Processor gazelleValidatingProcessor(final GazelleProfile gazelleProfile) {
+    public static Processor gazelleValidatingProcessor(final ConformanceProfile conformanceProfile) {
         return new Processor() {
 
-            private CachingGazelleProfileRule validator = new CachingGazelleProfileRule(gazelleProfile);
+            private CachingGazelleProfileRule validator = new CachingGazelleProfileRule(conformanceProfile);
 
             @Override
             public void process(Exchange exchange) throws Exception {
@@ -73,7 +73,7 @@ public final class GazelleProfileValidators {
      * @param iheTransaction IHE transaktion
      * @return a validating Camel processor for a message in a IHE transaction
      */
-    public static Processor gazelleValidatingProcessor(final IHETransaction iheTransaction) {
+    public static Processor gazelleValidatingProcessor(final HL7v2InteractionId iheTransaction) {
         return new Processor() {
 
             private CachingGazelleProfileRule validator = new CachingGazelleProfileRule(iheTransaction);

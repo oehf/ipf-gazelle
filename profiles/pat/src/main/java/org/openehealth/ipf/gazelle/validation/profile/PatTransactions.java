@@ -23,18 +23,18 @@ import static org.openehealth.ipf.gazelle.validation.profile.PatProfile.*;
 /**
  * @author Boris Stanojevic
  */
-public enum PatTransactions implements IHETransaction {
+public enum PatTransactions implements HL7v2InteractionId {
 
 
     PAT10(PAT_10_ORU_R01);
 
-    private final List<GazelleProfile> transactionTypes;
+    private final List<ConformanceProfile> transactionTypes;
 
-    PatTransactions(GazelleProfile... transactionTypes) {
+    PatTransactions(ConformanceProfile... transactionTypes) {
         this.transactionTypes = Arrays.asList(transactionTypes);
     }
 
-    public List<GazelleProfile> transactionTypes() {
+    public List<ConformanceProfile> conformanceProfiles() {
         return transactionTypes;
     }
 

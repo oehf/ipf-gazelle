@@ -18,7 +18,7 @@ package org.openehealth.ipf.gazelle.validation.profile;
 /**
  * @author Boris Stanojevic
  */
-public enum ItiPamProfile implements GazelleProfile {
+public enum ItiPamProfile implements ConformanceProfile {
 
 
     ITI_30_ACK                    ("1.3.6.1.4.12559.11.1.1.33",  "ITI-30", "ACK", "2.5"),
@@ -61,23 +61,14 @@ public enum ItiPamProfile implements GazelleProfile {
     ITI_31_ADT_A06                ("1.3.6.1.4.12559.11.1.1.74",  "ITI-31", "ADT^A06^ADT_A06", "2.5"),
     ITI_31_ADT_A33                ("1.3.6.1.4.12559.11.1.1.75",  "ITI-31", "ADT^A33^ADT_A21", "2.5");
 
-    private final String profileId;
-    private final String transaction;
-    private final String triggerEvent;
-    private final String hl7version;
+    private final ConformanceProfileInfo info;
 
     ItiPamProfile(String profileId, String transaction, String triggerEvent, String hl7version){
-        this.profileId = profileId;
-        this.triggerEvent = triggerEvent;
-        this.transaction = transaction;
-        this.hl7version = hl7version;
+        info = new ConformanceProfileInfoImpl(profileId, transaction, triggerEvent, hl7version);
     }
 
-    public String profileId()    { return profileId; }
-    public String transaction()  { return transaction; }
-    public String triggerEvent() { return triggerEvent; }
-    public String type()         { return triggerEvent.split("\\^")[0]; }
-    public String event()        { return triggerEvent.split("\\^").length > 1 ? triggerEvent.split("\\^")[1]:""; }
-    public String structure()    { return triggerEvent.split("\\^").length > 2 ? triggerEvent.split("\\^")[2]:""; }
-    public String hl7version()   { return hl7version; }
+    @Override
+    public ConformanceProfileInfo profileInfo() {
+        return info;
+    }
 }

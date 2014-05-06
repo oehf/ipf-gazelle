@@ -38,7 +38,7 @@ import static org.junit.Assert.fail;
 /**
  * @author Boris Stanojevic
  */
-public class GazelleProfileValidatorsTest {
+public class ConformanceProfileValidatorsTest {
 
     CamelContext camelContext = new DefaultCamelContext();
 

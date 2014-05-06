@@ -29,8 +29,8 @@ import ca.uhn.hl7v2.model.Message;
 import ca.uhn.hl7v2.validation.ValidationException;
 import ca.uhn.hl7v2.validation.impl.AbstractMessageRule;
 import org.openehealth.ipf.gazelle.validation.core.stub.HL7V2XConformanceProfile;
-import org.openehealth.ipf.gazelle.validation.profile.GazelleProfile;
-import org.openehealth.ipf.gazelle.validation.profile.IHETransaction;
+import org.openehealth.ipf.gazelle.validation.profile.ConformanceProfile;
+import org.openehealth.ipf.gazelle.validation.profile.HL7v2InteractionId;
 
 import static org.openehealth.ipf.gazelle.validation.core.util.MessageUtils.guessGazelleProfile;
 
@@ -59,8 +59,8 @@ public class CachingGazelleProfileRule extends AbstractMessageRule {
         }
     }
 
-    private IHETransaction iheTransaction;
-    private GazelleProfile profile;
+    private HL7v2InteractionId iheTransaction;
+    private ConformanceProfile profile;
 
     /**
      * When this constructor is used, the conformance profile is guessed from the actual type of the
@@ -68,7 +68,7 @@ public class CachingGazelleProfileRule extends AbstractMessageRule {
      *
      * @param iheTransaction IHETransaction enum
      */
-    public CachingGazelleProfileRule(IHETransaction iheTransaction) {
+    public CachingGazelleProfileRule(HL7v2InteractionId iheTransaction) {
         this.iheTransaction = iheTransaction;
     }
 
@@ -77,7 +77,7 @@ public class CachingGazelleProfileRule extends AbstractMessageRule {
      *
      * @param profile GazelleProfile enum
      */
-    public CachingGazelleProfileRule(GazelleProfile profile) {
+    public CachingGazelleProfileRule(ConformanceProfile profile) {
         this.profile = profile;
     }
 
@@ -91,8 +91,8 @@ public class CachingGazelleProfileRule extends AbstractMessageRule {
     @Override
     public ValidationException[] apply(Message message) {
         try {
-            GazelleProfile profile = this.profile == null ? guessGazelleProfile(iheTransaction, message) : this.profile;
-            GazelleProfileRule rule = parseProfile(message.getParser().getHapiContext(), profile.profileId());
+            ConformanceProfile profile = this.profile == null ? guessGazelleProfile(iheTransaction, message) : this.profile;
+            GazelleProfileRule rule = parseProfile(message.getParser().getHapiContext(), profile.profileInfo().profileId());
             return rule.apply(message);
         } catch (Exception e) {
             return failed("No matching profile could be loaded for message of type " + message.getClass().getName());

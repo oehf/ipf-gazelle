@@ -21,8 +21,9 @@ import ca.uhn.hl7v2.HL7Exception;
 import ca.uhn.hl7v2.model.Message;
 import ca.uhn.hl7v2.util.Terser;
 import ca.uhn.hl7v2.validation.ValidationException;
-import org.openehealth.ipf.gazelle.validation.profile.GazelleProfile;
-import org.openehealth.ipf.gazelle.validation.profile.IHETransaction;
+import org.openehealth.ipf.gazelle.validation.profile.ConformanceProfile;
+import org.openehealth.ipf.gazelle.validation.profile.ConformanceProfileInfo;
+import org.openehealth.ipf.gazelle.validation.profile.HL7v2InteractionId;
 
 import static org.openehealth.ipf.gazelle.validation.core.util.ProfileAssertions.profileViolatedWhen;
 
@@ -76,22 +77,22 @@ public abstract class MessageUtils {
      * @return GazelleProfile that matches message type, event, structure & version
      * @throws HL7Exception
      */
-    public static GazelleProfile guessGazelleProfile(IHETransaction iheTransaction, Message message)
+    public static ConformanceProfile guessGazelleProfile(HL7v2InteractionId iheTransaction, Message message)
             throws HL7Exception {
         Terser terser = new Terser(message);
-        for (GazelleProfile gazelleProfile : iheTransaction.transactionTypes()) {
-            if (matches(gazelleProfile, terser)) {
-                return gazelleProfile;
+        for (ConformanceProfile conformanceProfile : iheTransaction.conformanceProfiles()) {
+            if (matches(conformanceProfile.profileInfo(), terser)) {
+                return conformanceProfile;
             }
         }
         return null;
     }
 
-    private static boolean matches(GazelleProfile gazelleProfile, Terser terser) throws HL7Exception {
-        return gazelleProfile.type().equals(messageType(terser))
-                && gazelleProfile.event().equals(triggerEvent(terser))
-                && gazelleProfile.structure().equals(messageStructure(terser))
-                && gazelleProfile.hl7version().equals(messageVersion(terser));
+    private static boolean matches(ConformanceProfileInfo conformanceProfileInfo, Terser terser) throws HL7Exception {
+        return conformanceProfileInfo.type().equals(messageType(terser))
+                && conformanceProfileInfo.event().equals(triggerEvent(terser))
+                && conformanceProfileInfo.structure().equals(messageStructure(terser))
+                && conformanceProfileInfo.hl7version().equals(messageVersion(terser));
     }
 
     public static void checkMSHTypeField(String profileValue, Terser terser, List<ValidationException> violations) {

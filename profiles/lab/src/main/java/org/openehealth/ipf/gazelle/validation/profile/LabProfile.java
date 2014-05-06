@@ -18,7 +18,7 @@ package org.openehealth.ipf.gazelle.validation.profile;
 /**
  * @author Boris Stanojevic
  */
-public enum LabProfile implements GazelleProfile {
+public enum LabProfile implements ConformanceProfile {
 
     LAB_4_OML_O21                 ("1.3.6.1.4.12559.11.1.1.1",   "LAB-4",  "OML^O21^OML_O21", "2.5"),
     LAB_22_RSP_WOS                ("1.3.6.1.4.12559.11.1.1.100", "LAB-22", "RSP^WOS^RSP_K11", "2.5"),
@@ -88,23 +88,14 @@ public enum LabProfile implements GazelleProfile {
     LAB_21_OML_O33                ("1.3.6.1.4.12559.11.1.1.99",  "LAB-21", "OML^O33^OML_O33", "2.5");
 
 
-    private final String profileId;
-    private final String transaction;
-    private final String triggerEvent;
-    private final String hl7version;
+    private final ConformanceProfileInfo info;
 
     LabProfile(String profileId, String transaction, String triggerEvent, String hl7version){
-        this.profileId = profileId;
-        this.triggerEvent = triggerEvent;
-        this.transaction = transaction;
-        this.hl7version = hl7version;
+        info = new ConformanceProfileInfoImpl(profileId, transaction, triggerEvent, hl7version);
     }
 
-    public String profileId()    { return profileId; }
-    public String transaction()  { return transaction; }
-    public String triggerEvent() { return triggerEvent; }
-    public String type()         { return triggerEvent.split("\\^")[0]; }
-    public String event()        { return triggerEvent.split("\\^").length > 1 ? triggerEvent.split("\\^")[1]:""; }
-    public String structure()    { return triggerEvent.split("\\^").length > 2 ? triggerEvent.split("\\^")[2]:""; }
-    public String hl7version()   { return hl7version; }
+    @Override
+    public ConformanceProfileInfo profileInfo() {
+        return info;
+    }
 }

@@ -19,18 +19,18 @@ import ca.uhn.hl7v2.Severity;
 import ca.uhn.hl7v2.validation.ValidationException;
 import org.junit.Test;
 import org.openehealth.ipf.gazelle.validation.core.stub.HL7V2XConformanceProfile;
-import org.openehealth.ipf.gazelle.validation.profile.ItiProfile;
+import org.openehealth.ipf.gazelle.validation.profile.ItiPixPdqProfile;
 
 import static junit.framework.Assert.assertEquals;
 
 /**
  * @author Boris Stanojevic
  */
-public class GazelleProfileRuleTest extends AbstractGazelleProfileValidatorTest{
+public class ConformanceProfileRuleTest extends AbstractGazelleProfileValidatorTest{
 
     @Test
     public void testIti8() throws Exception {
-        HL7V2XConformanceProfile runtimeProfile = unmarshalProfile(ItiProfile.ITI_8_ADT_A40.profileId());
+        HL7V2XConformanceProfile runtimeProfile = unmarshalProfile(ItiPixPdqProfile.ITI_8_ADT_A40);
         GazelleProfileRule profileRule = new GazelleProfileRule(runtimeProfile);
 
         ValidationException[] exceptions = profileRule.apply(getParsedMessage("hl7/iti-8.hl7"));
@@ -43,7 +43,7 @@ public class GazelleProfileRuleTest extends AbstractGazelleProfileValidatorTest{
 
     @Test
     public void testIti21() throws Exception {
-        HL7V2XConformanceProfile runtimeProfile = unmarshalProfile(ItiProfile.ITI_21_QBP_Q22.profileId());
+        HL7V2XConformanceProfile runtimeProfile = unmarshalProfile(ItiPixPdqProfile.ITI_21_QBP_Q22);
         GazelleProfileRule profileRule = new GazelleProfileRule(runtimeProfile);
 
         ValidationException[] exceptions = profileRule.apply(getParsedMessage("hl7/iti-21.hl7"));
@@ -56,7 +56,7 @@ public class GazelleProfileRuleTest extends AbstractGazelleProfileValidatorTest{
 
     @Test
     public void testIti10() throws Exception {
-        HL7V2XConformanceProfile runtimeProfile = unmarshalProfile(ItiProfile.ITI_10_ADT_A31.profileId());
+        HL7V2XConformanceProfile runtimeProfile = unmarshalProfile(ItiPixPdqProfile.ITI_10_ADT_A31);
         GazelleProfileRule profileRule = new GazelleProfileRule(runtimeProfile);
 
         ValidationException[] exceptions = profileRule.apply(getParsedMessage("hl7/iti-10.hl7"));

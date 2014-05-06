@@ -18,7 +18,7 @@ package org.openehealth.ipf.gazelle.validation.profile;
 /**
  * @author Boris Stanojevic
  */
-public enum PcdProfile implements GazelleProfile {
+public enum PcdProfile implements ConformanceProfile {
 
     PCD_1_ACK_R01_DEV_OBS_CONSUMER("1.3.6.1.4.12559.11.1.1.113", "PCD-1",  "ACK^R01^ACK",     "2.6"),
     PCD_2_QSB_Z02                 ("1.3.6.1.4.12559.11.1.1.114", "PCD-2",  "QSB^Z02^QSB_Q16", "2.5"),
@@ -28,23 +28,14 @@ public enum PcdProfile implements GazelleProfile {
     PCD_1_ORU_R01_DEV_OBS_REPORTER("1.3.6.1.4.12559.11.1.1.129", "PCD-1",  "ORU^R01^ORU_R01", "2.6");
 
 
-    private final String profileId;
-    private final String transaction;
-    private final String triggerEvent;
-    private final String hl7version;
+    private final ConformanceProfileInfo info;
 
     PcdProfile(String profileId, String transaction, String triggerEvent, String hl7version){
-        this.profileId = profileId;
-        this.triggerEvent = triggerEvent;
-        this.transaction = transaction;
-        this.hl7version = hl7version;
+        info = new ConformanceProfileInfoImpl(profileId, transaction, triggerEvent, hl7version);
     }
 
-    public String profileId()    { return profileId; }
-    public String transaction()  { return transaction; }
-    public String triggerEvent() { return triggerEvent; }
-    public String type()         { return triggerEvent.split("\\^")[0]; }
-    public String event()        { return triggerEvent.split("\\^").length > 1 ? triggerEvent.split("\\^")[1]:""; }
-    public String structure()    { return triggerEvent.split("\\^").length > 2 ? triggerEvent.split("\\^")[2]:""; }
-    public String hl7version()   { return hl7version; }
+    @Override
+    public ConformanceProfileInfo profileInfo() {
+        return info;
+    }
 }

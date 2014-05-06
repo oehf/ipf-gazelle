@@ -23,7 +23,7 @@ import static org.openehealth.ipf.gazelle.validation.profile.ItiPamProfile.*;
 /**
  * @author Boris Stanojevic
  */
-public enum PamTransactions implements IHETransaction {
+public enum PamTransactions implements HL7v2InteractionId {
 
     ITI30 (ITI_30_ACK, ITI_30_ADT_A24, ITI_30_ADT_A28, ITI_30_ADT_A37,
            ITI_30_ADT_A31, ITI_30_ADT_A40, ITI_30_ADT_A47),
@@ -34,13 +34,13 @@ public enum PamTransactions implements IHETransaction {
            ITI_31_ADT_A13, ITI_31_ADT_A04, ITI_31_ADT_A22, ITI_31_ADT_A40, ITI_31_ADT_A14,
            ITI_31_ADT_A05, ITI_31_ADT_A32, ITI_31_ADT_A15, ITI_31_ADT_A06, ITI_31_ADT_A33);
 
-    private final List<GazelleProfile> transactionTypes;
+    private final List<ConformanceProfile> transactionTypes;
 
-    PamTransactions(GazelleProfile... transactionTypes){
+    PamTransactions(ConformanceProfile... transactionTypes){
         this.transactionTypes = Arrays.asList(transactionTypes);
     }
 
-    public List<GazelleProfile> transactionTypes() {
+    public List<ConformanceProfile> conformanceProfiles() {
         return transactionTypes;
     }
 
