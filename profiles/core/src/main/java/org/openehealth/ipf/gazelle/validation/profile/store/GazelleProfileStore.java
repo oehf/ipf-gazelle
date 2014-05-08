@@ -15,29 +15,17 @@
  */
 package org.openehealth.ipf.gazelle.validation.profile.store;
 
-import java.net.MalformedURLException;
-import java.net.URL;
-
 import ca.uhn.hl7v2.conf.store.ClasspathProfileStore;
-import ca.uhn.hl7v2.conf.store.URLProfileStore;
 
 /**
  * @author Boris Stanojevic
  */
 public class GazelleProfileStore extends ClasspathProfileStore {
 
-    private static final String DEFAULT_CLASSPATH_PREFIX = "/org/openehealth/ipf/gazelle/validation/profile/v2/";
-
+    private static final String DEFAULT_CLASSPATH_PREFIX = "/org/openehealth/ipf/gazelle/validation/profile/v2";
 
     public GazelleProfileStore() {
         super(DEFAULT_CLASSPATH_PREFIX);
     }
-
-    @Override
-    public URL getURL(String ID) throws MalformedURLException {
-        URL url = getClass().getResource(DEFAULT_CLASSPATH_PREFIX  + ID);
-        return url;
-    }
-
 
 }

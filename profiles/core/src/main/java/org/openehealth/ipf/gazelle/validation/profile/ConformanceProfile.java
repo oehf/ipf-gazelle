@@ -17,7 +17,9 @@
 package org.openehealth.ipf.gazelle.validation.profile;
 
 /**
- *
+ * Interface for ConformanceProfile enumerations. The meta data is extracted into a
+ * {@link org.openehealth.ipf.gazelle.validation.profile.ConformanceProfileInfo} instance
+ * in order to reduce code deduplication.
  */
 public interface ConformanceProfile {
 

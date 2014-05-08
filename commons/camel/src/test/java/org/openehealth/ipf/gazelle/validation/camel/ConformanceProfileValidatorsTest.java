@@ -30,7 +30,6 @@ import org.apache.commons.io.IOUtils;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.openehealth.ipf.commons.core.modules.api.ValidationException;
 import org.openehealth.ipf.gazelle.validation.profile.store.GazelleProfileStore;
 
 import static org.junit.Assert.fail;
@@ -65,7 +64,6 @@ public class ConformanceProfileValidatorsTest {
             fail();
         } catch (Exception e){
             assert e.getCause().getMessage().contains("Message validation failed");
-            assert e.getCause().getClass().isAssignableFrom(ValidationException.class);
         }
     }
 

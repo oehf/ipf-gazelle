@@ -26,7 +26,6 @@ import ca.uhn.hl7v2.validation.MessageRule;
 import org.apache.camel.Exchange;
 import org.apache.camel.Processor;
 import org.apache.commons.lang3.Validate;
-import org.openehealth.ipf.commons.core.modules.api.ValidationException;
 import org.openehealth.ipf.gazelle.validation.core.CachingGazelleProfileRule;
 import org.openehealth.ipf.gazelle.validation.profile.ConformanceProfile;
 import org.openehealth.ipf.gazelle.validation.profile.HL7v2Transactions;
@@ -118,7 +117,8 @@ public final class GazelleProfileValidators {
         }
 
         if (fatalExceptions.size() > 0) {
-            throw new ValidationException("Message validation failed", fatalExceptions);
+            throw new RuntimeException("Message validation failed");
+            // throw new ValidationException("Message validation failed", fatalExceptions);
         }
     }
 
