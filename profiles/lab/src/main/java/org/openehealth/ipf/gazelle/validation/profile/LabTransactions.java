@@ -23,7 +23,7 @@ import static org.openehealth.ipf.gazelle.validation.profile.LabProfile.*;
 /**
  * @author Boris Stanojevic
  */
-public enum LabTransactions implements HL7v2InteractionId {
+public enum LabTransactions implements HL7v2Transactions {
 
     LAB1(LAB_1_OML_O21_OP, LAB_1_OML_O33_OP, LAB_1_OML_O35_OP, LAB_1_ORL_O34_OF, LAB_1_ORL_O36_OF,
             LAB_1_ORL_O22_OF, LAB_1_OML_O21_OF, LAB_1_OML_O33_OF, LAB_1_OML_O35_OF, LAB_1_ORL_O22_OP,

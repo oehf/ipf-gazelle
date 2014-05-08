@@ -23,7 +23,7 @@ import static org.openehealth.ipf.gazelle.validation.profile.PcdProfile.*;
 /**
  * @author Boris Stanojevic
  */
-public enum PcdTransactions implements HL7v2InteractionId {
+public enum PcdTransactions implements HL7v2Transactions {
 
     PCD1  (PCD_1_ACK_R01_DEV_OBS_CONSUMER, PCD_1_ACK_R01_DEV_OBS_FILTER,
            PCD_1_ORU_R01_DEV_OBS_FILTER, PCD_1_ORU_R01_DEV_OBS_REPORTER),

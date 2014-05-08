@@ -23,7 +23,7 @@ import static org.openehealth.ipf.gazelle.validation.profile.ItiPixPdqProfile.*;
 /**
  * @author Boris Stanojevic
  */
-public enum PixPdqTransactions implements HL7v2InteractionId {
+public enum PixPdqTransactions implements HL7v2Transactions {
 
     ITI8  (ITI_8_ACK_A01, ITI_8_ACK_A04, ITI_8_ACK_A05, ITI_8_ACK_A08, ITI_8_ACK_A40,
            ITI_8_ADT_A08, ITI_8_ADT_A01, ITI_8_ADT_A04, ITI_8_ADT_A40, ITI_8_ADT_A05, ITI_8_ACK),

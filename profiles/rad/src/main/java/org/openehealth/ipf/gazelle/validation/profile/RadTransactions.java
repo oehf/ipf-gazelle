@@ -23,7 +23,7 @@ import static org.openehealth.ipf.gazelle.validation.profile.RadProfile.*;
 /**
  * @author Boris Stanojevic
  */
-public enum RadTransactions implements HL7v2InteractionId {
+public enum RadTransactions implements HL7v2Transactions {
 
     RAD1  (RAD_1_ADT_A01, RAD_1_ADT_A04, RAD_1_ADT_A05, RAD_1_ADT_A11, RAD_1_ADT_A38),
     RAD2  (RAD_2_ORM_O01_NW_V25, RAD_2_ORM_O01_CA_V25, RAD_2_ORM_O01_NW_V231,

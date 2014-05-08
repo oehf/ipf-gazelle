@@ -23,7 +23,7 @@ import ca.uhn.hl7v2.model.Message;
 import org.junit.Test;
 import org.openehealth.ipf.gazelle.validation.core.util.MessageUtils;
 import org.openehealth.ipf.gazelle.validation.profile.ConformanceProfile;
-import org.openehealth.ipf.gazelle.validation.profile.HL7v2InteractionId;
+import org.openehealth.ipf.gazelle.validation.profile.HL7v2Transactions;
 import org.openehealth.ipf.gazelle.validation.profile.ItiPixPdqProfile;
 import org.openehealth.ipf.gazelle.validation.profile.PixPdqTransactions;
 
@@ -34,7 +34,7 @@ public class HL7v2IHETransactionTest extends AbstractGazelleProfileValidatorTest
 
     @Test
     public void testIHETransaction(){
-        HL7v2InteractionId iheTransaction = PixPdqTransactions.ITI8;
+        HL7v2Transactions iheTransaction = PixPdqTransactions.ITI8;
         List<ConformanceProfile> profiles = iheTransaction.conformanceProfiles();
 
         assert profiles.size() == 11;

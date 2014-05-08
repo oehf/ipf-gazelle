@@ -30,7 +30,7 @@ import ca.uhn.hl7v2.validation.ValidationException;
 import ca.uhn.hl7v2.validation.impl.AbstractMessageRule;
 import org.openehealth.ipf.gazelle.validation.core.stub.HL7V2XConformanceProfile;
 import org.openehealth.ipf.gazelle.validation.profile.ConformanceProfile;
-import org.openehealth.ipf.gazelle.validation.profile.HL7v2InteractionId;
+import org.openehealth.ipf.gazelle.validation.profile.HL7v2Transactions;
 
 import static org.openehealth.ipf.gazelle.validation.core.util.MessageUtils.guessGazelleProfile;
 
@@ -59,7 +59,7 @@ public class CachingGazelleProfileRule extends AbstractMessageRule {
         }
     }
 
-    private HL7v2InteractionId iheTransaction;
+    private HL7v2Transactions iheTransaction;
     private ConformanceProfile profile;
 
     /**
@@ -68,7 +68,7 @@ public class CachingGazelleProfileRule extends AbstractMessageRule {
      *
      * @param iheTransaction IHETransaction enum
      */
-    public CachingGazelleProfileRule(HL7v2InteractionId iheTransaction) {
+    public CachingGazelleProfileRule(HL7v2Transactions iheTransaction) {
         this.iheTransaction = iheTransaction;
     }
 
@@ -85,8 +85,8 @@ public class CachingGazelleProfileRule extends AbstractMessageRule {
      * Obtains a {@link org.openehealth.ipf.gazelle.validation.core.GazelleProfileRule} and checks the
      * message against it.
      *
-     * @param message
-     * @return
+     * @param message message to be validated
+     * @return an (potentially empty) array of profile violations
      */
     @Override
     public ValidationException[] apply(Message message) {

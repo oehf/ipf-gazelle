@@ -17,7 +17,7 @@
 package org.openehealth.ipf.gazelle.validation.profile;
 
 /**
- *
+ * Information about the conformance profile and the messages it is targeted at
  */
 public interface ConformanceProfileInfo {
 

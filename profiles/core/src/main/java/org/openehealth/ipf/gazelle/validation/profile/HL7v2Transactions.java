@@ -20,8 +20,18 @@ import java.util.List;
 
 import org.openehealth.ipf.commons.ihe.core.InteractionId;
 
-// TODO marry/reuse/replace with IpfInteractionId (already an enum)
-public interface HL7v2InteractionId extends InteractionId {
+
+/**
+ * Holder for conformance profiles that all belong to a certain group. An example for such a group is
+ * an IHE transaction, but there is no restriction to IHE at this point.
+ *
+ * Implementations of this interface return a dedicated set of conformance profiles that ultimately
+ * carry an ID reference to the profile definition and information about the (set of) messages the
+ * profile applies to. T
+ *
+ * There is a number of enum implementations for IHE transactions in dedicated modules
+ */
+public interface HL7v2Transactions {
 
     public List<ConformanceProfile> conformanceProfiles();
 

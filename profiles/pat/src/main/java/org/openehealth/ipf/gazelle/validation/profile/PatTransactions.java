@@ -23,7 +23,7 @@ import static org.openehealth.ipf.gazelle.validation.profile.PatProfile.*;
 /**
  * @author Boris Stanojevic
  */
-public enum PatTransactions implements HL7v2InteractionId {
+public enum PatTransactions implements HL7v2Transactions {
 
 
     PAT10(PAT_10_ORU_R01);

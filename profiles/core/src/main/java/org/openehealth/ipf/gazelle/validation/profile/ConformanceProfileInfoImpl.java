@@ -17,7 +17,7 @@
 package org.openehealth.ipf.gazelle.validation.profile;
 
 /**
- *
+ * Default implementation of a ConformanceProfileInfo
  */
 public class ConformanceProfileInfoImpl implements ConformanceProfileInfo {
 
@@ -26,18 +26,38 @@ public class ConformanceProfileInfoImpl implements ConformanceProfileInfo {
     private final String triggerEvent;
     private final String hl7version;
 
-    ConformanceProfileInfoImpl(String profileId, String transaction, String triggerEvent, String hl7version){
+    ConformanceProfileInfoImpl(String profileId, String transaction, String triggerEvent, String hl7version) {
         this.profileId = profileId;
         this.triggerEvent = triggerEvent;
         this.transaction = transaction;
         this.hl7version = hl7version;
     }
 
-    public String profileId()    { return profileId; }
-    public String transaction()  { return transaction; }
-    public String triggerEvent() { return triggerEvent; }
-    public String type()         { return triggerEvent.split("\\^")[0]; }
-    public String event()        { return triggerEvent.split("\\^").length > 1 ? triggerEvent.split("\\^")[1]:""; }
-    public String structure()    { return triggerEvent.split("\\^").length > 2 ? triggerEvent.split("\\^")[2]:""; }
-    public String hl7version()   { return hl7version; }
+    public String profileId() {
+        return profileId;
+    }
+
+    public String transaction() {
+        return transaction;
+    }
+
+    public String triggerEvent() {
+        return triggerEvent;
+    }
+
+    public String type() {
+        return triggerEvent.split("\\^")[0];
+    }
+
+    public String event() {
+        return triggerEvent.split("\\^").length > 1 ? triggerEvent.split("\\^")[1] : "";
+    }
+
+    public String structure() {
+        return triggerEvent.split("\\^").length > 2 ? triggerEvent.split("\\^")[2] : "";
+    }
+
+    public String hl7version() {
+        return hl7version;
+    }
 }

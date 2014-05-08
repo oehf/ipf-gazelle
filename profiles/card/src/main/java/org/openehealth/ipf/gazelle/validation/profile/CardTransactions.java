@@ -23,7 +23,7 @@ import static org.openehealth.ipf.gazelle.validation.profile.CardProfile.*;
 /**
  * @author Boris Stanojevic
  */
-public enum CardTransactions implements HL7v2InteractionId {
+public enum CardTransactions implements HL7v2Transactions {
 
     CARD7 (CARD_7_MDM_T02_RC, CARD_7_MDM_T10_RC, CARD_7_MDM_T02_RM, CARD_7_MDM_T10_RM, CARD_7_ACK_ALL),
     CARD8 (CARD_8_MDM_T01, CARD_8_MDM_T09, CARD_8_ACK_T01, CARD_8_ACK_T09);

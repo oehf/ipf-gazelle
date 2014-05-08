@@ -23,7 +23,7 @@ import static org.openehealth.ipf.gazelle.validation.profile.PharmhProfile.*;
 /**
  * @author Boris Stanojevic
  */
-public enum PharmhTransactions implements HL7v2InteractionId {
+public enum PharmhTransactions implements HL7v2Transactions {
 
 
     PHARMH1 (PHARM_H1_ORP_O10, PHARM_H1_OMP_O09),

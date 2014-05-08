@@ -23,7 +23,7 @@ import ca.uhn.hl7v2.util.Terser;
 import ca.uhn.hl7v2.validation.ValidationException;
 import org.openehealth.ipf.gazelle.validation.profile.ConformanceProfile;
 import org.openehealth.ipf.gazelle.validation.profile.ConformanceProfileInfo;
-import org.openehealth.ipf.gazelle.validation.profile.HL7v2InteractionId;
+import org.openehealth.ipf.gazelle.validation.profile.HL7v2Transactions;
 
 import static org.openehealth.ipf.gazelle.validation.core.util.ProfileAssertions.profileViolatedWhen;
 
@@ -77,7 +77,7 @@ public abstract class MessageUtils {
      * @return GazelleProfile that matches message type, event, structure & version
      * @throws HL7Exception
      */
-    public static ConformanceProfile guessGazelleProfile(HL7v2InteractionId iheTransaction, Message message)
+    public static ConformanceProfile guessGazelleProfile(HL7v2Transactions iheTransaction, Message message)
             throws HL7Exception {
         Terser terser = new Terser(message);
         for (ConformanceProfile conformanceProfile : iheTransaction.conformanceProfiles()) {

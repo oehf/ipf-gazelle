@@ -23,7 +23,7 @@ import static org.openehealth.ipf.gazelle.validation.profile.ItiPamProfile.*;
 /**
  * @author Boris Stanojevic
  */
-public enum PamTransactions implements HL7v2InteractionId {
+public enum PamTransactions implements HL7v2Transactions {
 
     ITI30 (ITI_30_ACK, ITI_30_ADT_A24, ITI_30_ADT_A28, ITI_30_ADT_A37,
            ITI_30_ADT_A31, ITI_30_ADT_A40, ITI_30_ADT_A47),

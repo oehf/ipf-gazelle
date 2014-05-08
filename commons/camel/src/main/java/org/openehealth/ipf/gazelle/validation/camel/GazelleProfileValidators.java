@@ -29,7 +29,7 @@ import org.apache.commons.lang3.Validate;
 import org.openehealth.ipf.commons.core.modules.api.ValidationException;
 import org.openehealth.ipf.gazelle.validation.core.CachingGazelleProfileRule;
 import org.openehealth.ipf.gazelle.validation.profile.ConformanceProfile;
-import org.openehealth.ipf.gazelle.validation.profile.HL7v2InteractionId;
+import org.openehealth.ipf.gazelle.validation.profile.HL7v2Transactions;
 
 /**
  * Factory for manually triggering a validation of a message depending on a profile or a defined
@@ -47,6 +47,22 @@ public final class GazelleProfileValidators {
     private GazelleProfileValidators() {
     }
 
+    /**
+     * Returns a validating Camel processor for a message in a IHE transaction. The actual profile
+     * to be used is guessed from the message header
+     *
+     * @return a validating Camel processor for a message in a IHE transaction
+     */
+    public static Processor gazelleValidatingProcessor() {
+        return new Processor() {
+
+            @Override
+            public void process(Exchange exchange) throws Exception {
+                CachingGazelleProfileRule validator = new CachingGazelleProfileRule(exchange.getIn().getHeader("BKLORG", HL7v2Transactions.class));
+                doValidate(exchange, validator);
+            }
+        };
+    }
 
     /**
      * Returns a validating Camel processor for a dedicated profile
@@ -68,12 +84,12 @@ public final class GazelleProfileValidators {
 
     /**
      * Returns a validating Camel processor for a message in a IHE transaction. The actual profile
-     * to be used is guessed from the message header
+     * to be used is guessed from the message's event type and version
      *
      * @param iheTransaction IHE transaktion
      * @return a validating Camel processor for a message in a IHE transaction
      */
-    public static Processor gazelleValidatingProcessor(final HL7v2InteractionId iheTransaction) {
+    public static Processor gazelleValidatingProcessor(final HL7v2Transactions iheTransaction) {
         return new Processor() {
 
             private CachingGazelleProfileRule validator = new CachingGazelleProfileRule(iheTransaction);
