@@ -91,7 +91,7 @@ public abstract class MessageUtils {
     private static boolean matches(ConformanceProfileInfo conformanceProfileInfo, Terser terser) throws HL7Exception {
         return conformanceProfileInfo.type().equals(messageType(terser))
                 && conformanceProfileInfo.event().equals(triggerEvent(terser))
-                && conformanceProfileInfo.structure().equals(messageStructure(terser))
+                // && conformanceProfileInfo.structure().equals(messageStructure(terser))
                 && conformanceProfileInfo.hl7version().equals(messageVersion(terser));
     }
 
@@ -100,7 +100,8 @@ public abstract class MessageUtils {
     }
 
     public static void checkMSHEventField(String profileValue, Terser terser, List<ValidationException> violations) {
-        checkMSHField("/MSH-9-2", profileValue, terser, ProfileValidationMessage.WRONG_MSH_EVENT_FIELD, violations);
+        if (!"ALL".equals(profileValue))
+            checkMSHField("/MSH-9-2", profileValue, terser, ProfileValidationMessage.WRONG_MSH_EVENT_FIELD, violations);
     }
 
     public static void checkMSHStructureField(String profileValue, Terser terser, List<ValidationException> violations) {

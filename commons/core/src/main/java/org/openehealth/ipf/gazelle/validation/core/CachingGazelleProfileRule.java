@@ -92,10 +92,16 @@ public class CachingGazelleProfileRule extends AbstractMessageRule {
     public ValidationException[] apply(Message message) {
         try {
             ConformanceProfile profile = this.profile == null ? guessGazelleProfile(iheTransaction, message) : this.profile;
+            if (profile == null) {
+                return failed("No matching profile could be loaded for message of type " + message.getClass().getName());
+            }
             GazelleProfileRule rule = parseProfile(message.getParser().getHapiContext(), profile.profileInfo().profileId());
+            if (rule == null) {
+                return failed("Cannot parse conformance profile " + profile.profileInfo().profileId() + " for message of type " + message.getClass().getName());
+            }
             return rule.apply(message);
         } catch (Exception e) {
-            return failed("No matching profile could be loaded for message of type " + message.getClass().getName());
+            return failed(e);
         }
     }
 

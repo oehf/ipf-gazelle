@@ -61,14 +61,14 @@ class UsageInfo {
     UsageInfo(SegmentType.Field.Component component) {
         usage = component.getUsage();
         name = component.getName();
-        length = component.getLength().intValue();
+        length = component.getLength() != null ? component.getLength().intValue() : 255;
         constantValue = component.getConstantValue();
     }
 
     UsageInfo(SegmentType.Field.Component.SubComponent subcomponent) {
         usage = subcomponent.getUsage();
         name = subcomponent.getName();
-        length = subcomponent.getLength().intValue();
+        length = subcomponent.getLength() != null ? subcomponent.getLength().intValue() : 255;
         constantValue = subcomponent.getConstantValue();
     }
 

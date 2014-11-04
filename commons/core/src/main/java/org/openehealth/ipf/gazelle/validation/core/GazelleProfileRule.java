@@ -80,7 +80,7 @@ class GazelleProfileRule extends AbstractMessageRule {
             Terser terser = new Terser(message);
             checkMSHTypeField(staticDef.getMsgType(), terser, violations);
             checkMSHEventField(staticDef.getEventType(), terser, violations);
-            checkMSHStructureField(staticDef.getMsgStructID(), terser, violations);
+            // checkMSHStructureField(staticDef.getMsgStructID(), terser, violations);
             checkMSHVersionField(profile.getHL7Version(), terser, violations);
             violations.addAll(testGroup(message, staticDef.getSegmentsAndSegGroups()));
         }

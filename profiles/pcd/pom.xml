@@ -24,6 +24,9 @@
 
     <build>
         <plugins>
+		
+			<!-- Profiles are buggy as they require MSH-7 to be TS, but the standard and the PCD spec says DTM -->
+			<!--
             <plugin>
                 <groupId>com.googlecode.maven-download-plugin</groupId>
                 <artifactId>maven-download-plugin</artifactId>
@@ -103,11 +106,17 @@
                     </execution>
                 </executions>
             </plugin>
+			-->
         </plugins>
         <resources>
+		<!--
             <resource>
                 <directory>target/gazelle-profiles</directory>
             </resource>
+		-->
+            <resource>
+                <directory>src/main/resources</directory>
+            </resource>		
             <resource>
                 <directory>.</directory>
                 <includes>
