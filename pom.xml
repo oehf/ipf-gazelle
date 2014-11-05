@@ -36,7 +36,6 @@
              instead of accessing them from the cache -->
         <skipCache>false</skipCache>
 
-        <camel-version>2.14.0</camel-version>
         <commons-collections-version>3.2.1</commons-collections-version>
         <commons-io-version>2.4</commons-io-version>
         <hapi-version>2.2</hapi-version>
