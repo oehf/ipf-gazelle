@@ -18,8 +18,6 @@ package org.openehealth.ipf.gazelle.validation.profile;
 
 import java.util.List;
 
-import org.openehealth.ipf.commons.ihe.core.InteractionId;
-
 
 /**
  * Holder for conformance profiles that all belong to a certain group. An example for such a group is

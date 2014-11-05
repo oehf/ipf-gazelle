@@ -27,8 +27,7 @@
         <plugins>
             <plugin>
                 <groupId>com.googlecode.maven-download-plugin</groupId>
-                <artifactId>maven-download-plugin</artifactId>
-                <version>1.1.0</version>
+                <artifactId>download-maven-plugin</artifactId>
                 <executions>
                     <execution>
                         <id>download-23</id>
@@ -40,6 +39,7 @@
                             <outputDirectory>${gazelle-profile-outputdir}</outputDirectory>
                             <outputFileName>${gazelle-profile-oid-prefix}23.xml</outputFileName>
                             <url>${gazelle-profile-url-prefix}23</url>
+                            <skipCache>${skipCache}</skipCache>
                         </configuration>
                     </execution>
                     <execution>
@@ -52,6 +52,7 @@
                             <outputDirectory>${gazelle-profile-outputdir}</outputDirectory>
                             <outputFileName>${gazelle-profile-oid-prefix}24.xml</outputFileName>
                             <url>${gazelle-profile-url-prefix}24</url>
+                            <skipCache>${skipCache}</skipCache>
                         </configuration>
                     </execution>
                     <execution>
@@ -64,6 +65,7 @@
                             <outputDirectory>${gazelle-profile-outputdir}</outputDirectory>
                             <outputFileName>${gazelle-profile-oid-prefix}25.xml</outputFileName>
                             <url>${gazelle-profile-url-prefix}25</url>
+                            <skipCache>${skipCache}</skipCache>
                         </configuration>
                     </execution>
                     <execution>
@@ -76,6 +78,7 @@
                             <outputDirectory>${gazelle-profile-outputdir}</outputDirectory>
                             <outputFileName>${gazelle-profile-oid-prefix}26.xml</outputFileName>
                             <url>${gazelle-profile-url-prefix}26</url>
+                            <skipCache>${skipCache}</skipCache>
                         </configuration>
                     </execution>
                     <execution>
@@ -88,6 +91,7 @@
                             <outputDirectory>${gazelle-profile-outputdir}</outputDirectory>
                             <outputFileName>${gazelle-profile-oid-prefix}27.xml</outputFileName>
                             <url>${gazelle-profile-url-prefix}27</url>
+                            <skipCache>${skipCache}</skipCache>
                         </configuration>
                     </execution>
                     <execution>
@@ -100,6 +104,7 @@
                             <outputDirectory>${gazelle-profile-outputdir}</outputDirectory>
                             <outputFileName>${gazelle-profile-oid-prefix}28.xml</outputFileName>
                             <url>${gazelle-profile-url-prefix}28</url>
+                            <skipCache>${skipCache}</skipCache>
                         </configuration>
                     </execution>
                     <execution>
@@ -112,6 +117,7 @@
                             <outputDirectory>${gazelle-profile-outputdir}</outputDirectory>
                             <outputFileName>${gazelle-profile-oid-prefix}29.xml</outputFileName>
                             <url>${gazelle-profile-url-prefix}29</url>
+                            <skipCache>${skipCache}</skipCache>
                         </configuration>
                     </execution>
                     <execution>
@@ -124,6 +130,7 @@
                             <outputDirectory>${gazelle-profile-outputdir}</outputDirectory>
                             <outputFileName>${gazelle-profile-oid-prefix}30.xml</outputFileName>
                             <url>${gazelle-profile-url-prefix}30</url>
+                            <skipCache>${skipCache}</skipCache>
                         </configuration>
                     </execution>
                     <execution>
@@ -136,6 +143,7 @@
                             <outputDirectory>${gazelle-profile-outputdir}</outputDirectory>
                             <outputFileName>${gazelle-profile-oid-prefix}31.xml</outputFileName>
                             <url>${gazelle-profile-url-prefix}31</url>
+                            <skipCache>${skipCache}</skipCache>
                         </configuration>
                     </execution>
                     <execution>
@@ -148,6 +156,7 @@
                             <outputDirectory>${gazelle-profile-outputdir}</outputDirectory>
                             <outputFileName>${gazelle-profile-oid-prefix}32.xml</outputFileName>
                             <url>${gazelle-profile-url-prefix}32</url>
+                            <skipCache>${skipCache}</skipCache>
                         </configuration>
                     </execution>
                     <execution>
@@ -160,6 +169,7 @@
                             <outputDirectory>${gazelle-profile-outputdir}</outputDirectory>
                             <outputFileName>${gazelle-profile-oid-prefix}33.xml</outputFileName>
                             <url>${gazelle-profile-url-prefix}33</url>
+                            <skipCache>${skipCache}</skipCache>
                         </configuration>
                     </execution>
                     <execution>
@@ -172,6 +182,7 @@
                             <outputDirectory>${gazelle-profile-outputdir}</outputDirectory>
                             <outputFileName>${gazelle-profile-oid-prefix}34.xml</outputFileName>
                             <url>${gazelle-profile-url-prefix}34</url>
+                            <skipCache>${skipCache}</skipCache>
                         </configuration>
                     </execution>
                     <execution>
@@ -184,6 +195,7 @@
                             <outputDirectory>${gazelle-profile-outputdir}</outputDirectory>
                             <outputFileName>${gazelle-profile-oid-prefix}35.xml</outputFileName>
                             <url>${gazelle-profile-url-prefix}35</url>
+                            <skipCache>${skipCache}</skipCache>
                         </configuration>
                     </execution>
                     <execution>
@@ -196,6 +208,7 @@
                             <outputDirectory>${gazelle-profile-outputdir}</outputDirectory>
                             <outputFileName>${gazelle-profile-oid-prefix}42.xml</outputFileName>
                             <url>${gazelle-profile-url-prefix}42</url>
+                            <skipCache>${skipCache}</skipCache>
                         </configuration>
                     </execution>
                     <execution>
@@ -208,6 +221,7 @@
                             <outputDirectory>${gazelle-profile-outputdir}</outputDirectory>
                             <outputFileName>${gazelle-profile-oid-prefix}43.xml</outputFileName>
                             <url>${gazelle-profile-url-prefix}43</url>
+                            <skipCache>${skipCache}</skipCache>
                         </configuration>
                     </execution>
                     <execution>
@@ -220,6 +234,7 @@
                             <outputDirectory>${gazelle-profile-outputdir}</outputDirectory>
                             <outputFileName>${gazelle-profile-oid-prefix}44.xml</outputFileName>
                             <url>${gazelle-profile-url-prefix}44</url>
+                            <skipCache>${skipCache}</skipCache>
                         </configuration>
                     </execution>
                     <execution>
@@ -232,6 +247,7 @@
                             <outputDirectory>${gazelle-profile-outputdir}</outputDirectory>
                             <outputFileName>${gazelle-profile-oid-prefix}92.xml</outputFileName>
                             <url>${gazelle-profile-url-prefix}92</url>
+                            <skipCache>${skipCache}</skipCache>
                         </configuration>
                     </execution>
                     <execution>
@@ -244,6 +260,7 @@
                             <outputDirectory>${gazelle-profile-outputdir}</outputDirectory>
                             <outputFileName>${gazelle-profile-oid-prefix}147.xml</outputFileName>
                             <url>${gazelle-profile-url-prefix}147</url>
+                            <skipCache>${skipCache}</skipCache>
                         </configuration>
                     </execution>
                     <execution>
@@ -256,6 +273,7 @@
                             <outputDirectory>${gazelle-profile-outputdir}</outputDirectory>
                             <outputFileName>${gazelle-profile-oid-prefix}148.xml</outputFileName>
                             <url>${gazelle-profile-url-prefix}148</url>
+                            <skipCache>${skipCache}</skipCache>
                         </configuration>
                     </execution>
                     <execution>
@@ -268,6 +286,7 @@
                             <outputDirectory>${gazelle-profile-outputdir}</outputDirectory>
                             <outputFileName>${gazelle-profile-oid-prefix}149.xml</outputFileName>
                             <url>${gazelle-profile-url-prefix}149</url>
+                            <skipCache>${skipCache}</skipCache>
                         </configuration>
                     </execution>
                     <execution>
@@ -280,6 +299,7 @@
                             <outputDirectory>${gazelle-profile-outputdir}</outputDirectory>
                             <outputFileName>${gazelle-profile-oid-prefix}15.xml</outputFileName>
                             <url>${gazelle-profile-url-prefix}15</url>
+                            <skipCache>${skipCache}</skipCache>
                         </configuration>
                     </execution>
                     <execution>
@@ -292,6 +312,7 @@
                             <outputDirectory>${gazelle-profile-outputdir}</outputDirectory>
                             <outputFileName>${gazelle-profile-oid-prefix}150.xml</outputFileName>
                             <url>${gazelle-profile-url-prefix}150</url>
+                            <skipCache>${skipCache}</skipCache>
                         </configuration>
                     </execution>
                     <execution>
@@ -304,6 +325,7 @@
                             <outputDirectory>${gazelle-profile-outputdir}</outputDirectory>
                             <outputFileName>${gazelle-profile-oid-prefix}151.xml</outputFileName>
                             <url>${gazelle-profile-url-prefix}151</url>
+                            <skipCache>${skipCache}</skipCache>
                         </configuration>
                     </execution>
                     <execution>
@@ -316,6 +338,7 @@
                             <outputDirectory>${gazelle-profile-outputdir}</outputDirectory>
                             <outputFileName>${gazelle-profile-oid-prefix}192.xml</outputFileName>
                             <url>${gazelle-profile-url-prefix}192</url>
+                            <skipCache>${skipCache}</skipCache>
                         </configuration>
                     </execution>
                     <execution>
@@ -328,6 +351,7 @@
                             <outputDirectory>${gazelle-profile-outputdir}</outputDirectory>
                             <outputFileName>${gazelle-profile-oid-prefix}193.xml</outputFileName>
                             <url>${gazelle-profile-url-prefix}193</url>
+                            <skipCache>${skipCache}</skipCache>
                         </configuration>
                     </execution>
                     <execution>
@@ -340,6 +364,7 @@
                             <outputDirectory>${gazelle-profile-outputdir}</outputDirectory>
                             <outputFileName>${gazelle-profile-oid-prefix}213.xml</outputFileName>
                             <url>${gazelle-profile-url-prefix}213</url>
+                            <skipCache>${skipCache}</skipCache>
                         </configuration>
                     </execution>
                     <execution>
@@ -352,6 +377,7 @@
                             <outputDirectory>${gazelle-profile-outputdir}</outputDirectory>
                             <outputFileName>${gazelle-profile-oid-prefix}214.xml</outputFileName>
                             <url>${gazelle-profile-url-prefix}214</url>
+                            <skipCache>${skipCache}</skipCache>
                         </configuration>
                     </execution>
                 </executions>

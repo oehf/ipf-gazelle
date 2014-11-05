@@ -28,15 +28,19 @@
 
         <assembly-plugin-version>2.4</assembly-plugin-version>
         <bundle-plugin-version>2.0.1</bundle-plugin-version>
-        <download-plugin-version>0.1</download-plugin-version>
+        <download-plugin-version>1.2.0</download-plugin-version>
         <jar-plugin-version>2.4</jar-plugin-version>
         <sources-plugin-version>2.2.1</sources-plugin-version>
 
-        <camel-version>2.13.0</camel-version>
+        <!-- You can set this to true e.g. in CI builds to force downloading the files from the source
+             instead of accessing them from the cache -->
+        <skipCache>false</skipCache>
+
+        <camel-version>2.14.0</camel-version>
         <commons-collections-version>3.2.1</commons-collections-version>
         <commons-io-version>2.4</commons-io-version>
         <hapi-version>2.2</hapi-version>
-        <ipf-version>2.6.3</ipf-version>
+        <slf4j-version>1.7.7</slf4j-version>
         <junit-version>4.11</junit-version>
     </properties>
 
@@ -84,31 +88,6 @@
     <dependencyManagement>
         <dependencies>
             <dependency>
-                <groupId>org.openehealth.ipf.commons</groupId>
-                <artifactId>ipf-commons-core</artifactId>
-                <version>${ipf-version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.openehealth.ipf.commons</groupId>
-                <artifactId>ipf-commons-ihe-core</artifactId>
-                <version>${ipf-version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.openehealth.ipf.modules</groupId>
-                <artifactId>ipf-modules-hl7</artifactId>
-                <version>${ipf-version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.openehealth.ipf.platform-camel</groupId>
-                <artifactId>ipf-platform-camel-ihe-mllp</artifactId>
-                <version>${ipf-version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.apache.camel</groupId>
-                <artifactId>camel-core</artifactId>
-                <version>${camel-version}</version>
-            </dependency>
-            <dependency>
                 <groupId>ca.uhn.hapi</groupId>
                 <artifactId>hapi-base</artifactId>
                 <version>${hapi-version}</version>
@@ -151,7 +130,7 @@
             <dependency>
                 <groupId>org.slf4j</groupId>
                 <artifactId>slf4j-simple</artifactId>
-                <version>1.7.5</version>
+                <version>${slf4j-version}</version>
                 <scope>test</scope>
             </dependency>
             <dependency>
@@ -171,8 +150,8 @@
                     <version>${assembly-plugin-version}</version>
                 </plugin>
                 <plugin>
-                    <groupId>org.openehealth.ipf.labs.maven</groupId>
-                    <artifactId>maven-download-plugin</artifactId>
+                    <groupId>com.googlecode.maven-download-plugin</groupId>
+                    <artifactId>download-maven-plugin</artifactId>
                     <version>${download-plugin-version}</version>
                 </plugin>
                 <plugin>

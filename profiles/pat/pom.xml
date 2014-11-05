@@ -26,8 +26,7 @@
         <plugins>
             <plugin>
                 <groupId>com.googlecode.maven-download-plugin</groupId>
-                <artifactId>maven-download-plugin</artifactId>
-                <version>1.1.0</version>
+                <artifactId>download-maven-plugin</artifactId>
                 <executions>
                     <execution>
                         <id>download-152</id>
@@ -39,6 +38,7 @@
                             <outputDirectory>${gazelle-profile-outputdir}</outputDirectory>
                             <outputFileName>${gazelle-profile-oid-prefix}152.xml</outputFileName>
                             <url>${gazelle-profile-url-prefix}152</url>
+                            <skipCache>${skipCache}</skipCache>
                         </configuration>
                     </execution>
               </executions>
