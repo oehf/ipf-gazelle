@@ -28,6 +28,7 @@
 
         <assembly-plugin-version>2.4</assembly-plugin-version>
         <bundle-plugin-version>2.0.1</bundle-plugin-version>
+        <compiler-plugin-version>3.2</compiler-plugin-version>
         <download-plugin-version>1.2.0</download-plugin-version>
         <jar-plugin-version>2.4</jar-plugin-version>
         <sources-plugin-version>2.2.1</sources-plugin-version>
@@ -248,6 +249,17 @@
                         </goals>
                     </execution>
                 </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>${compiler-plugin-version}</version>
+                <configuration>
+                    <source>1.7</source>
+                    <target>1.7</target>
+                    <fork>true</fork>
+                    <verbose>false</verbose>
+                </configuration>
             </plugin>
             <plugin>
                 <artifactId>maven-jar-plugin</artifactId>

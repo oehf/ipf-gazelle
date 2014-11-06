@@ -114,7 +114,7 @@ public abstract class MessageUtils {
 
     private static void checkMSHField(String fieldNo, String profileValue, Terser terser,
                                       ProfileValidationMessage validationMessage, List<ValidationException> violations) {
-        String mshValue = null;
+        String mshValue;
         try {
             mshValue = mshField(fieldNo, terser);
             profileViolatedWhen(mshValue == null || !mshValue.equals(profileValue), violations,

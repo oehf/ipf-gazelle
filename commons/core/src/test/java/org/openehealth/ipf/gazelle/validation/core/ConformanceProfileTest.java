@@ -18,7 +18,6 @@ package org.openehealth.ipf.gazelle.validation.core;
 
 import org.junit.Test;
 import org.openehealth.ipf.gazelle.validation.profile.CardProfile;
-import org.openehealth.ipf.gazelle.validation.profile.ConformanceProfile;
 import org.openehealth.ipf.gazelle.validation.profile.ConformanceProfileInfo;
 import org.openehealth.ipf.gazelle.validation.profile.RadProfile;
 

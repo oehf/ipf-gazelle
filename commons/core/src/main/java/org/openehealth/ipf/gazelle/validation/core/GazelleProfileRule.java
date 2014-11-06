@@ -352,7 +352,6 @@ class GazelleProfileRule extends AbstractMessageRule {
      *
      * @param encoded the pipe-encoded message element
      * @param usage   the usage code (e.g. "CE")
-     * @return null if there is no problem, an HL7Exception otherwise
      */
     protected void testUsage(List<ValidationException> exList, String encoded, UsageInfo usage) {
         if (usage.required()) {
