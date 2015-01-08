@@ -1,12 +1,12 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation=" http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     
     <modelVersion>4.0.0</modelVersion>
-    <artifactId>gazelle-validation-profiles-pcd</artifactId>
-    <name>gazelle-validation-profiles-pcd</name>
+    <artifactId>ipf-gazelle-validation-profiles-pcd</artifactId>
+    <name>ipf-gazelle-validation-profiles-pcd</name>
 
     <parent>
         <groupId>org.openehealth.ipf.gazelle</groupId>
-        <artifactId>gazelle-validation-profiles</artifactId>
+        <artifactId>ipf-gazelle-validation-profiles</artifactId>
         <version>1.1-SNAPSHOT</version>
     </parent>
 
@@ -17,16 +17,16 @@
     <dependencies>
         <dependency>
             <groupId>org.openehealth.ipf.gazelle</groupId>
-            <artifactId>gazelle-validation-profiles-core</artifactId>
+            <artifactId>ipf-gazelle-validation-profiles-core</artifactId>
             <version>${project.version}</version>
         </dependency>
     </dependencies>
 
     <build>
         <plugins>
-		
-			<!-- Profiles are buggy as they require MSH-7 to be TS, but the standard and the PCD spec says DTM -->
-			<!--
+
+            <!-- Profiles are buggy as they require MSH-7 to be TS, but the standard and the PCD spec says DTM -->
+            <!--
             <plugin>
                 <groupId>com.googlecode.maven-download-plugin</groupId>
                 <artifactId>download-maven-plugin</artifactId>
@@ -111,14 +111,14 @@
                     </execution>
                 </executions>
             </plugin>
-			-->
+            -->
         </plugins>
         <resources>
-		<!--
+        <!--
             <resource>
                 <directory>target/gazelle-profiles</directory>
             </resource>
-		-->
+        -->
             <resource>
                 <directory>src/main/resources</directory>
             </resource>		

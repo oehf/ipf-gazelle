@@ -1,14 +1,14 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation=" http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     
     <modelVersion>4.0.0</modelVersion>
-    <artifactId>gazelle-validation-commons</artifactId>
+    <artifactId>ipf-gazelle-validation-commons</artifactId>
     <version>1.1-SNAPSHOT</version>
-    <name>gazelle-validation-commons</name>
+    <name>ipf-gazelle-validation-commons</name>
     <packaging>pom</packaging>
 
     <parent>
         <groupId>org.openehealth.ipf.gazelle</groupId>
-        <artifactId>gazelle-validation</artifactId>
+        <artifactId>ipf-gazelle-validation</artifactId>
         <version>1.1-SNAPSHOT</version>
     </parent>
 
