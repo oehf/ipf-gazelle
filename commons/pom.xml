@@ -2,14 +2,14 @@
     
     <modelVersion>4.0.0</modelVersion>
     <artifactId>gazelle-validation-commons</artifactId>
-    <version>1.0.0</version>
+    <version>1.0-SNAPSHOT</version>
     <name>gazelle-validation-commons</name>
     <packaging>pom</packaging>
 
     <parent>
         <groupId>org.openehealth.ipf.gazelle</groupId>
         <artifactId>gazelle-validation</artifactId>
-        <version>1.0.0</version>
+        <version>1.0-SNAPSHOT</version>
     </parent>
 
     <modules>
