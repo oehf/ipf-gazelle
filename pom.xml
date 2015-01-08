@@ -2,9 +2,9 @@
     
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.openehealth.ipf.gazelle</groupId>
-    <artifactId>gazelle-validation</artifactId>
+    <artifactId>ipf-gazelle-validation</artifactId>
     <version>1.0-SNAPSHOT</version>
-    <name>gazelle-validation</name>
+    <name>ipf-gazelle-validation</name>
     <packaging>pom</packaging>
 
     <properties>
@@ -48,6 +48,42 @@
         <name>Open eHealth Foundation</name>
         <url>http://www.openehealth.org/</url>
     </organization>
+
+    <developers>
+        <developer>
+            <id>ohr</id>
+            <name>Christian Ohr</name>
+            <email>christian.ohr@icw.de</email>
+            <organization>InterComponentWare AG</organization>
+            <organizationUrl>http://www.icw-global.com/</organizationUrl>
+            <roles>
+                <role>Developer</role>
+            </roles>
+            <timezone>+1</timezone>
+        </developer>
+        <developer>
+            <id>rnd</id>
+            <name>Dmytro Rud</name>
+            <email>dmytro.rud@gmail.com</email>
+            <organization>InterComponentWare AG</organization>
+            <organizationUrl>http://www.icw-global.com/</organizationUrl>
+            <roles>
+                <role>Developer</role>
+            </roles>
+            <timezone>+1</timezone>
+        </developer>
+        <developer>
+            <id>boris</id>
+            <name>Boris Stanojevic</name>
+            <email>stanojevic.boris@gmail.com</email>
+            <organization>InterComponentWare AG</organization>
+            <organizationUrl>http://www.icw-global.com/</organizationUrl>
+            <roles>
+                <role>Developer</role>
+            </roles>
+            <timezone>+1</timezone>
+        </developer>
+    </developers>
 
     <issueManagement>
         <system>Github Issue Tracker</system>
