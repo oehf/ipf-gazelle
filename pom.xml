@@ -80,6 +80,12 @@
         </site>
     </distributionManagement>
 
+    <scm>
+        <connection>scm:git:git@github.com:oehf/ipf-gazelle.git</connection>
+        <developerConnection>scm:git:git@github.com:oehf/ipf-gazelle.git</developerConnection>
+        <url>scm:git:git@github.com:oehf/ipf-gazelle.git</url>
+    </scm>
+
     <modules>
         <module>commons</module>
         <module>profiles</module>
