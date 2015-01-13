@@ -21,8 +21,8 @@ import java.io.IOException;
 import ca.uhn.hl7v2.conf.store.ProfileStore;
 import org.junit.Before;
 import org.junit.Test;
-import org.openehealth.ipf.gazelle.validation.profile.ItiPamProfile;
-import org.openehealth.ipf.gazelle.validation.profile.ItiPixPdqProfile;
+import org.openehealth.ipf.gazelle.validation.profile.pam.ItiPamProfile;
+import org.openehealth.ipf.gazelle.validation.profile.pixpdq.ItiPixPdqProfile;
 
 import static junit.framework.Assert.assertNotNull;
 import static junit.framework.Assert.assertTrue;

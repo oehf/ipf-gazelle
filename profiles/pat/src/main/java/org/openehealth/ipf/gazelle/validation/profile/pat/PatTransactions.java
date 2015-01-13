@@ -13,29 +13,27 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.openehealth.ipf.gazelle.validation.profile;
+package org.openehealth.ipf.gazelle.validation.profile.pat;
+
+import org.openehealth.ipf.gazelle.validation.profile.ConformanceProfile;
+import org.openehealth.ipf.gazelle.validation.profile.HL7v2Transactions;
 
 import java.util.Arrays;
 import java.util.List;
 
-import static org.openehealth.ipf.gazelle.validation.profile.PharmhProfile.*;
+import static org.openehealth.ipf.gazelle.validation.profile.pat.PatProfile.*;
 
 /**
  * @author Boris Stanojevic
  */
-public enum PharmhTransactions implements HL7v2Transactions {
+public enum PatTransactions implements HL7v2Transactions {
 
 
-    PHARMH1 (PHARM_H1_ORP_O10, PHARM_H1_OMP_O09),
-    PHARMH2 (PHARM_H2_RDE_O11, PHARM_H2_RRE_O12_PRES_PLACER, PHARM_H2_RRE_O12_MED_DIS),
-    PHARMH3 (PHARM_H3_RRG_O16_PRES_PLACER, PHARM_H3_RGV_O15, PHARM_H3_RRG_O16_MED_ADM_INFO, PHARM_H3_RRG_O16),
-    PHARMH4 (PHARM_H4_RAS_O17, PHARM_H4_RRA_O18_PRES_PLACER, PHARM_H4_RRA_O18_MED_DIS),
-    PHARMH5 (PHARM_H5_ORP_O10_MED_ADM_INFO, PHARM_H5_OMP_O09, PHARM_H5_ORP_O10_MED_DIS),
-    PHARMH6 (PHARM_H6_RRE_O12, PHARM_H6_RDE_O11);
+    PAT10(PAT_10_ORU_R01);
 
     private final List<ConformanceProfile> transactionTypes;
 
-    PharmhTransactions(ConformanceProfile... transactionTypes){
+    PatTransactions(ConformanceProfile... transactionTypes) {
         this.transactionTypes = Arrays.asList(transactionTypes);
     }
 

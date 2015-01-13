@@ -13,12 +13,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.openehealth.ipf.gazelle.validation.profile;
+package org.openehealth.ipf.gazelle.validation.profile.lab;
+
+import org.openehealth.ipf.gazelle.validation.profile.ConformanceProfile;
+import org.openehealth.ipf.gazelle.validation.profile.HL7v2Transactions;
 
 import java.util.Arrays;
 import java.util.List;
 
-import static org.openehealth.ipf.gazelle.validation.profile.LabProfile.*;
+import static org.openehealth.ipf.gazelle.validation.profile.lab.LabProfile.*;
 
 /**
  * @author Boris Stanojevic

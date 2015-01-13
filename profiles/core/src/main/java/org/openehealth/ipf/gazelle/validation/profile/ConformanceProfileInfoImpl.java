@@ -26,7 +26,7 @@ public class ConformanceProfileInfoImpl implements ConformanceProfileInfo {
     private final String triggerEvent;
     private final String hl7version;
 
-    ConformanceProfileInfoImpl(String profileId, String transaction, String triggerEvent, String hl7version) {
+    public ConformanceProfileInfoImpl(String profileId, String transaction, String triggerEvent, String hl7version) {
         this.profileId = profileId;
         this.triggerEvent = triggerEvent;
         this.transaction = transaction;

@@ -11,7 +11,8 @@
     </parent>
 
     <properties>
-        <osgi.export.pkg>org.openehealth.ipf/gazelle.validation.profile.v2,*</osgi.export.pkg>
+        <osgi.export.pkg>org.openehealth.ipf.gazelle.validation.profile.v2.pcd,*</osgi.export.pkg>
+        <pcd-profile-outputdir>${gazelle-profile-outputdir}/pcd</pcd-profile-outputdir>
     </properties>
 
     <dependencies>
@@ -38,7 +39,7 @@
                             <goal>wget</goal>
                         </goals>
                         <configuration>
-                            <outputDirectory>${gazelle-profile-outputdir}</outputDirectory>
+                            <outputDirectory>${pcd-profile-outputdir}</outputDirectory>
                             <outputFileName>${gazelle-profile-oid-prefix}113.xml</outputFileName>
                             <url>${gazelle-profile-url-prefix}113</url>
                              <skipCache>${skipCache}</skipCache>
@@ -51,7 +52,7 @@
                             <goal>wget</goal>
                         </goals>
                         <configuration>
-                            <outputDirectory>${gazelle-profile-outputdir}</outputDirectory>
+                            <outputDirectory>${pcd-profile-outputdir}</outputDirectory>
                             <outputFileName>${gazelle-profile-oid-prefix}114.xml</outputFileName>
                             <url>${gazelle-profile-url-prefix}114</url>
                             <skipCache>${skipCache}</skipCache>
@@ -64,7 +65,7 @@
                             <goal>wget</goal>
                         </goals>
                         <configuration>
-                            <outputDirectory>${gazelle-profile-outputdir}</outputDirectory>
+                            <outputDirectory>${pcd-profile-outputdir}</outputDirectory>
                             <outputFileName>${gazelle-profile-oid-prefix}126.xml</outputFileName>
                             <url>${gazelle-profile-url-prefix}126</url>
                             <skipCache>${skipCache}</skipCache>
@@ -77,7 +78,7 @@
                             <goal>wget</goal>
                         </goals>
                         <configuration>
-                            <outputDirectory>${gazelle-profile-outputdir}</outputDirectory>
+                            <outputDirectory>${pcd-profile-outputdir}</outputDirectory>
                             <outputFileName>${gazelle-profile-oid-prefix}127.xml</outputFileName>
                             <url>${gazelle-profile-url-prefix}127</url>
                             <skipCache>${skipCache}</skipCache>
@@ -90,7 +91,7 @@
                             <goal>wget</goal>
                         </goals>
                         <configuration>
-                            <outputDirectory>${gazelle-profile-outputdir}</outputDirectory>
+                            <outputDirectory>${pcd-profile-outputdir}</outputDirectory>
                             <outputFileName>${gazelle-profile-oid-prefix}128.xml</outputFileName>
                             <url>${gazelle-profile-url-prefix}128</url>
                             <skipCache>${skipCache}</skipCache>
@@ -103,7 +104,7 @@
                             <goal>wget</goal>
                         </goals>
                         <configuration>
-                            <outputDirectory>${gazelle-profile-outputdir}</outputDirectory>
+                            <outputDirectory>${pcd-profile-outputdir}</outputDirectory>
                             <outputFileName>${gazelle-profile-oid-prefix}129.xml</outputFileName>
                             <url>${gazelle-profile-url-prefix}129</url>
                             <skipCache>${skipCache}</skipCache>

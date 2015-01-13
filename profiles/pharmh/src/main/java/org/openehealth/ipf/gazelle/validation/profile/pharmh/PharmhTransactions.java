@@ -13,29 +13,32 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.openehealth.ipf.gazelle.validation.profile;
+package org.openehealth.ipf.gazelle.validation.profile.pharmh;
+
+import org.openehealth.ipf.gazelle.validation.profile.ConformanceProfile;
+import org.openehealth.ipf.gazelle.validation.profile.HL7v2Transactions;
 
 import java.util.Arrays;
 import java.util.List;
 
-import static org.openehealth.ipf.gazelle.validation.profile.ItiPixPdqProfile.*;
+import static org.openehealth.ipf.gazelle.validation.profile.pharmh.PharmhProfile.*;
 
 /**
  * @author Boris Stanojevic
  */
-public enum PixPdqTransactions implements HL7v2Transactions {
+public enum PharmhTransactions implements HL7v2Transactions {
 
-    ITI8  (ITI_8_ACK_A01, ITI_8_ACK_A04, ITI_8_ACK_A05, ITI_8_ACK_A08, ITI_8_ACK_A40,
-           ITI_8_ADT_A08, ITI_8_ADT_A01, ITI_8_ADT_A04, ITI_8_ADT_A40, ITI_8_ADT_A05, ITI_8_ACK),
-    ITI9  (ITI_9_RSP_K23, ITI_9_QBP_Q23),
-    ITI10 (ITI_10_ADT_A31, ITI_10_ACK),
-    ITI21 (ITI_21_ACK_J01, ITI_21_QBP_Q22, ITI_21_QCN_J01, ITI_21_RSP_K22),
-    ITI22 (ITI_22_ACK_J01, ITI_22_QBP_ZV1, ITI_22_RSP_ZV2, ITI_22_QCN_J01),
-    ITI64 (ITI_64_ADT_A43, ITI_64_ACK_A43);
+
+    PHARMH1 (PHARM_H1_ORP_O10, PHARM_H1_OMP_O09),
+    PHARMH2 (PHARM_H2_RDE_O11, PHARM_H2_RRE_O12_PRES_PLACER, PHARM_H2_RRE_O12_MED_DIS),
+    PHARMH3 (PHARM_H3_RRG_O16_PRES_PLACER, PHARM_H3_RGV_O15, PHARM_H3_RRG_O16_MED_ADM_INFO, PHARM_H3_RRG_O16),
+    PHARMH4 (PHARM_H4_RAS_O17, PHARM_H4_RRA_O18_PRES_PLACER, PHARM_H4_RRA_O18_MED_DIS),
+    PHARMH5 (PHARM_H5_ORP_O10_MED_ADM_INFO, PHARM_H5_OMP_O09, PHARM_H5_ORP_O10_MED_DIS),
+    PHARMH6 (PHARM_H6_RRE_O12, PHARM_H6_RDE_O11);
 
     private final List<ConformanceProfile> transactionTypes;
 
-    PixPdqTransactions(ConformanceProfile... transactionTypes){
+    PharmhTransactions(ConformanceProfile... transactionTypes){
         this.transactionTypes = Arrays.asList(transactionTypes);
     }
 

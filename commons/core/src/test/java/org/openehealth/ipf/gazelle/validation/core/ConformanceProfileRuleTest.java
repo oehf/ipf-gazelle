@@ -19,7 +19,7 @@ import ca.uhn.hl7v2.Severity;
 import ca.uhn.hl7v2.validation.ValidationException;
 import org.junit.Test;
 import org.openehealth.ipf.gazelle.validation.core.stub.HL7V2XConformanceProfile;
-import org.openehealth.ipf.gazelle.validation.profile.ItiPixPdqProfile;
+import org.openehealth.ipf.gazelle.validation.profile.pixpdq.ItiPixPdqProfile;
 
 import static junit.framework.Assert.assertEquals;
 

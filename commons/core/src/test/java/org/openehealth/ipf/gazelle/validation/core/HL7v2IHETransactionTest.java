@@ -24,8 +24,8 @@ import org.junit.Test;
 import org.openehealth.ipf.gazelle.validation.core.util.MessageUtils;
 import org.openehealth.ipf.gazelle.validation.profile.ConformanceProfile;
 import org.openehealth.ipf.gazelle.validation.profile.HL7v2Transactions;
-import org.openehealth.ipf.gazelle.validation.profile.ItiPixPdqProfile;
-import org.openehealth.ipf.gazelle.validation.profile.PixPdqTransactions;
+import org.openehealth.ipf.gazelle.validation.profile.pixpdq.ItiPixPdqProfile;
+import org.openehealth.ipf.gazelle.validation.profile.pixpdq.PixPdqTransactions;
 
 /**
  * @author Boris Stanojevic
