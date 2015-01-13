@@ -13,7 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.openehealth.ipf.gazelle.validation.profile;
+package org.openehealth.ipf.gazelle.validation.profile.pixpdq;
+
+import org.openehealth.ipf.gazelle.validation.profile.ConformanceProfile;
+import org.openehealth.ipf.gazelle.validation.profile.ConformanceProfileInfo;
+import org.openehealth.ipf.gazelle.validation.profile.ConformanceProfileInfoImpl;
 
 /**
  * @author Boris Stanojevic
@@ -49,7 +53,7 @@ public enum ItiPixPdqProfile implements ConformanceProfile {
     private final ConformanceProfileInfo info;
 
     ItiPixPdqProfile(String profileId, String transaction, String triggerEvent, String hl7version){
-        info = new ConformanceProfileInfoImpl(profileId, transaction, triggerEvent, hl7version);
+        info = new ConformanceProfileInfoImpl("pixpdq/" + profileId, transaction, triggerEvent, hl7version);
     }
 
     @Override

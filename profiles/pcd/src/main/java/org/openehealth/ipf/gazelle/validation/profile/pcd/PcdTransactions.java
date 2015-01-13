@@ -13,24 +13,28 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.openehealth.ipf.gazelle.validation.profile;
+package org.openehealth.ipf.gazelle.validation.profile.pcd;
+
+import org.openehealth.ipf.gazelle.validation.profile.ConformanceProfile;
+import org.openehealth.ipf.gazelle.validation.profile.HL7v2Transactions;
 
 import java.util.Arrays;
 import java.util.List;
 
-import static org.openehealth.ipf.gazelle.validation.profile.CardProfile.*;
+import static org.openehealth.ipf.gazelle.validation.profile.pcd.PcdProfile.*;
 
 /**
  * @author Boris Stanojevic
  */
-public enum CardTransactions implements HL7v2Transactions {
+public enum PcdTransactions implements HL7v2Transactions {
 
-    CARD7 (CARD_7_MDM_T02_RC, CARD_7_MDM_T10_RC, CARD_7_MDM_T02_RM, CARD_7_MDM_T10_RM, CARD_7_ACK_ALL),
-    CARD8 (CARD_8_MDM_T01, CARD_8_MDM_T09, CARD_8_ACK_T01, CARD_8_ACK_T09);
+    PCD1  (PCD_1_ACK_R01_DEV_OBS_CONSUMER, PCD_1_ACK_R01_DEV_OBS_FILTER,
+           PCD_1_ORU_R01_DEV_OBS_FILTER, PCD_1_ORU_R01_DEV_OBS_REPORTER),
+    PCD2  (PCD_2_QSB_Z02, PCD_2_ACK_Z02);
 
     private final List<ConformanceProfile> transactionTypes;
 
-    CardTransactions(ConformanceProfile... transactionTypes){
+    PcdTransactions(ConformanceProfile... transactionTypes){
         this.transactionTypes = Arrays.asList(transactionTypes);
     }
 

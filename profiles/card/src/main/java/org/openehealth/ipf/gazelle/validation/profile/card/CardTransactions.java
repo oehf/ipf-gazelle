@@ -13,24 +13,25 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.openehealth.ipf.gazelle.validation.profile;
+package org.openehealth.ipf.gazelle.validation.profile.card;
+
+import org.openehealth.ipf.gazelle.validation.profile.ConformanceProfile;
+import org.openehealth.ipf.gazelle.validation.profile.HL7v2Transactions;
 
 import java.util.Arrays;
 import java.util.List;
 
-import static org.openehealth.ipf.gazelle.validation.profile.PatProfile.*;
-
 /**
  * @author Boris Stanojevic
  */
-public enum PatTransactions implements HL7v2Transactions {
+public enum CardTransactions implements HL7v2Transactions {
 
-
-    PAT10(PAT_10_ORU_R01);
+    CARD7 (CardProfile.CARD_7_MDM_T02_RC, CardProfile.CARD_7_MDM_T10_RC, CardProfile.CARD_7_MDM_T02_RM, CardProfile.CARD_7_MDM_T10_RM, CardProfile.CARD_7_ACK_ALL),
+    CARD8 (CardProfile.CARD_8_MDM_T01, CardProfile.CARD_8_MDM_T09, CardProfile.CARD_8_ACK_T01, CardProfile.CARD_8_ACK_T09);
 
     private final List<ConformanceProfile> transactionTypes;
 
-    PatTransactions(ConformanceProfile... transactionTypes) {
+    CardTransactions(ConformanceProfile... transactionTypes){
         this.transactionTypes = Arrays.asList(transactionTypes);
     }
 
