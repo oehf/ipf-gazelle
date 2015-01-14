@@ -37,7 +37,7 @@ public enum CardProfile implements ConformanceProfile {
     private final ConformanceProfileInfo info;
 
     CardProfile(String profileId, String transaction, String triggerEvent, String hl7version){
-        info = new ConformanceProfileInfoImpl("card/" + profileId, transaction, triggerEvent, hl7version);
+        info = new ConformanceProfileInfoImpl(profileId, transaction, triggerEvent, hl7version);
     }
 
     @Override

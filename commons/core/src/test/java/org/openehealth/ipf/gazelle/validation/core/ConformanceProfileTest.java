@@ -34,7 +34,7 @@ public class ConformanceProfileTest {
         assert conformanceProfileInfo.structure().equals("ACK");
         assert conformanceProfileInfo.event().equals("ALL");
         assert conformanceProfileInfo.transaction().equals("CARD-7");
-        assert conformanceProfileInfo.profileId().equals("card/1.3.6.1.4.12559.11.1.1.146");
+        assert conformanceProfileInfo.profileId().equals("1.3.6.1.4.12559.11.1.1.146");
         assert conformanceProfileInfo.hl7version().equals("2.5");
 
         conformanceProfileInfo = RadProfile.RAD_48_SIU_S12.profileInfo();
@@ -43,7 +43,7 @@ public class ConformanceProfileTest {
         assert conformanceProfileInfo.structure().equals("SIU_S12");
         assert conformanceProfileInfo.event().equals("S12");
         assert conformanceProfileInfo.transaction().equals("RAD-48");
-        assert conformanceProfileInfo.profileId().equals("rad/1.3.6.1.4.12559.11.1.1.4");
+        assert conformanceProfileInfo.profileId().equals("1.3.6.1.4.12559.11.1.1.4");
         assert conformanceProfileInfo.hl7version().equals("2.3.1");
 
         ConformanceProfileInfo conformanceProfileInfo1 = RadProfile.RAD_48_SIU_S12.profileInfo();

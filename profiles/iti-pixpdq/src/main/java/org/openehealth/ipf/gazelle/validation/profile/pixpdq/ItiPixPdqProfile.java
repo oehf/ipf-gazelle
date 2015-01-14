@@ -53,7 +53,7 @@ public enum ItiPixPdqProfile implements ConformanceProfile {
     private final ConformanceProfileInfo info;
 
     ItiPixPdqProfile(String profileId, String transaction, String triggerEvent, String hl7version){
-        info = new ConformanceProfileInfoImpl("pixpdq/" + profileId, transaction, triggerEvent, hl7version);
+        info = new ConformanceProfileInfoImpl(profileId, transaction, triggerEvent, hl7version);
     }
 
     @Override

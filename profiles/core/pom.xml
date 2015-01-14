@@ -10,21 +10,6 @@
         <version>1.0-SNAPSHOT</version>
     </parent>
 
-    <properties>
-        <osgi.export.pkg>*</osgi.export.pkg>
-        <osgi.import.pkg>
-            org.openehealth.ipf.gazelle.validation.profile.v2.card,
-            org.openehealth.ipf.gazelle.validation.profile.v2.pam,
-            org.openehealth.ipf.gazelle.validation.profile.v2.pixpdq,
-            org.openehealth.ipf.gazelle.validation.profile.v2.lab,
-            org.openehealth.ipf.gazelle.validation.profile.v2.pat,
-            org.openehealth.ipf.gazelle.validation.profile.v2.pcd,
-            org.openehealth.ipf.gazelle.validation.profile.v2.pharmh,
-            org.openehealth.ipf.gazelle.validation.profile.v2.rad,
-            *
-        </osgi.import.pkg>
-    </properties>
-
     <dependencies>
         <dependency>
             <groupId>ca.uhn.hapi</groupId>

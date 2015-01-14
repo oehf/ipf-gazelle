@@ -12,7 +12,7 @@
 
     <properties>
         <osgi.export.pkg>org.openehealth.ipf.gazelle.validation.profile.v2.pharmh,*</osgi.export.pkg>
-        <pharmh-profile-outputdir>${gazelle-profile-outputdir}/pharmh</pharmh-profile-outputdir>
+        <osgi.fragment.host>org.openehealth.ipf.gazelle.ipf-gazelle-validation-profiles-core</osgi.fragment.host>
     </properties>
 
     <dependencies>
@@ -36,7 +36,7 @@
                             <goal>wget</goal>
                         </goals>
                         <configuration>
-                            <outputDirectory>${pharmh-profile-outputdir}</outputDirectory>
+                            <outputDirectory>${gazelle-profile-outputdir}</outputDirectory>
                             <outputFileName>${gazelle-profile-oid-prefix}154.xml</outputFileName>
                             <url>${gazelle-profile-url-prefix}154</url>
                             <skipCache>${skipCache}</skipCache>
@@ -49,7 +49,7 @@
                             <goal>wget</goal>
                         </goals>
                         <configuration>
-                            <outputDirectory>${pharmh-profile-outputdir}</outputDirectory>
+                            <outputDirectory>${gazelle-profile-outputdir}</outputDirectory>
                             <outputFileName>${gazelle-profile-oid-prefix}155.xml</outputFileName>
                             <url>${gazelle-profile-url-prefix}155</url>
                             <skipCache>${skipCache}</skipCache>
@@ -62,7 +62,7 @@
                             <goal>wget</goal>
                         </goals>
                         <configuration>
-                            <outputDirectory>${pharmh-profile-outputdir}</outputDirectory>
+                            <outputDirectory>${gazelle-profile-outputdir}</outputDirectory>
                             <outputFileName>${gazelle-profile-oid-prefix}156.xml</outputFileName>
                             <url>${gazelle-profile-url-prefix}156</url>
                             <skipCache>${skipCache}</skipCache>
@@ -75,7 +75,7 @@
                             <goal>wget</goal>
                         </goals>
                         <configuration>
-                            <outputDirectory>${pharmh-profile-outputdir}</outputDirectory>
+                            <outputDirectory>${gazelle-profile-outputdir}</outputDirectory>
                             <outputFileName>${gazelle-profile-oid-prefix}157.xml</outputFileName>
                             <url>${gazelle-profile-url-prefix}157</url>
                             <skipCache>${skipCache}</skipCache>
@@ -88,7 +88,7 @@
                             <goal>wget</goal>
                         </goals>
                         <configuration>
-                            <outputDirectory>${pharmh-profile-outputdir}</outputDirectory>
+                            <outputDirectory>${gazelle-profile-outputdir}</outputDirectory>
                             <outputFileName>${gazelle-profile-oid-prefix}158.xml</outputFileName>
                             <url>${gazelle-profile-url-prefix}158</url>
                             <skipCache>${skipCache}</skipCache>
@@ -101,7 +101,7 @@
                             <goal>wget</goal>
                         </goals>
                         <configuration>
-                            <outputDirectory>${pharmh-profile-outputdir}</outputDirectory>
+                            <outputDirectory>${gazelle-profile-outputdir}</outputDirectory>
                             <outputFileName>${gazelle-profile-oid-prefix}159.xml</outputFileName>
                             <url>${gazelle-profile-url-prefix}159</url>
                             <skipCache>${skipCache}</skipCache>
@@ -114,7 +114,7 @@
                             <goal>wget</goal>
                         </goals>
                         <configuration>
-                            <outputDirectory>${pharmh-profile-outputdir}</outputDirectory>
+                            <outputDirectory>${gazelle-profile-outputdir}</outputDirectory>
                             <outputFileName>${gazelle-profile-oid-prefix}160.xml</outputFileName>
                             <url>${gazelle-profile-url-prefix}160</url>
                             <skipCache>${skipCache}</skipCache>
@@ -127,7 +127,7 @@
                             <goal>wget</goal>
                         </goals>
                         <configuration>
-                            <outputDirectory>${pharmh-profile-outputdir}</outputDirectory>
+                            <outputDirectory>${gazelle-profile-outputdir}</outputDirectory>
                             <outputFileName>${gazelle-profile-oid-prefix}161.xml</outputFileName>
                             <url>${gazelle-profile-url-prefix}161</url>
                             <skipCache>${skipCache}</skipCache>
@@ -140,7 +140,7 @@
                             <goal>wget</goal>
                         </goals>
                         <configuration>
-                            <outputDirectory>${pharmh-profile-outputdir}</outputDirectory>
+                            <outputDirectory>${gazelle-profile-outputdir}</outputDirectory>
                             <outputFileName>${gazelle-profile-oid-prefix}162.xml</outputFileName>
                             <url>${gazelle-profile-url-prefix}162</url>
                             <skipCache>${skipCache}</skipCache>
@@ -153,7 +153,7 @@
                             <goal>wget</goal>
                         </goals>
                         <configuration>
-                            <outputDirectory>${pharmh-profile-outputdir}</outputDirectory>
+                            <outputDirectory>${gazelle-profile-outputdir}</outputDirectory>
                             <outputFileName>${gazelle-profile-oid-prefix}163.xml</outputFileName>
                             <url>${gazelle-profile-url-prefix}163</url>
                             <skipCache>${skipCache}</skipCache>
@@ -166,7 +166,7 @@
                             <goal>wget</goal>
                         </goals>
                         <configuration>
-                            <outputDirectory>${pharmh-profile-outputdir}</outputDirectory>
+                            <outputDirectory>${gazelle-profile-outputdir}</outputDirectory>
                             <outputFileName>${gazelle-profile-oid-prefix}164.xml</outputFileName>
                             <url>${gazelle-profile-url-prefix}164</url>
                             <skipCache>${skipCache}</skipCache>
@@ -179,7 +179,7 @@
                             <goal>wget</goal>
                         </goals>
                         <configuration>
-                            <outputDirectory>${pharmh-profile-outputdir}</outputDirectory>
+                            <outputDirectory>${gazelle-profile-outputdir}</outputDirectory>
                             <outputFileName>${gazelle-profile-oid-prefix}165.xml</outputFileName>
                             <url>${gazelle-profile-url-prefix}165</url>
                             <skipCache>${skipCache}</skipCache>
@@ -192,7 +192,7 @@
                             <goal>wget</goal>
                         </goals>
                         <configuration>
-                            <outputDirectory>${pharmh-profile-outputdir}</outputDirectory>
+                            <outputDirectory>${gazelle-profile-outputdir}</outputDirectory>
                             <outputFileName>${gazelle-profile-oid-prefix}166.xml</outputFileName>
                             <url>${gazelle-profile-url-prefix}166</url>
                             <skipCache>${skipCache}</skipCache>
@@ -205,7 +205,7 @@
                             <goal>wget</goal>
                         </goals>
                         <configuration>
-                            <outputDirectory>${pharmh-profile-outputdir}</outputDirectory>
+                            <outputDirectory>${gazelle-profile-outputdir}</outputDirectory>
                             <outputFileName>${gazelle-profile-oid-prefix}167.xml</outputFileName>
                             <url>${gazelle-profile-url-prefix}167</url>
                             <skipCache>${skipCache}</skipCache>
@@ -218,7 +218,7 @@
                             <goal>wget</goal>
                         </goals>
                         <configuration>
-                            <outputDirectory>${pharmh-profile-outputdir}</outputDirectory>
+                            <outputDirectory>${gazelle-profile-outputdir}</outputDirectory>
                             <outputFileName>${gazelle-profile-oid-prefix}168.xml</outputFileName>
                             <url>${gazelle-profile-url-prefix}168</url>
                             <skipCache>${skipCache}</skipCache>
@@ -231,7 +231,7 @@
                             <goal>wget</goal>
                         </goals>
                         <configuration>
-                            <outputDirectory>${pharmh-profile-outputdir}</outputDirectory>
+                            <outputDirectory>${gazelle-profile-outputdir}</outputDirectory>
                             <outputFileName>${gazelle-profile-oid-prefix}169.xml</outputFileName>
                             <url>${gazelle-profile-url-prefix}169</url>
                             <skipCache>${skipCache}</skipCache>
@@ -244,7 +244,7 @@
                             <goal>wget</goal>
                         </goals>
                         <configuration>
-                            <outputDirectory>${pharmh-profile-outputdir}</outputDirectory>
+                            <outputDirectory>${gazelle-profile-outputdir}</outputDirectory>
                             <outputFileName>${gazelle-profile-oid-prefix}170.xml</outputFileName>
                             <url>${gazelle-profile-url-prefix}170</url>
                             <skipCache>${skipCache}</skipCache>

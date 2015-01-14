@@ -46,7 +46,7 @@ public enum PharmhProfile implements ConformanceProfile {
     private final ConformanceProfileInfo info;
 
     PharmhProfile(String profileId, String transaction, String triggerEvent, String hl7version){
-        info = new ConformanceProfileInfoImpl("pharmh/" + profileId, transaction, triggerEvent, hl7version);
+        info = new ConformanceProfileInfoImpl(profileId, transaction, triggerEvent, hl7version);
     }
 
     @Override

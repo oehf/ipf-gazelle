@@ -29,7 +29,7 @@ public enum PatProfile implements ConformanceProfile {
     private final ConformanceProfileInfo info;
 
     PatProfile(String profileId, String transaction, String triggerEvent, String hl7version){
-        info = new ConformanceProfileInfoImpl("pat/" + profileId, transaction, triggerEvent, hl7version);
+        info = new ConformanceProfileInfoImpl(profileId, transaction, triggerEvent, hl7version);
     }
 
     @Override

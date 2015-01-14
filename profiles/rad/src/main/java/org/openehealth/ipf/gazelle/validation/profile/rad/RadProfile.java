@@ -80,7 +80,7 @@ public enum RadProfile implements ConformanceProfile {
     private final ConformanceProfileInfo info;
 
     RadProfile(String profileId, String transaction, String triggerEvent, String hl7version){
-        info = new ConformanceProfileInfoImpl("rad/" + profileId, transaction, triggerEvent, hl7version);
+        info = new ConformanceProfileInfoImpl(profileId, transaction, triggerEvent, hl7version);
     }
 
     @Override
