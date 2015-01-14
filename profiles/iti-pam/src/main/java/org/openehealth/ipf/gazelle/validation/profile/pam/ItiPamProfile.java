@@ -68,7 +68,7 @@ public enum ItiPamProfile implements ConformanceProfile {
     private final ConformanceProfileInfo info;
 
     ItiPamProfile(String profileId, String transaction, String triggerEvent, String hl7version){
-        info = new ConformanceProfileInfoImpl("pam/" + profileId, transaction, triggerEvent, hl7version);
+        info = new ConformanceProfileInfoImpl(profileId, transaction, triggerEvent, hl7version);
     }
 
     @Override

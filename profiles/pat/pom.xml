@@ -12,7 +12,7 @@
 
     <properties>
         <osgi.export.pkg>org.openehealth.ipf.gazelle.validation.profile.v2.pat,*</osgi.export.pkg>
-        <pat-profile-outputdir>${gazelle-profile-outputdir}/pat</pat-profile-outputdir>
+        <osgi.fragment.host>org.openehealth.ipf.gazelle.ipf-gazelle-validation-profiles-core</osgi.fragment.host>
     </properties>
 
     <dependencies>
@@ -36,7 +36,7 @@
                             <goal>wget</goal>
                         </goals>
                         <configuration>
-                            <outputDirectory>${pat-profile-outputdir}</outputDirectory>
+                            <outputDirectory>${gazelle-profile-outputdir}</outputDirectory>
                             <outputFileName>${gazelle-profile-oid-prefix}152.xml</outputFileName>
                             <url>${gazelle-profile-url-prefix}152</url>
                             <skipCache>${skipCache}</skipCache>

@@ -35,7 +35,7 @@ public enum PcdProfile implements ConformanceProfile {
     private final ConformanceProfileInfo info;
 
     PcdProfile(String profileId, String transaction, String triggerEvent, String hl7version){
-        info = new ConformanceProfileInfoImpl("pcd/" + profileId, transaction, triggerEvent, hl7version);
+        info = new ConformanceProfileInfoImpl(profileId, transaction, triggerEvent, hl7version);
     }
 
     @Override
