@@ -17,6 +17,7 @@ package org.openehealth.ipf.gazelle.validation.core;
 
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import ca.uhn.hl7v2.HL7Exception;
@@ -107,7 +108,7 @@ class GazelleProfileRule extends AbstractMessageRule {
                 allowedStructures.add(usage.name);
 
                 try {
-                    List<Structure> nonEmptyStructures = nonEmpty(group.getAll(usage.name));
+                    List<Structure> nonEmptyStructures = nonEmptyStructure(group.getAll(usage.name));
                     exList.addAll(testCardinality(nonEmptyStructures.size(), usage));
 
                     // test children on instances with content
@@ -206,7 +207,7 @@ class GazelleProfileRule extends AbstractMessageRule {
 
                 // see which instances have content
                 try {
-                    List<Type> nonEmptyFields = nonEmpty(segment.getField(i));
+                    List<Type> nonEmptyFields = nonEmptyField(segment.getField(i));
                     exList.addAll(testCardinality(nonEmptyFields.size(), usage));
 
                     // test field instances with content
@@ -316,7 +317,7 @@ class GazelleProfileRule extends AbstractMessageRule {
             testUsage(exList, encoded, usage);
         }
 
-        if (!usage.disallowed()) {
+        if (!usage.disallowed() && !encoded.isEmpty()) {
             // check datatype
             if ((type instanceof ca.uhn.hl7v2.model.v231.datatype.TSComponentOne
                     || type instanceof ca.uhn.hl7v2.model.v24.datatype.TSComponentOne)
@@ -355,9 +356,9 @@ class GazelleProfileRule extends AbstractMessageRule {
      */
     protected void testUsage(List<ValidationException> exList, String encoded, UsageInfo usage) {
         if (usage.required()) {
-            profileViolatedWhen(encoded.length() == 0, exList, REQUIRED_ELEMENT_MISSING, usage.name);
+            profileViolatedWhen(encoded.isEmpty(), exList, REQUIRED_ELEMENT_MISSING, usage.name);
         } else if (usage.disallowed()) {
-            profileViolatedWhen(encoded.length() > 0, exList, NOT_SUPPORTED_ELEMENT_PRESENT, usage.name);
+            profileViolatedWhen(!encoded.isEmpty(), exList, NOT_SUPPORTED_ELEMENT_PRESENT, usage.name);
         }
         /*
         else if (usage.equalsIgnoreCase("RE")) {
@@ -434,12 +435,25 @@ class GazelleProfileRule extends AbstractMessageRule {
     }
 
 
-    private static <T extends Visitable> List<T> nonEmpty(T[] input) throws HL7Exception {
+    private static <T extends Structure> List<T> nonEmptyStructure(T[] input) throws HL7Exception {
         List<T> result = new ArrayList<T>();
         for (T element : input) {
             if (!element.isEmpty()) result.add(element);
         }
         return result;
+    }
+
+    // In contrast to {@link #nonEmptyStructure, this will only remove trailing empty fields.
+    // If all fields are empty, an empty list is returned
+    private static <T extends Type> List<T> nonEmptyField(T[] input) throws HL7Exception {
+        boolean seenNonEmptyRepetition = false;
+        List<T> result = new ArrayList<T>();
+        for (T element : input) {
+            if (!(element.isEmpty() && seenNonEmptyRepetition)) {
+                seenNonEmptyRepetition = result.add(element);
+            }
+        }
+        return seenNonEmptyRepetition ? result : Collections.<T>emptyList();
     }
 
 }

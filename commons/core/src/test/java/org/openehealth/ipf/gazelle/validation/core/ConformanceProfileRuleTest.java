@@ -21,7 +21,6 @@ import org.junit.Test;
 import org.openehealth.ipf.gazelle.validation.core.stub.HL7V2XConformanceProfile;
 import org.openehealth.ipf.gazelle.validation.profile.pixpdq.ItiPixPdqProfile;
 
-import static junit.framework.Assert.assertEquals;
 
 /**
  * @author Boris Stanojevic
@@ -39,6 +38,19 @@ public class ConformanceProfileRuleTest extends AbstractGazelleProfileValidatorT
         assertEquals(1, countExceptions(exceptions,  Severity.ERROR));
         assertEquals(3, countExceptions(exceptions,  Severity.WARNING));
         assertEquals(1, countExceptions(exceptions,  Severity.INFO));
+    }
+
+    @Test
+    public void testIti9Response() throws Exception {
+        HL7V2XConformanceProfile runtimeProfile = unmarshalProfile(ItiPixPdqProfile.ITI_9_RSP_K23);
+        GazelleProfileRule profileRule = new GazelleProfileRule(runtimeProfile);
+
+        ValidationException[] exceptions = profileRule.apply(getParsedMessage("hl7/iti-9-response.hl7"));
+        printOutExceptions(exceptions);
+
+        assertEquals(0, countExceptions(exceptions,  Severity.ERROR));
+        assertEquals(1, countExceptions(exceptions,  Severity.WARNING));
+        assertEquals(2, countExceptions(exceptions,  Severity.INFO));
     }
 
     @Test

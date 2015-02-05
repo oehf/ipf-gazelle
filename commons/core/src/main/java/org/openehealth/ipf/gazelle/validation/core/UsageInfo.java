@@ -80,4 +80,8 @@ class UsageInfo {
     boolean required() {
         return "R".equalsIgnoreCase(usage);
     }
+
+    boolean requiredOrEmpty() {
+        return "RE".equalsIgnoreCase(usage);
+    }
 }
