@@ -33,15 +33,20 @@ import ca.uhn.hl7v2.conf.store.DefaultCodeStoreRegistry;
 import ca.uhn.hl7v2.model.Message;
 import ca.uhn.hl7v2.validation.ValidationException;
 import org.apache.commons.io.IOUtils;
+import org.junit.Assert;
 import org.junit.Before;
 import org.openehealth.ipf.gazelle.validation.core.stub.HL7V2XConformanceProfile;
 import org.openehealth.ipf.gazelle.validation.profile.ConformanceProfile;
 import org.openehealth.ipf.gazelle.validation.profile.store.GazelleProfileStore;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * @author Boris Stanojevic
  */
-public abstract class AbstractGazelleProfileValidatorTest {
+public abstract class AbstractGazelleProfileValidatorTest extends Assert {
+
+    private static final Logger LOG = LoggerFactory.getLogger(AbstractGazelleProfileValidatorTest.class);
 
     protected HapiContext hapiContext;
 
@@ -58,13 +63,13 @@ public abstract class AbstractGazelleProfileValidatorTest {
         for (ValidationException exc : exceptions) {
             switch (exc.getSeverity()) {
                 case ERROR:
-                    System.err.println("ERROR:" + exc.getMessage());
+                    LOG.error("ERROR:", exc);
                     break;
                 case WARNING:
-                    System.out.println("WARNING:" + exc.getMessage());
+                    LOG.warn("ERROR:", exc);
                     break;
                 case INFO:
-                    System.out.println("INFO:" + exc.getMessage());
+                    LOG.warn("INFO:", exc);
                     break;
             }
         }
