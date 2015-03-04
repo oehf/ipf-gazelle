@@ -30,7 +30,10 @@
         <bundle-plugin-version>2.0.1</bundle-plugin-version>
         <compiler-plugin-version>3.2</compiler-plugin-version>
         <download-plugin-version>1.2.0</download-plugin-version>
+        <gpg-plugin-version>1.5</gpg-plugin-version>
         <jar-plugin-version>2.4</jar-plugin-version>
+        <javadocs-plugin-version>2.9.1</javadocs-plugin-version>
+        <nexus-staging-plugin-version>1.6.3</nexus-staging-plugin-version>
         <sources-plugin-version>2.2.1</sources-plugin-version>
 
         <!-- You can set this to true e.g. in CI builds to force downloading the files from the source
@@ -99,17 +102,14 @@
     </licenses>
 
     <distributionManagement>
-        <repository>
-            <id>openehealth.releases</id>
-            <name>Open eHealth Releases Repository</name>
-            <url>file:/data/repositories/maven2/releases</url>
-        </repository>
         <snapshotRepository>
-            <id>openehealth.snapshots</id>
-            <name>Open eHealth Snapshots Repository</name>
-            <url>file:/data/repositories/maven2/snapshots</url>
-            <uniqueVersion>false</uniqueVersion>
+            <id>ossrh</id>
+            <url>https://oss.sonatype.org/content/repositories/snapshots</url>
         </snapshotRepository>
+        <repository>
+            <id>ossrh</id>
+            <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+        </repository>
         <site>
             <id>openehealth.site</id>
             <url>file:/data/sites/ipf-gazelle/reports/ipf-gazelle-${project.version}</url>
@@ -208,9 +208,8 @@
                     <executions>
                         <execution>
                             <id>attach-sources</id>
-                            <phase>verify</phase>
                             <goals>
-                                <goal>jar</goal>
+                                <goal>jar-no-fork</goal>
                             </goals>
                         </execution>
                     </executions>
@@ -315,6 +314,17 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-source-plugin</artifactId>
             </plugin>
+            <plugin>
+                <groupId>org.sonatype.plugins</groupId>
+                <artifactId>nexus-staging-maven-plugin</artifactId>
+                <version>${nexus-staging-plugin-version}</version>
+                <extensions>true</extensions>
+                <configuration>
+                    <serverId>ossrh</serverId>
+                    <nexusUrl>https://oss.sonatype.org/</nexusUrl>
+                    <autoReleaseAfterClose>true</autoReleaseAfterClose>
+                </configuration>
+            </plugin>
         </plugins>
     </build>
 
@@ -361,5 +371,42 @@
             </snapshots>
         </pluginRepository>
     </pluginRepositories>
+
+    <profiles>
+        <profile>
+            <id>release</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-javadoc-plugin</artifactId>
+                        <version>${javadocs-plugin-version}</version>
+                        <executions>
+                            <execution>
+                                <id>attach-javadocs</id>
+                                <goals>
+                                    <goal>jar</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-gpg-plugin</artifactId>
+                        <version>${gpg-plugin-version}</version>
+                        <executions>
+                            <execution>
+                                <id>sign-artifacts</id>
+                                <phase>verify</phase>
+                                <goals>
+                                    <goal>sign</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
 
 </project>
