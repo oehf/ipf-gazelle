@@ -47,6 +47,10 @@
         <junit-version>4.11</junit-version>
     </properties>
 
+    <url>https://github.com/oehf/ipf-gazelle</url>
+
+    <description>IPF-Gazelle is a project containing all available Gazelle HL7v2 validation profiles</description>
+
     <organization>
         <name>Open eHealth Foundation</name>
         <url>http://www.openehealth.org/</url>
