@@ -437,7 +437,15 @@ class GazelleProfileRule extends AbstractMessageRule {
     private static <T extends Visitable> List<T> nonEmpty(T[] input) throws HL7Exception {
         List<T> result = new ArrayList<T>();
         for (T element : input) {
-            if (!element.isEmpty()) result.add(element);
+            // Work around HAPI bug #224: TSComponentOne implementation of isEmpty does not work
+            if (!(element instanceof TSComponentOne)) {
+                if (!element.isEmpty()) result.add(element);
+            } else {
+                TSComponentOne tsc1 = (TSComponentOne) element;
+                if (!(tsc1.getValue() == null || tsc1.getValue().isEmpty())) {
+                    result.add(element);
+                }
+            }
         }
         return result;
     }
