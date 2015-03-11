@@ -140,7 +140,7 @@ class GazelleProfileRule extends AbstractMessageRule {
             if (!allowedStructures.contains(childName)) {
                 try {
                     for (Structure rep : group.getAll(childName)) {
-                        profileViolatedWhen(!rep.isEmpty(), exList, STRUCTURE_NOT_DEFINED_IN_PROFILE, childName);
+                        profileViolatedWhen(!isEmpty(rep), exList, STRUCTURE_NOT_DEFINED_IN_PROFILE, childName);
                     }
                 } catch (HL7Exception he) {
                     exList.add(new ValidationException("Problem checking profile:" + he.getMessage()));
@@ -253,7 +253,7 @@ class GazelleProfileRule extends AbstractMessageRule {
                 try {
                     Type[] reps = segment.getField(i);
                     for (Type rep : reps) {
-                        profileViolatedWhen(!rep.isEmpty(), exList, FIELD_NOT_DEFINED_IN_PROFILE, i, segment.getName());
+                        profileViolatedWhen(!isEmpty(rep), exList, FIELD_NOT_DEFINED_IN_PROFILE, i, segment.getName());
                     }
                 } catch (HL7Exception he) {
                     exList.add(new ValidationException("Problem testing against profile: " + he.getMessage()));
@@ -382,7 +382,7 @@ class GazelleProfileRule extends AbstractMessageRule {
 
         // test children
         try {
-            if (profile.getSubComponents().size() > 0 && !usage.disallowed() && !type.isEmpty()) {
+            if (profile.getSubComponents().size() > 0 && !usage.disallowed() && !isEmpty(type)) {
                 if (Composite.class.isAssignableFrom(type.getClass())) {
                     Composite comp = (Composite) type;
 
@@ -438,7 +438,7 @@ class GazelleProfileRule extends AbstractMessageRule {
     private static <T extends Structure> List<T> nonEmptyStructure(T[] input) throws HL7Exception {
         List<T> result = new ArrayList<T>();
         for (T element : input) {
-            if (!element.isEmpty()) result.add(element);
+            if (!isEmpty(element)) result.add(element);
         }
         return result;
     }
@@ -449,11 +449,22 @@ class GazelleProfileRule extends AbstractMessageRule {
         boolean seenNonEmptyRepetition = false;
         List<T> result = new ArrayList<T>();
         for (T element : input) {
-            if (!(element.isEmpty() && seenNonEmptyRepetition)) {
+            if (!(isEmpty(element) && seenNonEmptyRepetition)) {
                 seenNonEmptyRepetition = result.add(element);
             }
         }
         return seenNonEmptyRepetition ? result : Collections.<T>emptyList();
+    }
+
+    // Work around HAPI #224: TSComponentOne implementation of isEmpty is buggy
+    private static boolean isEmpty(Visitable v) throws HL7Exception {
+        if (v == null) return true;
+        if (!(v instanceof TSComponentOne)) {
+            return v.isEmpty();
+        } else {
+            TSComponentOne tsc1 = (TSComponentOne) v;
+            return tsc1.getValue() == null || tsc1.getValue().isEmpty();
+        }
     }
 
 }
