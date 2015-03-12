@@ -28,7 +28,7 @@ import org.openehealth.ipf.gazelle.validation.profile.pixpdq.ItiPixPdqProfile;
 public class ConformanceProfileRuleTest extends AbstractGazelleProfileValidatorTest{
 
     @Test
-    public void testIti8() throws Exception {
+    public void testIti8Merge() throws Exception {
         HL7V2XConformanceProfile runtimeProfile = unmarshalProfile(ItiPixPdqProfile.ITI_8_ADT_A40);
         GazelleProfileRule profileRule = new GazelleProfileRule(runtimeProfile);
 
@@ -38,6 +38,19 @@ public class ConformanceProfileRuleTest extends AbstractGazelleProfileValidatorT
         assertEquals(1, countExceptions(exceptions,  Severity.ERROR));
         assertEquals(3, countExceptions(exceptions,  Severity.WARNING));
         assertEquals(1, countExceptions(exceptions,  Severity.INFO));
+    }
+
+    @Test
+    public void testIti8Feed() throws Exception {
+        HL7V2XConformanceProfile runtimeProfile = unmarshalProfile(ItiPixPdqProfile.ITI_8_ADT_A01);
+        GazelleProfileRule profileRule = new GazelleProfileRule(runtimeProfile);
+
+        ValidationException[] exceptions = profileRule.apply(getParsedMessage("hl7/iti-8-feed.hl7"));
+        printOutExceptions(exceptions);
+
+        assertEquals(0, countExceptions(exceptions,  Severity.ERROR));
+        assertEquals(8, countExceptions(exceptions,  Severity.WARNING));
+        assertEquals(2, countExceptions(exceptions,  Severity.INFO));
     }
 
     @Test

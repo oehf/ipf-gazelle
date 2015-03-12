@@ -66,7 +66,7 @@ public abstract class AbstractGazelleProfileValidatorTest extends Assert {
                     LOG.error("ERROR:", exc);
                     break;
                 case WARNING:
-                    LOG.warn("ERROR:", exc);
+                    LOG.warn("WARN:", exc);
                     break;
                 case INFO:
                     LOG.warn("INFO:", exc);

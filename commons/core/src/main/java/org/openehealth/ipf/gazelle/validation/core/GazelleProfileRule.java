@@ -16,10 +16,6 @@
 package org.openehealth.ipf.gazelle.validation.core;
 
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-
 import ca.uhn.hl7v2.HL7Exception;
 import ca.uhn.hl7v2.model.*;
 import ca.uhn.hl7v2.model.primitive.TSComponentOne;
@@ -34,6 +30,10 @@ import org.openehealth.ipf.gazelle.validation.core.stub.SegmentType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
 import static org.openehealth.ipf.gazelle.validation.core.util.MessageUtils.*;
 import static org.openehealth.ipf.gazelle.validation.core.util.ProfileAssertions.profileNotHL7Compliant;
 import static org.openehealth.ipf.gazelle.validation.core.util.ProfileAssertions.profileViolatedWhen;
@@ -44,7 +44,7 @@ import static org.openehealth.ipf.gazelle.validation.core.util.ProfileValidation
  * {@link ca.uhn.hl7v2.conf.check.DefaultValidator} and cannot be returned by {@link ca.uhn.hl7v2.HapiContext#getConformanceValidator()}
  * due to its different signature.
  */
-class GazelleProfileRule extends AbstractMessageRule {
+public class GazelleProfileRule extends AbstractMessageRule {
 
     private EncodingCharacters enc;
     private static final Logger LOG = LoggerFactory.getLogger(GazelleProfileRule.class);
