@@ -20,6 +20,7 @@ import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Unmarshaller;
@@ -31,6 +32,8 @@ import ca.uhn.hl7v2.validation.impl.AbstractMessageRule;
 import org.openehealth.ipf.gazelle.validation.core.stub.HL7V2XConformanceProfile;
 import org.openehealth.ipf.gazelle.validation.profile.ConformanceProfile;
 import org.openehealth.ipf.gazelle.validation.profile.HL7v2Transactions;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import static org.openehealth.ipf.gazelle.validation.core.util.MessageUtils.guessGazelleProfile;
 
@@ -41,23 +44,9 @@ import static org.openehealth.ipf.gazelle.validation.core.util.MessageUtils.gues
  */
 public class CachingGazelleProfileRule extends AbstractMessageRule {
 
-    private static final Map<String, GazelleProfileRule> VALIDATOR_CACHE = new LinkedHashMap<String, GazelleProfileRule>() {
-        @Override
-        protected boolean removeEldestEntry(Map.Entry<String, GazelleProfileRule> eldest) {
-            return size() > 50;
-        }
-    };
-
-    private static final Unmarshaller UNMARSHALLER;
-
-    static {
-        try {
-            JAXBContext jaxbContext = JAXBContext.newInstance(HL7V2XConformanceProfile.class);
-            UNMARSHALLER = jaxbContext.createUnmarshaller();
-        } catch (JAXBException jaxbException) {
-            throw new RuntimeException(jaxbException.getMessage());
-        }
-    }
+    // Don't expect so many profile rules that we need eviction here
+    private static final ConcurrentHashMap<String, GazelleProfileRule> VALIDATOR_CACHE = new ConcurrentHashMap<String, GazelleProfileRule>();
+    private static final Logger LOG = LoggerFactory.getLogger(CachingGazelleProfileRule.class);
 
     private HL7v2Transactions iheTransaction;
     private ConformanceProfile profile;
@@ -115,17 +104,46 @@ public class CachingGazelleProfileRule extends AbstractMessageRule {
      * @throws JAXBException
      * @throws IOException
      */
-    synchronized protected GazelleProfileRule parseProfile(HapiContext hapiContext, String profileId) throws JAXBException, IOException {
-        String profileString = hapiContext.getProfileStore().getProfile(profileId);
-        GazelleProfileRule validator;
-        if (VALIDATOR_CACHE.containsKey(profileId)) {
-            validator = VALIDATOR_CACHE.get(profileId);
+    protected GazelleProfileRule parseProfile(HapiContext hapiContext, String profileId) throws JAXBException, IOException {
+
+        GazelleProfileRule validator = VALIDATOR_CACHE.get(profileId);
+        if (validator != null) return validator;
+
+        // Several threads could attempt to load the same profile, but this should only happen at the very
+        // beginning. As a benefit we don't need any locking here.
+        LOG.debug("Conformance Profile {} requested, but has not been parsed yet", profileId);
+        GazelleProfileRule loaded = loadRule(hapiContext, profileId);
+
+        if (VALIDATOR_CACHE.putIfAbsent(profileId, loaded) == null) {
+            LOG.debug("Added conformance profile {} to cache", profileId);
+            return loaded;
         } else {
-            HL7V2XConformanceProfile conformanceProfile =
-                    (HL7V2XConformanceProfile) UNMARSHALLER.unmarshal(new ByteArrayInputStream(profileString.getBytes()));
-            validator = new GazelleProfileRule(conformanceProfile);
-            VALIDATOR_CACHE.put(profileId, validator);
+            LOG.debug("Parsed conformance profile {}, but was already added");
+            return VALIDATOR_CACHE.get(profileId);
         }
+
+    }
+
+    protected GazelleProfileRule loadRule(HapiContext hapiContext, String profileId) throws JAXBException, IOException {
+        String profileString = hapiContext.getProfileStore().getProfile(profileId);
+        HL7V2XConformanceProfile conformanceProfile =
+                (HL7V2XConformanceProfile) getUnmarshaller().unmarshal(new ByteArrayInputStream(profileString.getBytes()));
+        GazelleProfileRule validator = new GazelleProfileRule(conformanceProfile);
         return validator;
+    }
+
+    // Unmarshaller are not thread-safe, but creation should happen only once for each profile
+    private Unmarshaller getUnmarshaller() {
+        try {
+            JAXBContext jaxbContext = JAXBContext.newInstance(HL7V2XConformanceProfile.class);
+            return jaxbContext.createUnmarshaller();
+        } catch (JAXBException jaxbException) {
+            throw new RuntimeException(jaxbException.getMessage());
+        }
+    }
+
+    // Just for testing purposes
+    void reset() {
+        VALIDATOR_CACHE.clear();
     }
 }
