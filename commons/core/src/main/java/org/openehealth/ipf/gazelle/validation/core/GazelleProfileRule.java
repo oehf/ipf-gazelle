@@ -31,6 +31,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
@@ -207,7 +208,7 @@ public class GazelleProfileRule extends AbstractMessageRule {
 
                 // see which instances have content
                 try {
-                    List<Type> nonEmptyFields = nonEmptyField(segment.getField(i));
+                    Collection<Type> nonEmptyFields = nonEmptyField(segment.getField(i));
                     exList.addAll(testCardinality(nonEmptyFields.size(), usage));
 
                     // test field instances with content
@@ -445,26 +446,33 @@ public class GazelleProfileRule extends AbstractMessageRule {
 
     // In contrast to {@link #nonEmptyStructure, this will only remove trailing empty fields.
     // If all fields are empty, an empty list is returned
-    private static <T extends Type> List<T> nonEmptyField(T[] input) throws HL7Exception {
+    private static <T extends Type> Collection<T> nonEmptyField(T[] input) throws HL7Exception {
+        if (input.length == 0) return Collections.<T>emptySet();
+        if (input.length == 1) return isEmpty(input[0]) ? Collections.<T>emptySet() : Collections.singleton(input[0]);
+
         boolean seenNonEmptyRepetition = false;
         List<T> result = new ArrayList<T>();
         for (T element : input) {
-            if (!(isEmpty(element) && seenNonEmptyRepetition)) {
+            boolean isEmpty = isEmpty(element);
+            if (!(isEmpty && seenNonEmptyRepetition)) {
                 seenNonEmptyRepetition = result.add(element);
             }
         }
-        return seenNonEmptyRepetition ? result : Collections.<T>emptyList();
+        return seenNonEmptyRepetition ? result : Collections.<T>emptySet();
     }
 
     // Work around HAPI #224: TSComponentOne implementation of isEmpty is buggy
     private static boolean isEmpty(Visitable v) throws HL7Exception {
         if (v == null) return true;
-        if (!(v instanceof TSComponentOne)) {
-            return v.isEmpty();
-        } else {
+        if (v instanceof TSComponentOne) {
             TSComponentOne tsc1 = (TSComponentOne) v;
             return tsc1.getValue() == null || tsc1.getValue().isEmpty();
         }
+        if (v instanceof Composite && v.getClass().getName().endsWith(".TS")) {
+            Composite ts = (Composite)v;
+            return isEmpty(ts.getComponent(0));
+        }
+        return v.isEmpty();
     }
 
 }
