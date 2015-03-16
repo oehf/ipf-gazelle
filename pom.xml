@@ -214,6 +214,17 @@
                 </plugin>
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-compiler-plugin</artifactId>
+                    <version>${compiler-plugin-version}</version>
+                    <configuration>
+                        <source>1.7</source>
+                        <target>1.7</target>
+                        <fork>true</fork>
+                        <verbose>false</verbose>
+                    </configuration>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-source-plugin</artifactId>
                     <version>${sources-plugin-version}</version>
                     <executions>
@@ -236,6 +247,10 @@
             </plugins>
         </pluginManagement>
         <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+            </plugin>
             <plugin>
                 <groupId>org.apache.felix</groupId>
                 <artifactId>maven-bundle-plugin</artifactId>
@@ -303,17 +318,6 @@
                 </executions>
             </plugin>
             <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <version>${compiler-plugin-version}</version>
-                <configuration>
-                    <source>1.6</source>
-                    <target>1.6</target>
-                    <fork>true</fork>
-                    <verbose>false</verbose>
-                </configuration>
-            </plugin>
-            <plugin>
                 <artifactId>maven-jar-plugin</artifactId>
                 <configuration>
                     <archive>
@@ -338,50 +342,6 @@
             </plugin>
         </plugins>
     </build>
-
-    <repositories>
-        <repository>
-            <id>openehealth.releases</id>
-            <name>Open eHealth Maven Repository</name>
-            <url>http://repo.openehealth.org/maven2/releases</url>
-            <releases>
-                <enabled>true</enabled>
-            </releases>
-            <snapshots>
-                <enabled>false</enabled>
-            </snapshots>
-        </repository>
-        <repository>
-            <id>openehealth.snapshots</id>
-            <name>Open eHealth Maven Repository</name>
-            <url>http://repo.openehealth.org/maven2/snapshots</url>
-            <releases>
-                <enabled>false</enabled>
-            </releases>
-            <snapshots>
-                <enabled>true</enabled>
-            </snapshots>
-        </repository>
-        <repository>
-            <id>repo1</id>
-            <name>Maven Repository</name>
-            <url>http://repo1.maven.org/maven2</url>
-        </repository>
-    </repositories>
-
-    <pluginRepositories>
-        <pluginRepository>
-            <id>openehealth.plugins.releases</id>
-            <name>Open eHealth Maven Plugin Repository</name>
-            <url>http://repo.openehealth.org/maven2/releases</url>
-            <releases>
-                <enabled>true</enabled>
-            </releases>
-            <snapshots>
-                <enabled>false</enabled>
-            </snapshots>
-        </pluginRepository>
-    </pluginRepositories>
 
     <profiles>
         <profile>
