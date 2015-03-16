@@ -320,7 +320,7 @@ public class HL7V2XConformanceProfile {
      */
     public List<Object> getDynamicDevesAndHL7V2XStaticDevesAndHL7V2XStaticDefReves() {
         if (dynamicDevesAndHL7V2XStaticDevesAndHL7V2XStaticDefReves == null) {
-            dynamicDevesAndHL7V2XStaticDevesAndHL7V2XStaticDefReves = new ArrayList<Object>();
+            dynamicDevesAndHL7V2XStaticDevesAndHL7V2XStaticDefReves = new ArrayList<>();
         }
         return this.dynamicDevesAndHL7V2XStaticDevesAndHL7V2XStaticDefReves;
     }
@@ -667,7 +667,7 @@ public class HL7V2XConformanceProfile {
          */
         public List<String> getEncodings() {
             if (encodings == null) {
-                encodings = new ArrayList<String>();
+                encodings = new ArrayList<>();
             }
             return this.encodings;
         }
@@ -851,7 +851,7 @@ public class HL7V2XConformanceProfile {
          */
         public List<JAXBElement<UseCaseElementType>> getActorsAndPreConditionsAndPostConditions() {
             if (actorsAndPreConditionsAndPostConditions == null) {
-                actorsAndPreConditionsAndPostConditions = new ArrayList<JAXBElement<UseCaseElementType>>();
+                actorsAndPreConditionsAndPostConditions = new ArrayList<>();
             }
             return this.actorsAndPreConditionsAndPostConditions;
         }

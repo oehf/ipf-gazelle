@@ -240,7 +240,7 @@ public class SegmentType {
      */
     public List<SegmentType.Field> getFields() {
         if (fields == null) {
-            fields = new ArrayList<SegmentType.Field>();
+            fields = new ArrayList<>();
         }
         return this.fields;
     }
@@ -584,7 +584,7 @@ public class SegmentType {
          */
         public List<SegmentType.Field.DataValues> getDataValues() {
             if (dataValues == null) {
-                dataValues = new ArrayList<SegmentType.Field.DataValues>();
+                dataValues = new ArrayList<>();
             }
             return this.dataValues;
         }
@@ -613,7 +613,7 @@ public class SegmentType {
          */
         public List<SegmentType.Field.Component> getComponents() {
             if (components == null) {
-                components = new ArrayList<SegmentType.Field.Component>();
+                components = new ArrayList<>();
             }
             return this.components;
         }
@@ -1025,7 +1025,7 @@ public class SegmentType {
              */
             public List<SegmentType.Field.DataValues> getDataValues() {
                 if (dataValues == null) {
-                    dataValues = new ArrayList<SegmentType.Field.DataValues>();
+                    dataValues = new ArrayList<>();
                 }
                 return this.dataValues;
             }
@@ -1054,7 +1054,7 @@ public class SegmentType {
              */
             public List<SegmentType.Field.Component.SubComponent> getSubComponents() {
                 if (subComponents == null) {
-                    subComponents = new ArrayList<SegmentType.Field.Component.SubComponent>();
+                    subComponents = new ArrayList<>();
                 }
                 return this.subComponents;
             }
@@ -1379,7 +1379,7 @@ public class SegmentType {
                  */
                 public List<SegmentType.Field.DataValues> getDataValues() {
                     if (dataValues == null) {
-                        dataValues = new ArrayList<SegmentType.Field.DataValues>();
+                        dataValues = new ArrayList<>();
                     }
                     return this.dataValues;
                 }
