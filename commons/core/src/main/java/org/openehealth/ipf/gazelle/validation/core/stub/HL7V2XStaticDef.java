@@ -225,7 +225,7 @@ public class HL7V2XStaticDef {
      */
     public List<Object> getSegmentsAndSegGroups() {
         if (segmentsAndSegGroups == null) {
-            segmentsAndSegGroups = new ArrayList<Object>();
+            segmentsAndSegGroups = new ArrayList<>();
         }
         return this.segmentsAndSegGroups;
     }
@@ -591,7 +591,7 @@ public class HL7V2XStaticDef {
          */
         public List<Object> getSegGroupsAndSegments() {
             if (segGroupsAndSegments == null) {
-                segGroupsAndSegments = new ArrayList<Object>();
+                segGroupsAndSegments = new ArrayList<>();
             }
             return this.segGroupsAndSegments;
         }

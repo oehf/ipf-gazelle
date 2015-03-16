@@ -16,15 +16,6 @@
 package org.openehealth.ipf.gazelle.validation.core;
 
 
-import java.io.ByteArrayInputStream;
-import java.io.IOException;
-import java.util.LinkedHashMap;
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
-import javax.xml.bind.JAXBContext;
-import javax.xml.bind.JAXBException;
-import javax.xml.bind.Unmarshaller;
-
 import ca.uhn.hl7v2.HapiContext;
 import ca.uhn.hl7v2.model.Message;
 import ca.uhn.hl7v2.validation.ValidationException;
@@ -34,6 +25,13 @@ import org.openehealth.ipf.gazelle.validation.profile.ConformanceProfile;
 import org.openehealth.ipf.gazelle.validation.profile.HL7v2Transactions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBException;
+import javax.xml.bind.Unmarshaller;
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.util.concurrent.ConcurrentHashMap;
 
 import static org.openehealth.ipf.gazelle.validation.core.util.MessageUtils.guessGazelleProfile;
 
@@ -45,7 +43,7 @@ import static org.openehealth.ipf.gazelle.validation.core.util.MessageUtils.gues
 public class CachingGazelleProfileRule extends AbstractMessageRule {
 
     // Don't expect so many profile rules that we need eviction here
-    private static final ConcurrentHashMap<String, GazelleProfileRule> VALIDATOR_CACHE = new ConcurrentHashMap<String, GazelleProfileRule>();
+    private static final ConcurrentHashMap<String, GazelleProfileRule> VALIDATOR_CACHE = new ConcurrentHashMap<>();
     private static final Logger LOG = LoggerFactory.getLogger(CachingGazelleProfileRule.class);
 
     private HL7v2Transactions iheTransaction;

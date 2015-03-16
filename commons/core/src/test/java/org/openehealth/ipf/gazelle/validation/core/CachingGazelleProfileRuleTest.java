@@ -74,7 +74,7 @@ public class CachingGazelleProfileRuleTest extends Assert {
         final HapiContext context = new DefaultHapiContext();
 
         ExecutorService executor = Executors.newCachedThreadPool();
-        final List<GazelleProfileRule> rules = new CopyOnWriteArrayList<GazelleProfileRule>();
+        final List<GazelleProfileRule> rules = new CopyOnWriteArrayList<>();
         int runs = 100;
         final CountDownLatch latch = new CountDownLatch(runs);
         for (int i = 0; i < runs; i++) {

@@ -67,7 +67,7 @@ public class GazelleProfileRule extends AbstractMessageRule {
 
     @Override
     public ValidationException[] apply(Message message) {
-        List<ValidationException> violations = new ArrayList<ValidationException>();
+        List<ValidationException> violations = new ArrayList<>();
 
         HL7V2XStaticDef staticDef = null;
         for (Object ref : profile.getDynamicDevesAndHL7V2XStaticDevesAndHL7V2XStaticDefReves()) {
@@ -99,8 +99,8 @@ public class GazelleProfileRule extends AbstractMessageRule {
      * @return a list with identified violations against the profile(s)
      */
     protected List<ValidationException> testGroup(Group group, List<Object> profile) {
-        List<ValidationException> exList = new ArrayList<ValidationException>();
-        List<String> allowedStructures = new ArrayList<String>();
+        List<ValidationException> exList = new ArrayList<>();
+        List<String> allowedStructures = new ArrayList<>();
 
         for (Object struct : profile) {
             UsageInfo usage = new UsageInfo(struct);
@@ -136,7 +136,7 @@ public class GazelleProfileRule extends AbstractMessageRule {
      * structures that appear in the message but are not supposed to.
      */
     protected List<ValidationException> checkForExtraStructures(Group group, List<String> allowedStructures) {
-        List<ValidationException> exList = new ArrayList<ValidationException>();
+        List<ValidationException> exList = new ArrayList<>();
         for (String childName : group.getNames()) {
             if (!allowedStructures.contains(childName)) {
                 try {
@@ -161,7 +161,7 @@ public class GazelleProfileRule extends AbstractMessageRule {
      * @return exceptions
      */
     protected List<ValidationException> testCardinality(int reps, UsageInfo usage) {
-        List<ValidationException> violations = new ArrayList<ValidationException>();
+        List<ValidationException> violations = new ArrayList<>();
         profileViolatedWhen(reps < usage.min && usage.required(),
                 violations, LESS_THAN_MINIMUM_CARDINALITY, usage.name, usage.min, reps);
         profileViolatedWhen(usage.max > 0 && reps > usage.max,
@@ -176,7 +176,7 @@ public class GazelleProfileRule extends AbstractMessageRule {
      * Tests a structure (segment or group) against the corresponding part of a profile.
      */
     protected List<ValidationException> testStructure(Structure s, Object profile) {
-        List<ValidationException> exList = new ArrayList<ValidationException>();
+        List<ValidationException> exList = new ArrayList<>();
         if (profile instanceof SegmentType) {
             if (Segment.class.isAssignableFrom(s.getClass())) {
                 exList.addAll(testSegment((Segment) s, (SegmentType) profile));
@@ -197,8 +197,8 @@ public class GazelleProfileRule extends AbstractMessageRule {
 
 
     protected List<ValidationException> testSegment(Segment segment, SegmentType profile) {
-        List<ValidationException> exList = new ArrayList<ValidationException>();
-        List<Integer> allowedFields = new ArrayList<Integer>();
+        List<ValidationException> exList = new ArrayList<>();
+        List<Integer> allowedFields = new ArrayList<>();
         int i = 1;
         for (SegmentType.Field field : profile.getFields()) {
             UsageInfo usage = new UsageInfo(field);
@@ -248,7 +248,7 @@ public class GazelleProfileRule extends AbstractMessageRule {
      * @param allowedFields an array of Integers containing field #s of allowed fields
      */
     protected List<ValidationException> checkForExtraFields(Segment segment, List<Integer> allowedFields) {
-        ArrayList<ValidationException> exList = new ArrayList<ValidationException>();
+        ArrayList<ValidationException> exList = new ArrayList<>();
         for (int i = 1; i <= segment.numFields(); i++) {
             if (!allowedFields.contains(new Integer(i))) {
                 try {
@@ -265,7 +265,7 @@ public class GazelleProfileRule extends AbstractMessageRule {
     }
 
     protected List<ValidationException> testField(Type type, SegmentType.Field profile, boolean escape) {
-        List<ValidationException> exList = new ArrayList<ValidationException>();
+        List<ValidationException> exList = new ArrayList<>();
 
         UsageInfo usage = new UsageInfo(profile);
 
@@ -310,7 +310,7 @@ public class GazelleProfileRule extends AbstractMessageRule {
      *                pipe-encoded form is used to check length and constant val)
      */
     protected List<ValidationException> testType(Type type, String dataType, UsageInfo usage, String encoded, boolean testUsage) {
-        ArrayList<ValidationException> exList = new ArrayList<ValidationException>();
+        ArrayList<ValidationException> exList = new ArrayList<>();
         if (encoded == null)
             encoded = PipeParser.encode(type, this.enc);
 
@@ -377,7 +377,7 @@ public class GazelleProfileRule extends AbstractMessageRule {
     }
 
     protected List<ValidationException> testComponent(Type type, SegmentType.Field.Component profile) {
-        List<ValidationException> exList = new ArrayList<ValidationException>();
+        List<ValidationException> exList = new ArrayList<>();
         UsageInfo usage = new UsageInfo(profile);
         exList.addAll(testType(type, profile.getDatatype(), usage, null));
 
@@ -417,7 +417,7 @@ public class GazelleProfileRule extends AbstractMessageRule {
      * Tests for extra components (i.e. any not defined in the profile)
      */
     protected List<ValidationException> checkUndefinedComponents(Composite comp, int numInProfile) {
-        List<ValidationException> exList = new ArrayList<ValidationException>();
+        List<ValidationException> exList = new ArrayList<>();
 
         StringBuilder extra = new StringBuilder();
         for (int i = numInProfile; i < comp.getComponents().length; i++) {
@@ -437,7 +437,7 @@ public class GazelleProfileRule extends AbstractMessageRule {
 
 
     private static <T extends Structure> List<T> nonEmptyStructure(T[] input) throws HL7Exception {
-        List<T> result = new ArrayList<T>();
+        List<T> result = new ArrayList<>();
         for (T element : input) {
             if (!isEmpty(element)) result.add(element);
         }
@@ -447,11 +447,11 @@ public class GazelleProfileRule extends AbstractMessageRule {
     // In contrast to {@link #nonEmptyStructure, this will only remove trailing empty fields.
     // If all fields are empty, an empty list is returned
     private static <T extends Type> Collection<T> nonEmptyField(T[] input) throws HL7Exception {
-        if (input.length == 0) return Collections.<T>emptySet();
+        if (input.length == 0) return Collections.emptySet();
         if (input.length == 1) return isEmpty(input[0]) ? Collections.<T>emptySet() : Collections.singleton(input[0]);
 
         boolean seenNonEmptyRepetition = false;
-        List<T> result = new ArrayList<T>();
+        List<T> result = new ArrayList<>();
         for (T element : input) {
             boolean isEmpty = isEmpty(element);
             if (!(isEmpty && seenNonEmptyRepetition)) {

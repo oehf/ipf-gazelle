@@ -162,7 +162,7 @@ public class ObjectFactory {
      */
     @XmlElementDecl(namespace = "", name = "PostCondition", scope = HL7V2XConformanceProfile.UseCase.class)
     public JAXBElement<UseCaseElementType> createHL7V2XConformanceProfileUseCasePostCondition(UseCaseElementType value) {
-        return new JAXBElement<UseCaseElementType>(_HL7V2XConformanceProfileUseCasePostCondition_QNAME, UseCaseElementType.class, HL7V2XConformanceProfile.UseCase.class, value);
+        return new JAXBElement<>(_HL7V2XConformanceProfileUseCasePostCondition_QNAME, UseCaseElementType.class, HL7V2XConformanceProfile.UseCase.class, value);
     }
 
     /**
@@ -171,7 +171,7 @@ public class ObjectFactory {
      */
     @XmlElementDecl(namespace = "", name = "PreCondition", scope = HL7V2XConformanceProfile.UseCase.class)
     public JAXBElement<UseCaseElementType> createHL7V2XConformanceProfileUseCasePreCondition(UseCaseElementType value) {
-        return new JAXBElement<UseCaseElementType>(_HL7V2XConformanceProfileUseCasePreCondition_QNAME, UseCaseElementType.class, HL7V2XConformanceProfile.UseCase.class, value);
+        return new JAXBElement<>(_HL7V2XConformanceProfileUseCasePreCondition_QNAME, UseCaseElementType.class, HL7V2XConformanceProfile.UseCase.class, value);
     }
 
     /**
@@ -180,7 +180,7 @@ public class ObjectFactory {
      */
     @XmlElementDecl(namespace = "", name = "DerivedEvent", scope = HL7V2XConformanceProfile.UseCase.class)
     public JAXBElement<UseCaseElementType> createHL7V2XConformanceProfileUseCaseDerivedEvent(UseCaseElementType value) {
-        return new JAXBElement<UseCaseElementType>(_HL7V2XConformanceProfileUseCaseDerivedEvent_QNAME, UseCaseElementType.class, HL7V2XConformanceProfile.UseCase.class, value);
+        return new JAXBElement<>(_HL7V2XConformanceProfileUseCaseDerivedEvent_QNAME, UseCaseElementType.class, HL7V2XConformanceProfile.UseCase.class, value);
     }
 
     /**
@@ -189,7 +189,7 @@ public class ObjectFactory {
      */
     @XmlElementDecl(namespace = "", name = "EventFlow", scope = HL7V2XConformanceProfile.UseCase.class)
     public JAXBElement<UseCaseElementType> createHL7V2XConformanceProfileUseCaseEventFlow(UseCaseElementType value) {
-        return new JAXBElement<UseCaseElementType>(_HL7V2XConformanceProfileUseCaseEventFlow_QNAME, UseCaseElementType.class, HL7V2XConformanceProfile.UseCase.class, value);
+        return new JAXBElement<>(_HL7V2XConformanceProfileUseCaseEventFlow_QNAME, UseCaseElementType.class, HL7V2XConformanceProfile.UseCase.class, value);
     }
 
     /**
@@ -198,7 +198,7 @@ public class ObjectFactory {
      */
     @XmlElementDecl(namespace = "", name = "Actor", scope = HL7V2XConformanceProfile.UseCase.class)
     public JAXBElement<UseCaseElementType> createHL7V2XConformanceProfileUseCaseActor(UseCaseElementType value) {
-        return new JAXBElement<UseCaseElementType>(_HL7V2XConformanceProfileUseCaseActor_QNAME, UseCaseElementType.class, HL7V2XConformanceProfile.UseCase.class, value);
+        return new JAXBElement<>(_HL7V2XConformanceProfileUseCaseActor_QNAME, UseCaseElementType.class, HL7V2XConformanceProfile.UseCase.class, value);
     }
 
 }
