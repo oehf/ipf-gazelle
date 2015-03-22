@@ -84,4 +84,8 @@ class UsageInfo {
     boolean requiredOrEmpty() {
         return "RE".equalsIgnoreCase(usage);
     }
+
+    boolean nullContext() {
+        return "NULL".equalsIgnoreCase(usage);
+    }
 }

@@ -9,8 +9,11 @@
    - This schema contains embedded Schematron constraints.  These schematron constraints may be tested in many ways.
    - One of the easiest is with a combined w3c Schema/Schematron validator such as the free one produced by Topologia:
    - http://www.topologi.com/validator
+   -
+   - Contains IPF extensions.
    -->
-<xs:schema xmlns:sch="http://www.ascc.net/xml/schematron" xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified">
+<xs:schema xmlns:ipf="http://www.openehealth.org/ipf" xmlns:sch="http://www.ascc.net/xml/schematron" xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified">
+	<xs:import namespace="http://www.openehealth.org/ipf" schemaLocation="HL7MessageProfileSchemaExtensions.xsd"/>
 	<xs:element name="HL7v2xConformanceProfile">
 		<xs:annotation>
 			<xs:documentation>An unambiguous specification of one or more standard HL7 messages that have been analyzed for a particular use case.  It prescribes a set of precise constraints upon one or more standard HL7 messages.</xs:documentation>
@@ -441,6 +444,7 @@
 							</xs:restriction>
 						</xs:simpleType>
 					</xs:attribute>
+					<xs:attribute ref="ipf:Nullable"/>
 				</xs:complexType>
 			</xs:element>
 		</xs:sequence>

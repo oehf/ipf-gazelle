@@ -22,6 +22,12 @@
             <artifactId>hapi-base</artifactId>
         </dependency>
         <dependency>
+            <groupId>commons-beanutils</groupId>
+            <artifactId>commons-beanutils</artifactId>
+        </dependency>
+
+        <!-- dependencies for tests -->
+        <dependency>
             <groupId>ca.uhn.hapi</groupId>
             <artifactId>hapi-structures-v231</artifactId>
             <scope>test</scope>

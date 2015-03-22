@@ -409,6 +409,7 @@ public class SegmentType {
      *           &lt;/restriction>
      *         &lt;/simpleType>
      *       &lt;/attribute>
+     *       &lt;attribute ref="{http://www.openehealth.org/ipf}Nullable"/>
      *     &lt;/restriction>
      *   &lt;/complexContent>
      * &lt;/complexType>
@@ -463,6 +464,8 @@ public class SegmentType {
         protected BigInteger min;
         @XmlAttribute(name = "Max", required = true)
         protected String max;
+        @XmlAttribute(name = "Nullable", namespace = "http://www.openehealth.org/ipf")
+        protected boolean nullable;
 
         /**
          * Gets the value of the impNote property.
@@ -834,6 +837,28 @@ public class SegmentType {
             this.max = value;
         }
 
+        /**
+         * @return <code>true</code> if the HL7 NULL (a pair of double quotes <code>""</code>)
+         * is a valid value for the whole field.
+         * <p>
+         * This attribute is an IPF extension.
+         */
+        public boolean isNullable() {
+            return nullable;
+        }
+
+        /**
+         * Defines whether the HL7 NULL (a pair of double quotes <code>""</code>)
+         * shall be a valid value for the whole field.
+         * <p>
+         * This attribute is an IPF extension.
+         * @param nullable
+         *      if <code>true</code>, then the HL7 NULL (a pair of double quotes <code>""</code>)
+         *      will be a valid value for the whole field.
+         */
+        public void setNullable(boolean nullable) {
+            this.nullable = nullable;
+        }
 
         /**
          * <p>Java class for anonymous complex type.

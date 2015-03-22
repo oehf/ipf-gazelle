@@ -39,6 +39,7 @@ public enum ProfileValidationMessage {
     WRONG_MSH_STRUCTURE_FIELD("Message structure '%1s' doesn't match profile structure of '%2s'", UNSUPPORTED_PROCESSING_ID, ERROR),
     WRONG_MSH_VERSION_FIELD("Message version '%1s' doesn't match profile version of '%2s'", UNSUPPORTED_VERSION_ID, ERROR),
     NOT_SUPPORTED_ELEMENT_PRESENT("Element '%1s' is present in the message but specified as not used (X) by the profile", APPLICATION_INTERNAL_ERROR, WARNING),
+    NO_ELEMENTS_AFTER_NULL("Element '%1s' cannot be present when the field is set to NULL", APPLICATION_INTERNAL_ERROR, ERROR),
     LENGTH_EXCEEDED("The type '%1s' has length %2s which exceeds max of %3s", DATA_TYPE_ERROR, WARNING),
     WRONG_CONSTANT_VALUE ("'%1s' doesn't equal constant value of '%2s'", DATA_TYPE_ERROR, ERROR),
     REQUIRED_ELEMENT_MISSING("Required element '%1s' is missing", APPLICATION_INTERNAL_ERROR, ERROR),

@@ -24,12 +24,14 @@ import ca.uhn.hl7v2.parser.PipeParser;
 import ca.uhn.hl7v2.util.Terser;
 import ca.uhn.hl7v2.validation.ValidationException;
 import ca.uhn.hl7v2.validation.impl.AbstractMessageRule;
+import org.apache.commons.beanutils.BeanUtils;
 import org.openehealth.ipf.gazelle.validation.core.stub.HL7V2XConformanceProfile;
 import org.openehealth.ipf.gazelle.validation.core.stub.HL7V2XStaticDef;
 import org.openehealth.ipf.gazelle.validation.core.stub.SegmentType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -282,9 +284,28 @@ public class GazelleProfileRule extends AbstractMessageRule {
                 if (Composite.class.isAssignableFrom(type.getClass())) {
                     Composite comp = (Composite) type;
                     int i = 1;
+                    boolean nullValue = false;
                     for (SegmentType.Field.Component component : profile.getComponents()) {
                         try {
-                            exList.addAll(testComponent(comp.getComponent(i - 1), component));
+                            SegmentType.Field.Component component2;
+                            if (nullValue) {
+                                component2 = new SegmentType.Field.Component();
+                                try {
+                                    BeanUtils.copyProperties(component2, component);
+                                } catch (InvocationTargetException | IllegalAccessException e) {
+                                    // nop
+                                }
+                                component2.setUsage("NULL");
+                            } else {
+                                component2 = component;
+                                if ((i == 1) && profile.isNullable() &&
+                                        PipeParser.encode(comp.getComponent(0), this.enc).equals("\"\""))
+                                {
+                                    nullValue = true;
+                                }
+                            }
+
+                            exList.addAll(testComponent(comp.getComponent(i - 1), component2));
                         } catch (DataTypeException de) {
                             profileNotHL7Compliant(exList, COMPONENT_TYPE_MISMATCH, type.getName(), i);
                         }
@@ -360,6 +381,8 @@ public class GazelleProfileRule extends AbstractMessageRule {
             profileViolatedWhen(encoded.isEmpty(), exList, REQUIRED_ELEMENT_MISSING, usage.name);
         } else if (usage.disallowed()) {
             profileViolatedWhen(!encoded.isEmpty(), exList, NOT_SUPPORTED_ELEMENT_PRESENT, usage.name);
+        } else if (usage.nullContext()) {
+            profileViolatedWhen(!encoded.isEmpty(), exList, NO_ELEMENTS_AFTER_NULL, usage.name);
         }
         /*
         else if (usage.equalsIgnoreCase("RE")) {
