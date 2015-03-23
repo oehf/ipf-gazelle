@@ -29,8 +29,6 @@ import java.io.InputStream;
  */
 public class NullFieldValidatorTest extends AbstractGazelleProfileValidatorTest {
 
-    private static final String NULL = "\"\"";
-
     private Message getMessage(String substanceId) throws Exception {
         final String messageString =
                 "MSH|^~\\&|sa|sf|ra|rf|20150321213310+0200||OUL^R22^OUL_R22|123|P|2.5.1|||ER|AL||UNICODE UTF-8|||LAB-29^IHE\r" +

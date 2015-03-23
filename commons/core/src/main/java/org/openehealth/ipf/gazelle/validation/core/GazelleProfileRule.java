@@ -284,11 +284,11 @@ public class GazelleProfileRule extends AbstractMessageRule {
                 if (Composite.class.isAssignableFrom(type.getClass())) {
                     Composite comp = (Composite) type;
                     int i = 1;
-                    boolean nullValue = false;
+                    boolean nullContext = false;
                     for (SegmentType.Field.Component component : profile.getComponents()) {
                         try {
                             SegmentType.Field.Component component2;
-                            if (nullValue) {
+                            if (nullContext) {
                                 component2 = new SegmentType.Field.Component();
                                 try {
                                     BeanUtils.copyProperties(component2, component);
@@ -301,7 +301,7 @@ public class GazelleProfileRule extends AbstractMessageRule {
                                 if ((i == 1) && profile.isNullable() &&
                                         PipeParser.encode(comp.getComponent(0), this.enc).equals("\"\""))
                                 {
-                                    nullValue = true;
+                                    nullContext = true;
                                 }
                             }
 
