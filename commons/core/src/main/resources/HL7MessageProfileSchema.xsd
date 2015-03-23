@@ -469,7 +469,7 @@
 				<xs:documentation>Identifies the HL7 datatype associated with the element.</xs:documentation>
 			</xs:annotation>
 		</xs:attribute>
-		<xs:attribute name="Length" type="xs:positiveInteger">
+		<xs:attribute name="Length" type="xs:positiveInteger" use="required">
 			<xs:annotation>
 				<xs:documentation>Identifies the maximum allowed length for the content of the element.</xs:documentation>
 			</xs:annotation>
