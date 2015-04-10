@@ -67,8 +67,7 @@ public class NullFieldValidatorTest extends AbstractGazelleProfileValidatorTest 
         validate("\"\"",                   "withNulls", false); // CE.1 is NULL, CE.3 is not set
 
         ValidationException[] exceptions = validate("\"\"^^HL70451", "withNulls", true); // CE.1 is NULL, CE.3 is set
-        assertEquals("Element 'name of coding system' cannot be present when the field is set to NULL at INV-1",
-                exceptions[0].getMessage());
+        assertTrue(exceptions[0].getMessage().startsWith("Element 'name of coding system' cannot be present when the field is set to NULL at INV-1"));
 
         validate("id^^HL70451",            "withNulls", false); // CE.1 and CE.3 are set
         validate("id^description^HL70451", "withNulls", false); // CE.1, CE.2, CE.3 are all set
