@@ -385,6 +385,9 @@
         </plugins>
         <resources>
             <resource>
+                <directory>src/main/resources</directory>
+            </resource>        
+            <resource>
                 <directory>target/gazelle-profiles</directory>
             </resource>
             <resource>
