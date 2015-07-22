@@ -1,0 +1,1243 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- $Id: ADT_A40.xml 36566 2013-07-15 09:06:52Z aberge $-->
+<!-- Copyright 2011 IHE International (http://www.ihe.net) Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with the License. You may obtain a copy of the License at http://www.apache.org/licenses/LICENSE-2.0 Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions and limitations under the License. -->
+<?xml-stylesheet type="text/xsl" href="http://gazelle.ihe.net/xsl/mp2htm.xsl"?>
+<!-- Caroline Rosin (NIST) : changed HL7Version from 2.5 to 2.3.1 See IHE TF-2a section 3.8.3 -->
+<HL7v2xConformanceProfile xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://gazelle.ihe.net/xsd/HL7MessageProfileSchema.xsd" HL7Version="2.3.1" ProfileType="Constrainable">
+	<MetaData Name="PIF" OrgName="IHE" Version="2.4" Status="DRAFT" Topics="confsig-IHE-2.3.1-profile-accNE_accAL-Deferred" />
+	<ImpNote>ADT/ACK - Merge patient - patient identifier list</ImpNote>
+	<UseCase />
+	<Encodings>
+		<Encoding>ER7</Encoding>
+	</Encodings>
+	<DynamicDef AccAck="NE" AppAck="AL" MsgAckMode="Deferred" />
+	<HL7v2xStaticDef MsgType="ADT" EventType="A40" MsgStructID="ADT_A39" EventDesc="ADT/ACK - Merge patient - patient identifier list" Role="Sender">
+		<MetaData Name="Patient Identity Feed" OrgName="IHE" Version="2.3" Status="DRAFT" Topics="confsig-IHE-2.3.1-static-ADT-A40-null-ADT_A39-2.3-DRAFT-Sender" />
+		<Segment Name="MSH" LongName="message header segment" Usage="R" Min="1" Max="1">
+			<Field Name="Field Separator" Usage="R" Min="1" Max="1" Datatype="ST" Length="1" ItemNo="00001">
+				<Reference>11.6.1</Reference>
+			</Field>
+			<Field Name="Encoding Characters" Usage="R" Min="1" Max="1" Datatype="ST" Length="4" ItemNo="00002">
+				<Reference>11.2.2</Reference>
+			</Field>
+			<Field Name="Sending Application" Usage="R" Min="1" Max="1" Datatype="HD" Length="180" Table="0361" ItemNo="00003">
+				<Reference>11.2.3</Reference>
+				<!-- Caroline Rosin (NIST) : change length from 3 to 20. See IHE TF-2x section N.3 -->
+				<Component Name="namespace ID" Usage="O" Datatype="IS" Length="20" Table="0300"/>
+				<!-- Caroline Rosin (NIST) : change length from 3 to 199. See IHE TF-2x section N.3 -->
+				<Component Name="universal ID" Usage="O" Datatype="ST" Length="199"/>
+				<!-- Caroline Rosin (NIST) : change length from 3 to 6. See IHE TF-2x section N.3 -->
+				<Component Name="universal ID type" Usage="O" Datatype="ID" Length="6" Table="0301"/>
+			</Field>
+			<Field Name="Sending Facility" Usage="R" Min="1" Max="1" Datatype="HD" Length="180" Table="0362" ItemNo="00004">
+				<Reference>11.2.4</Reference>
+				<!-- Caroline Rosin (NIST) : change length from 3 to 20. See IHE TF-2x section N.3 -->
+				<Component Name="namespace ID" Usage="O" Datatype="IS" Length="20" Table="0300"/>
+				<!-- Caroline Rosin (NIST) : change length from 3 to 199. See IHE TF-2x section N.3 -->
+				<Component Name="universal ID" Usage="O" Datatype="ST" Length="199"/>
+				<!-- Caroline Rosin (NIST) : change length from 3 to 6. See IHE TF-2x section N.3 -->
+				<Component Name="universal ID type" Usage="O" Datatype="ID" Length="6" Table="0301"/>
+			</Field>
+			<Field Name="Receiving Application" Usage="R" Min="1" Max="1" Datatype="HD" Length="180" Table="0361" ItemNo="00005">
+				<Reference>11.6.6</Reference>
+				<!-- Caroline Rosin (NIST) : change length from 3 to 20. See IHE TF-2x section N.3 -->
+				<Component Name="namespace ID" Usage="O" Datatype="IS" Length="20" Table="0300"/>
+				<!-- Caroline Rosin (NIST) : change length from 3 to 199. See IHE TF-2x section N.3 -->
+				<Component Name="universal ID" Usage="O" Datatype="ST" Length="199"/>
+				<!-- Caroline Rosin (NIST) : change length from 3 to 6. See IHE TF-2x section N.3 -->
+				<Component Name="universal ID type" Usage="O" Datatype="ID" Length="6" Table="0301"/>
+			</Field>
+			<Field Name="Receiving Facility" Usage="R" Min="1" Max="1" Datatype="HD" Length="180" Table="0362" ItemNo="00006">
+				<Reference>11.2.6</Reference>
+				<!-- Caroline Rosin (NIST) : change length from 3 to 20. See IHE TF-2x section N.3 -->
+				<Component Name="namespace ID" Usage="O" Datatype="IS" Length="20" Table="0300"/>
+				<!-- Caroline Rosin (NIST) : change length from 3 to 199. See IHE TF-2x section N.3 -->
+				<Component Name="universal ID" Usage="O" Datatype="ST" Length="199"/>
+				<!-- Caroline Rosin (NIST) : change length from 3 to 6. See IHE TF-2x section N.3 -->
+				<Component Name="universal ID type" Usage="O" Datatype="ID" Length="6" Table="0301"/>
+			</Field>
+			<Field Name="Date/Time Of Message" Usage="R" Min="1" Max="1" Datatype="TS" Length="26" ItemNo="00007">
+				<Reference>11.2.7</Reference>
+				<!-- Caroline Rosin (NIST) : change datatype from NM to ST to allow [+-ZZZZ] -->
+				<Component Name="Date/Time" Usage="R" Datatype="ST" Length="26">
+					<ImpNote>YYYYMMDD[HHHMM[SS[.SSSS]]][+-ZZZZ]</ImpNote>
+				</Component>
+				<Component Name="degree of precision" Usage="X" Datatype="ST" Length="1">
+					<ImpNote>Retained for backward compatibility only</ImpNote>
+				</Component>
+			</Field>
+			<Field Name="Security" Usage="O" Min="0" Max="1" Datatype="ST" Length="40" ItemNo="00008">
+				<Reference>11.6.3</Reference>
+			</Field>
+			<!-- Caroline Rosin (NIST) : change datatype from MSG to CM and length from 9 to 13. See ITI TF-2x Table C.2.2-1-->
+			<!-- Anne-Gaelle Berge : change back datatype from CM to MSG. IHE says CM but this datatype is not described nor by HL7 nor by IHE
+				moreover, the structure described below is the one called MSG in HL7 -->
+			<Field Name="Message Type" Usage="R" Min="1" Max="1" Datatype="MSG" Length="13" Table="0076" ItemNo="00009">
+				<Reference>11.3.3</Reference>
+				<Component Name="message type" Usage="R" Datatype="ID" Length="3"/>
+				<!-- Caroline Rosin (NIST) : change usage from O to R. See IHE TF-2a 3.8.4.1.2.1 -->
+				<Component Name="trigger event" Usage="R" Datatype="ID" Length="3"/>
+				<Component Name="message structure" Usage="O" Datatype="ID" Length="3"/>
+			</Field>
+			<Field Name="Message Control ID" Usage="R" Min="1" Max="1" Datatype="ST" Length="20" ItemNo="00010">
+				<Reference>2.24.2.2</Reference>
+			</Field>
+			<Field Name="Processing ID" Usage="R" Min="1" Max="1" Datatype="PT" Length="6" Table="0103" ItemNo="00011">
+				<Reference>2.24.1.11</Reference>
+				<Component Name="processing ID" Usage="R" Datatype="ID" Length="3"/>
+				<Component Name="processing mode" Usage="O" Datatype="ID" Length="3"/>
+			</Field>
+			<Field Name="Version ID" Usage="R" Min="1" Max="1" Datatype="VID" Length="60" Table="0104" ItemNo="00012">
+				<Reference>2.24.1.12</Reference>
+				<Component Name="version ID" Usage="R" Datatype="ID" Length="3"/>
+				<Component Name="internationalization code" Usage="O" Datatype="CE" Length="18">
+					<SubComponent Name="identifier" Usage="O" Datatype="ST" Length="3"/>
+					<SubComponent Name="text" Usage="O" Datatype="ST" Length="3"/>
+					<SubComponent Name="name of coding system" Usage="O" Datatype="ST" Length="3"/>
+					<SubComponent Name="alternate identifier" Usage="O" Datatype="ST" Length="3"/>
+					<SubComponent Name="alternate text" Usage="O" Datatype="ST" Length="3"/>
+					<SubComponent Name="name of alternate coding system" Usage="O" Datatype="ST" Length="3"/>
+				</Component>
+				<Component Name="international version ID" Usage="O" Datatype="CE" Length="18">
+					<SubComponent Name="identifier" Usage="O" Datatype="ST" Length="3"/>
+					<SubComponent Name="text" Usage="O" Datatype="ST" Length="3"/>
+					<SubComponent Name="name of coding system" Usage="O" Datatype="ST" Length="3"/>
+					<SubComponent Name="alternate identifier" Usage="O" Datatype="ST" Length="3"/>
+					<SubComponent Name="alternate text" Usage="O" Datatype="ST" Length="3"/>
+					<SubComponent Name="name of alternate coding system" Usage="O" Datatype="ST" Length="3"/>
+				</Component>
+			</Field>
+			<Field Name="Sequence Number" Usage="O" Min="0" Max="1" Datatype="NM" Length="15" ItemNo="00013">
+				<Reference>2.24.1.13</Reference>
+			</Field>
+			<Field Name="Continuation Pointer" Usage="O" Min="0" Max="1" Datatype="ST" Length="180" ItemNo="00014">
+				<Reference>2.24.8.1</Reference>
+			</Field>
+			<Field Name="Accept Acknowledgment Type" Usage="O" Min="0" Max="1" Datatype="ID" Length="2" Table="0155" ItemNo="00015">
+				<Reference>2.24.1.15</Reference>
+			</Field>
+			<Field Name="Application Acknowledgment Type" Usage="O" Min="0" Max="1" Datatype="ID" Length="2" Table="0155" ItemNo="00016">
+				<Reference>2.24.1.16</Reference>
+			</Field>
+			<Field Name="Country Code" Usage="O" Min="0" Max="1" Datatype="ID" Length="2" ItemNo="00017">
+				<Reference>2.24.1.17</Reference>
+			</Field>
+			<Field Name="Character Set" Usage="C" Min="0" Max="*" Datatype="ID" Length="16" Table="0211" ItemNo="00692">
+				<Reference>2.24.1.18</Reference>
+			</Field>
+			<Field Name="Principal Language Of Message" Usage="O" Min="0" Max="1" Datatype="CE" Length="60" ItemNo="00693">
+				<Reference>2.24.1.19</Reference>
+				<Component Name="identifier" Usage="O" Datatype="ST" Length="3"/>
+				<Component Name="text" Usage="O" Datatype="ST" Length="3"/>
+				<Component Name="name of coding system" Usage="O" Datatype="ST" Length="3"/>
+				<Component Name="alternate identifier" Usage="O" Datatype="ST" Length="3"/>
+				<Component Name="alternate text" Usage="O" Datatype="ST" Length="3"/>
+				<Component Name="name of alternate coding system" Usage="O" Datatype="ST" Length="3"/>
+			</Field>
+			<Field Name="Alternate Character Set Handling Scheme" Usage="O" Min="0" Max="1" Datatype="ID" Length="20" Table="0356" ItemNo="01317">
+				<Reference>2.24.1.20</Reference>
+			</Field>
+		</Segment>
+		<Segment Name="EVN" LongName="event type segment" Usage="R" Min="1" Max="1">
+			<Field Name="Event Type Code" Usage="O" Min="0" Max="1" Datatype="ID" Length="3" Table="0003" ItemNo="00099">
+				<Reference>3.3.1.1</Reference>
+			</Field>
+			<Field Name="Recorded Date/Time" Usage="R" Min="1" Max="1" Datatype="TS" Length="26" ItemNo="00100">
+				<Reference>3.3.1.2</Reference>
+				<!-- Caroline Rosin (NIST) : change datatype from NM to ST to allow [+-ZZZZ] -->
+				<Component Name="Date/Time" Usage="R" Datatype="ST" Length="26">
+					<ImpNote>YYYYMMDD[HHHMM[SS[.SSSS]]][+-ZZZZ]</ImpNote>
+				</Component>
+				<Component Name="degree of precision" Usage="X" Datatype="ST" Length="1">
+					<ImpNote>Retained for backward compatibility only</ImpNote>
+				</Component>
+			</Field>
+			<Field Name="Date/Time Planned Event" Usage="O" Min="0" Max="1" Datatype="TS" Length="26" ItemNo="00101">
+				<Reference>3.3.1.3</Reference>
+				<!-- Caroline Rosin (NIST) : change datatype from NM to ST to allow [+-ZZZZ] -->
+				<Component Name="Date/Time" Usage="R" Datatype="ST" Length="26">
+					<ImpNote>YYYYMMDD[HHHMM[SS[.SSSS]]][+-ZZZZ]</ImpNote>
+				</Component>
+				<Component Name="degree of precision" Usage="X" Datatype="ST" Length="1">
+					<ImpNote>Retained for backward compatibility only</ImpNote>
+				</Component>
+			</Field>
+			<Field Name="Event Reason Code" Usage="O" Min="0" Max="1" Datatype="IS" Length="3" Table="0062" ItemNo="00102">
+				<Reference>3.3.1.4</Reference>
+			</Field>
+			<Field Name="Operator ID" Usage="O" Min="0" Max="*" Datatype="XCN" Length="60" Table="0188" ItemNo="00103">
+				<Reference>3.3.1.5</Reference>
+				<Component Name="ID number (ST)" Usage="O" Datatype="ST" Length="3"/>
+				<Component Name="family+last name prefix" Usage="O" Datatype="FN" Length="3">
+					<SubComponent Name="family name" Usage="O" Datatype="ST" Length="3"/>
+					<SubComponent Name="last name prefix" Usage="O" Datatype="ST" Length="3" />
+				</Component>
+				<Component Name="given name" Usage="O" Datatype="ST" Length="3"/>
+				<Component Name="middle initial or name" Usage="O" Datatype="ST" Length="3"/>
+				<Component Name="suffix (e.g., JR or III)" Usage="O" Datatype="ST" Length="3"/>
+				<Component Name="prefix (e.g., DR)" Usage="O" Datatype="ST" Length="3"/>
+				<Component Name="degree (e.g., MD)" Usage="O" Datatype="IS" Length="3"/>
+				<Component Name="source table" Usage="O" Datatype="IS" Length="3"/>
+				<Component Name="assigning authority" Usage="O" Datatype="HD" Length="9">
+					<SubComponent Name="namespace ID" Usage="O" Datatype="IS" Length="3" Table="0300"/>
+					<SubComponent Name="universal ID" Usage="O" Datatype="ST" Length="3"/>
+					<SubComponent Name="universal ID type" Usage="O" Datatype="ID" Length="3" Table="0301"/>
+				</Component>
+				<Component Name="name type code" Usage="O" Datatype="ID" Length="3"/>
+				<Component Name="identifier check digit" Usage="O" Datatype="ST" Length="3"/>
+				<Component Name="code identifying the check digit scheme employed" Usage="O" Datatype="ID" Length="3"/>
+				<Component Name="identifier type code" Usage="O" Datatype="IS" Length="3"/>
+				<Component Name="assigning facility" Usage="O" Datatype="HD" Length="9">
+					<SubComponent Name="namespace ID" Usage="O" Datatype="IS" Length="3" Table="0300"/>
+					<SubComponent Name="universal ID" Usage="O" Datatype="ST" Length="3"/>
+					<SubComponent Name="universal ID type" Usage="O" Datatype="ID" Length="3" Table="0301"/>
+				</Component>
+				<Component Name="Name Representation code" Usage="O" Datatype="ID" Length="3"/>
+			</Field>
+			<Field Name="Event Occurred" Usage="RE" Min="0" Max="1" Datatype="TS" Length="26" ItemNo="01278">
+				<Reference>3.3.1.6</Reference>
+				<!-- Caroline Rosin (NIST) : change datatype from NM to ST to allow [+-ZZZZ] -->
+				<Component Name="Date/Time" Usage="R" Datatype="ST" Length="26">
+					<ImpNote>YYYYMMDD[HHHMM[SS[.SSSS]]][+-ZZZZ]</ImpNote>
+				</Component>
+				<Component Name="degree of precision" Usage="X" Datatype="ST" Length="1">
+					<ImpNote>Retained for backward compatibility only</ImpNote>
+				</Component>
+			</Field>
+		</Segment>
+		<SegGroup Name="PATIENT" LongName="PATIENT" Usage="R" Min="1" Max="*">
+			<Segment Name="PID" LongName="patient identification segment" Usage="R" Min="1" Max="1">
+				<Field Name="Set ID - PID" Usage="O" Min="0" Max="1" Datatype="SI" Length="4" ItemNo="00104">
+					<Reference>3.3.2.1</Reference>
+				</Field>
+				<!-- Caroline Rosin (NIST) : change length from 21 to 20. See IHE ITI TF-2a Table 3.8-2 -->
+				<Field Name="Patient ID" Usage="O" Min="0" Max="1" Datatype="CX" Length="20" ItemNo="00105">
+					<!-- Caroline Rosin (NIST) : change usage from O to R, length from 3 to 15. See IHE ITI TF-2x section N.1 -->
+					<Component Name="ID" Usage="R" Datatype="ST" Length="15"/>
+					<Component Name="check digit" Usage="O" Datatype="ST" Length="1"/>
+					<Component Name="code identifying the check digit scheme employed" Usage="O" Datatype="ID" Length="3"/>
+					<!-- Caroline Rosin (NIST) : change length from 3 to 227. See IHE ITI TF-2x section N.1 -->
+					<Component Name="assigning authority" Usage="R" Datatype="HD" Length="227">
+						<!-- Caroline Rosin (NIST) : change length from 3 to 20. See IHE ITI TF-2x Table E-3 -->
+						<SubComponent Name="namespace ID" Usage="C" Datatype="IS" Length="20" Table="0300"/>
+						<!-- Caroline Rosin (NIST) : change length from 3 to 199. See IHE ITI TF-2x Table E-3 -->
+						<SubComponent Name="universal ID" Usage="C" Datatype="ST" Length="199"/>
+						<!-- Caroline Rosin (NIST) : change length from 3 to 6. See IHE ITI TF-2x Table E-3 -->
+						<SubComponent Name="universal ID type" Usage="C" Datatype="ID" Length="6" Table="0301"/>
+					</Component>
+					<Component Name="identifier type code" Usage="O" Datatype="IS" Length="3" Table="0203"/>
+					<Component Name="assigning facility" Usage="O" Datatype="HD" Length="9">
+						<SubComponent Name="namespace ID" Usage="O" Datatype="IS" Length="3" Table="0300"/>
+						<SubComponent Name="universal ID" Usage="C" Datatype="ST" Length="3"/>
+						<SubComponent Name="universal ID type" Usage="C" Datatype="ID" Length="3" Table="0301"/>
+					</Component>
+				</Field>
+				<!-- Caroline Rosin (NIST) : change length from 21 to 250. See IHE ITI TF-2a Table 3.8-2 -->
+				<Field Name="Patient Identifier List" Usage="R" Min="1" Max="*" Datatype="CX" Length="250" ItemNo="00106">
+					<!-- Caroline Rosin (NIST) : change usage from O to R, length from 3 to 15. See IHE ITI TF-2x section N.1 -->
+					<Component Name="ID" Usage="R" Datatype="ST" Length="15"/>
+					<Component Name="check digit" Usage="O" Datatype="ST" Length="1"/>
+					<Component Name="code identifying the check digit scheme employed" Usage="O" Datatype="ID" Length="3"/>
+					<!-- Caroline Rosin (NIST) : change length from 3 to 227. See IHE ITI TF-2x section N.1 -->
+					<Component Name="assigning authority" Usage="R" Datatype="HD" Length="227">
+						<!-- Caroline Rosin (NIST) : change length from 3 to 20. See IHE ITI TF-2x Table E-3 -->
+						<SubComponent Name="namespace ID" Usage="C" Datatype="IS" Length="20" Table="0300"/>
+						<!-- Caroline Rosin (NIST) : change length from 3 to 199. See IHE ITI TF-2x Table E-3 -->
+						<SubComponent Name="universal ID" Usage="C" Datatype="ST" Length="199"/>
+						<!-- Caroline Rosin (NIST) : change length from 3 to 6. See IHE ITI TF-2x Table E-3 -->
+						<SubComponent Name="universal ID type" Usage="C" Datatype="ID" Length="6" Table="0301"/>
+					</Component>
+					<Component Name="identifier type code" Usage="O" Datatype="IS" Length="3" Table="0203"/>
+					<Component Name="assigning facility" Usage="O" Datatype="HD" Length="9">
+						<SubComponent Name="namespace ID" Usage="O" Datatype="IS" Length="3" Table="0300"/>
+						<SubComponent Name="universal ID" Usage="C" Datatype="ST" Length="3"/>
+						<SubComponent Name="universal ID type" Usage="C" Datatype="ID" Length="3" Table="0301"/>
+					</Component>
+				</Field>
+				<!-- Caroline Rosin (NIST) : change length from 21 to 20. See IHE ITI TF-2a Table 3.8-2 -->
+				<!-- Caroline Rosin (NIST) : change max from 1 to *. See HL7 v2.3.1 chapter 3.3.2 -->
+				<Field Name="Alternate Patient ID - PID" Usage="O" Min="0" Max="*" Datatype="CX" Length="20" ItemNo="00107">
+					<!-- Caroline Rosin (NIST) : change usage from O to R, length from 3 to 15. See IHE ITI TF-2x section N.1 -->
+					<Component Name="ID" Usage="R" Datatype="ST" Length="15"/>
+					<Component Name="check digit" Usage="O" Datatype="ST" Length="1"/>
+					<Component Name="code identifying the check digit scheme employed" Usage="O" Datatype="ID" Length="3"/>
+					<!-- Caroline Rosin (NIST) : change length from 3 to 227. See IHE ITI TF-2x section N.1 -->
+					<Component Name="assigning authority" Usage="R" Datatype="HD" Length="227">
+						<!-- Caroline Rosin (NIST) : change length from 3 to 20. See IHE ITI TF-2x Table E-3 -->
+						<SubComponent Name="namespace ID" Usage="C" Datatype="IS" Length="20" Table="0300"/>
+						<!-- Caroline Rosin (NIST) : change length from 3 to 199. See IHE ITI TF-2x Table E-3 -->
+						<SubComponent Name="universal ID" Usage="C" Datatype="ST" Length="199"/>
+						<!-- Caroline Rosin (NIST) : change length from 3 to 6. See IHE ITI TF-2x Table E-3 -->
+						<SubComponent Name="universal ID type" Usage="C" Datatype="ID" Length="6" Table="0301"/>
+					</Component>
+					<Component Name="identifier type code" Usage="O" Datatype="IS" Length="3" Table="0203"/>
+					<Component Name="assigning facility" Usage="O" Datatype="HD" Length="9">
+						<SubComponent Name="namespace ID" Usage="O" Datatype="IS" Length="3" Table="0300"/>
+						<SubComponent Name="universal ID" Usage="C" Datatype="ST" Length="3"/>
+						<SubComponent Name="universal ID type" Usage="C" Datatype="ID" Length="3" Table="0301"/>
+					</Component>
+				</Field>
+				<!-- Caroline Rosin (NIST) : change length from 48 to 250. See IHE ITI TF-2a Table 3.8-2 -->
+				<Field Name="Patient Name" Usage="R" Min="1" Max="*" Datatype="XPN" Length="250" ItemNo="00108">
+					<Reference>3.3.2.5</Reference>
+					<!-- Caroline Rosin (NIST) : change usage from O to RE, length from 3 to 194. See IHE ITI TF-2x Appendix N.6 -->
+					<Component Name="family+last name prefix" Usage="RE" Datatype="FN" Length="194">
+						<!-- Caroline Rosin (NIST) : Add the subcomponents -->
+						<SubComponent Name="family name" Usage="O" Datatype="ST" Length="3"/>
+						<SubComponent Name="last name prefix" Usage="O" Datatype="ST" Length="3"/>
+					</Component>
+					<!-- Caroline Rosin (NIST) : change length from 3 to 30. See IHE ITI TF-2x Appendix N.6 -->
+					<Component Name="given name" Usage="O" Datatype="ST" Length="30"/>
+					<!-- Caroline Rosin (NIST) : change length from 3 to 30. See IHE ITI TF-2x Appendix N.6 -->
+					<Component Name="middle initial or name" Usage="O" Datatype="ST" Length="30"/>
+					<!-- Caroline Rosin (NIST) : change length from 3 to 20. See IHE ITI TF-2x Appendix N.6 -->
+					<Component Name="suffix (e.g., JR or III)" Usage="O" Datatype="ST" Length="20"/>
+					<!-- Caroline Rosin (NIST) : change length from 3 to 30. See IHE ITI TF-2x Appendix N.6 -->
+					<Component Name="prefix (e.g., DR)" Usage="O" Datatype="ST" Length="20"/>
+					<!-- Caroline Rosin (NIST) : change usage from O to X, length from 3 to 6. See IHE ITI TF-2x Appendix N.6 -->
+					<Component Name="degree (e.g., MD)" Usage="X" Datatype="IS" Length="6"/>
+					<!-- Caroline Rosin (NIST) : change usage from O to R, length from 3 to 1. See IHE ITI TF-2x Appendix N.6 -->
+					<Component Name="name type code" Usage="R" Datatype="ID" Length="3"/>
+					<!-- Caroline Rosin (NIST) : change length from 3 to 30. See IHE ITI TF-2x Appendix N.6 -->
+					<Component Name="Name Representation code" Usage="O" Datatype="ID" Length="1"/>
+				</Field>
+				<!-- Caroline Rosin (NIST) : change length from 48 to 250. See IHE ITI TF-2a Table 3.8-2 -->
+				<Field Name="Mother's Maiden Name" Usage="RE" Min="1" Max="*" Datatype="XPN" Length="250" ItemNo="00109">
+					<Reference>6.4.7.40</Reference>
+					<!-- Caroline Rosin (NIST) : change usage from O to RE, length from 3 to 194. See IHE ITI TF-2x Appendix N.6 -->
+					<Component Name="family+last name prefix" Usage="RE" Datatype="FN" Length="194">
+						<!-- Caroline Rosin (NIST) : Add the subcomponents -->
+						<SubComponent Name="family name" Usage="O" Datatype="ST" Length="3"/>
+						<SubComponent Name="last name prefix" Usage="O" Datatype="ST" Length="3"/>
+					</Component>
+					<!-- Caroline Rosin (NIST) : change length from 3 to 30. See IHE ITI TF-2x Appendix N.6 -->
+					<Component Name="given name" Usage="O" Datatype="ST" Length="30"/>
+					<!-- Caroline Rosin (NIST) : change length from 3 to 30. See IHE ITI TF-2x Appendix N.6 -->
+					<Component Name="middle initial or name" Usage="O" Datatype="ST" Length="30"/>
+					<!-- Caroline Rosin (NIST) : change length from 3 to 20. See IHE ITI TF-2x Appendix N.6 -->
+					<Component Name="suffix (e.g., JR or III)" Usage="O" Datatype="ST" Length="20"/>
+					<!-- Caroline Rosin (NIST) : change length from 3 to 30. See IHE ITI TF-2x Appendix N.6 -->
+					<Component Name="prefix (e.g., DR)" Usage="O" Datatype="ST" Length="20"/>
+					<!-- Caroline Rosin (NIST) : change usage from O to X, length from 3 to 6. See IHE ITI TF-2x Appendix N.6 -->
+					<Component Name="degree (e.g., MD)" Usage="X" Datatype="IS" Length="6"/>
+					<!-- Caroline Rosin (NIST) : change usage from O to R, length from 3 to 1. See IHE ITI TF-2x Appendix N.6 -->
+					<Component Name="name type code" Usage="R" Datatype="ID" Length="3"/>
+					<!-- Caroline Rosin (NIST) : change length from 3 to 30. See IHE ITI TF-2x Appendix N.6 -->
+					<Component Name="Name Representation code" Usage="O" Datatype="ID" Length="1"/>
+				</Field>
+				<!-- Caroline Rosin (NIST) : change usage from R to RE. See IHE ITI TF-2x Table 3.8-2 -->
+				<Field Name="Date/Time Of Birth" Usage="RE" Min="1" Max="1" Datatype="TS" Length="26" ItemNo="00110">
+					<Reference>8.6.2.6</Reference>
+					<!-- Caroline Rosin (NIST) : change datatype from NM to ST to allow [+-ZZZZ] -->
+					<Component Name="Date/Time" Usage="R" Datatype="ST" Length="26">
+						<ImpNote>YYYYMMDD[HHHMM[SS[.SSSS]]][+-ZZZZ]</ImpNote>
+					</Component>
+					<Component Name="degree of precision" Usage="X" Datatype="ST" Length="1">
+						<ImpNote>Retained for backward compatibility only</ImpNote>
+					</Component>
+				</Field>
+				<!-- Caroline Rosin (NIST) : change usage from R to RE. See IHE ITI TF-2x Table 3.8-2 -->
+				<Field Name="Sex" Usage="RE" Min="1" Max="1" Datatype="IS" Length="1" Table="0001" ItemNo="00111">
+					<Reference>8.6.2.5</Reference>
+				</Field>
+				<!-- Caroline Rosin (NIST) : change length from 48 to 250. See IHE ITI TF-2a Table 3.8-2 -->
+				<Field Name="Patient Alias" Usage="O" Min="0" Max="*" Datatype="XPN" Length="250" ItemNo="00112">
+					<Reference>3.3.2.9</Reference>
+					<!-- Caroline Rosin (NIST) : change usage from O to RE, length from 3 to 194. See IHE ITI TF-2x Appendix N.6 -->
+					<Component Name="family+last name prefix" Usage="RE" Datatype="FN" Length="194">
+						<!-- Caroline Rosin (NIST) : Add the subcomponents -->
+						<SubComponent Name="family name" Usage="O" Datatype="ST" Length="3"/>
+						<SubComponent Name="last name prefix" Usage="O" Datatype="ST" Length="3"/>
+					</Component>
+					<!-- Caroline Rosin (NIST) : change length from 3 to 30. See IHE ITI TF-2x Appendix N.6 -->
+					<Component Name="given name" Usage="O" Datatype="ST" Length="30"/>
+					<!-- Caroline Rosin (NIST) : change length from 3 to 30. See IHE ITI TF-2x Appendix N.6 -->
+					<Component Name="middle initial or name" Usage="O" Datatype="ST" Length="30"/>
+					<!-- Caroline Rosin (NIST) : change length from 3 to 20. See IHE ITI TF-2x Appendix N.6 -->
+					<Component Name="suffix (e.g., JR or III)" Usage="O" Datatype="ST" Length="20"/>
+					<!-- Caroline Rosin (NIST) : change length from 3 to 30. See IHE ITI TF-2x Appendix N.6 -->
+					<Component Name="prefix (e.g., DR)" Usage="O" Datatype="ST" Length="20"/>
+					<!-- Caroline Rosin (NIST) : change usage from O to X, length from 3 to 6. See IHE ITI TF-2x Appendix N.6 -->
+					<Component Name="degree (e.g., MD)" Usage="X" Datatype="IS" Length="6"/>
+					<!-- Caroline Rosin (NIST) : change usage from O to R, length from 3 to 1. See IHE ITI TF-2x Appendix N.6 -->
+					<Component Name="name type code" Usage="R" Datatype="ID" Length="3"/>
+					<!-- Caroline Rosin (NIST) : change length from 3 to 30. See IHE ITI TF-2x Appendix N.6 -->
+					<Component Name="Name Representation code" Usage="O" Datatype="ID" Length="1"/>
+				</Field>
+				<!-- Caroline Rosin (NIST) : change length from 80 to 250. See IHE ITI TF-2a Table 3.8-2 -->
+				<Field Name="Race" Usage="O" Min="0" Max="*" Datatype="CE" Length="250" Table="0005" ItemNo="00113">
+					<Reference>6.4.7.71</Reference>
+					<Component Name="identifier" Usage="O" Datatype="ST" Length="3"/>
+					<Component Name="text" Usage="O" Datatype="ST" Length="3"/>
+					<Component Name="name of coding system" Usage="O" Datatype="ST" Length="3"/>
+					<Component Name="alternate identifier" Usage="O" Datatype="ST" Length="3"/>
+					<Component Name="alternate text" Usage="O" Datatype="ST" Length="3"/>
+					<Component Name="name of alternate coding system" Usage="O" Datatype="ST" Length="3"/>
+				</Field>
+				<!-- Caroline Rosin (NIST) : change length from 106 to 250. See IHE ITI TF-2a Table 3.8-2 -->
+				<Field Name="Patient Address" Usage="RE" Min="0" Max="*" Datatype="XAD" Length="250" ItemNo="00114">
+					<Reference>3.3.2.11</Reference>
+					<Component Name="street address" Usage="RE" Datatype="ST" Length="3"/>
+					<Component Name="other designation" Usage="O" Datatype="ST" Length="3"/>
+					<Component Name="city" Usage="O" Datatype="ST" Length="3"/>
+					<Component Name="state or province" Usage="O" Datatype="ST" Length="3"/>
+					<Component Name="zip or postal code" Usage="O" Datatype="ST" Length="3"/>
+					<Component Name="country" Usage="O" Datatype="ID" Length="3"/>
+					<Component Name="address type" Usage="O" Datatype="ID" Length="3"/>
+					<Component Name="other geographic designation" Usage="O" Datatype="ST" Length="3"/>
+					<Component Name="county/parish code" Usage="O" Datatype="IS" Length="3"/>
+					<Component Name="census tract" Usage="O" Datatype="IS" Length="3"/>
+					<Component Name="address representation code" Usage="O" Datatype="ID" Length="3"/>
+				</Field>
+				<Field Name="County Code" Usage="O" Min="0" Max="1" Datatype="IS" Length="4" Table="0289" ItemNo="00115">
+					<Reference>3.3.2.12</Reference>
+				</Field>
+				<!-- Caroline Rosin (NIST) : change length from 40 to 250. See IHE ITI TF-2a Table 3.8-2 -->
+				<Field Name="Phone Number - Home" Usage="RE" Min="0" Max="*" Datatype="XTN" Length="250" ItemNo="00116">
+					<Reference>3.3.2.13</Reference>
+					<Component Name="[(999)] 999-9999 [X99999][C any text]" Usage="RE" Datatype="TN" Length="3"/>
+					<Component Name="telecommunication use code" Usage="O" Datatype="ID" Length="3"/>
+					<Component Name="telecommunication equipment type (ID)" Usage="O" Datatype="ID" Length="3"/>
+					<Component Name="Email address" Usage="O" Datatype="ST" Length="3"/>
+					<Component Name="Country Code" Usage="O" Datatype="NM" Length="3"/>
+					<Component Name="Area/city code" Usage="O" Datatype="NM" Length="3"/>
+					<Component Name="Phone number" Usage="O" Datatype="NM" Length="3"/>
+					<Component Name="Extension" Usage="O" Datatype="NM" Length="3"/>
+					<Component Name="any text" Usage="O" Datatype="ST" Length="3"/>
+				</Field>
+				<!-- Caroline Rosin (NIST) : change length from 40 to 250. See IHE ITI TF-2a Table 3.8-2 -->
+				<Field Name="Phone Number - Business" Usage="RE" Min="0" Max="*" Datatype="XTN" Length="250" ItemNo="00117">
+					<Reference>3.3.2.14</Reference>
+					<Component Name="[(999)] 999-9999 [X99999][C any text]" Usage="RE" Datatype="TN" Length="3"/>
+					<Component Name="telecommunication use code" Usage="O" Datatype="ID" Length="3"/>
+					<Component Name="telecommunication equipment type (ID)" Usage="O" Datatype="ID" Length="3"/>
+					<Component Name="Email address" Usage="O" Datatype="ST" Length="3"/>
+					<Component Name="Country Code" Usage="O" Datatype="NM" Length="3"/>
+					<Component Name="Area/city code" Usage="O" Datatype="NM" Length="3"/>
+					<Component Name="Phone number" Usage="O" Datatype="NM" Length="3"/>
+					<Component Name="Extension" Usage="O" Datatype="NM" Length="3"/>
+					<Component Name="any text" Usage="O" Datatype="ST" Length="3"/>
+				</Field>
+				<!-- Caroline Rosin (NIST) : change length from 60 to 250. See IHE ITI TF-2a Table 3.8-2 -->
+				<Field Name="Primary Language" Usage="O" Min="0" Max="1" Datatype="CE" Length="250" Table="0296" ItemNo="00118">
+					<Reference>6.4.7.34</Reference>
+					<Component Name="identifier" Usage="O" Datatype="ST" Length="3"/>
+					<Component Name="text" Usage="O" Datatype="ST" Length="3"/>
+					<Component Name="name of coding system" Usage="O" Datatype="ST" Length="3"/>
+					<Component Name="alternate identifier" Usage="O" Datatype="ST" Length="3"/>
+					<Component Name="alternate text" Usage="O" Datatype="ST" Length="3"/>
+					<Component Name="name of alternate coding system" Usage="O" Datatype="ST" Length="3"/>
+				</Field>
+				<!-- Caroline Rosin (NIST) : change length from 80 to 250. See IHE ITI TF-2a Table 3.8-2 -->
+				<Field Name="Marital Status" Usage="O" Min="0" Max="1" Datatype="CE" Length="250" Table="0002" ItemNo="00119">
+					<Reference>12.3.3.4</Reference>
+					<Component Name="identifier" Usage="O" Datatype="ST" Length="3"/>
+					<Component Name="text" Usage="O" Datatype="ST" Length="3"/>
+					<Component Name="name of coding system" Usage="O" Datatype="ST" Length="3"/>
+					<Component Name="alternate identifier" Usage="O" Datatype="ST" Length="3"/>
+					<Component Name="alternate text" Usage="O" Datatype="ST" Length="3"/>
+					<Component Name="name of alternate coding system" Usage="O" Datatype="ST" Length="3"/>
+				</Field>
+				<!-- Caroline Rosin (NIST) : change length from 80 to 250. See IHE ITI TF-2a Table 3.8-2 -->
+				<Field Name="Religion" Usage="O" Min="0" Max="1" Datatype="CE" Length="250" Table="0006" ItemNo="00120">
+					<Reference>6.4.7.39</Reference>
+					<Component Name="identifier" Usage="O" Datatype="ST" Length="3"/>
+					<Component Name="text" Usage="O" Datatype="ST" Length="3"/>
+					<Component Name="name of coding system" Usage="O" Datatype="ST" Length="3"/>
+					<Component Name="alternate identifier" Usage="O" Datatype="ST" Length="3"/>
+					<Component Name="alternate text" Usage="O" Datatype="ST" Length="3"/>
+					<Component Name="name of alternate coding system" Usage="O" Datatype="ST" Length="3"/>
+				</Field>
+				<!-- Caroline Rosin (NIST) : change length from 21 to 250. See IHE ITI TF-2x Table 3.8-2 -->
+				<Field Name="Patient Account Number" Usage="O" Min="0" Max="1" Datatype="CX" Length="250" ItemNo="00121">
+					<!-- Caroline Rosin (NIST) : change usage from O to R, length from 3 to 15. See IHE ITI TF-2x section N.1 -->
+					<Component Name="ID" Usage="R" Datatype="ST" Length="15"/>
+					<Component Name="check digit" Usage="O" Datatype="ST" Length="1"/>
+					<Component Name="code identifying the check digit scheme employed" Usage="O" Datatype="ID" Length="3"/>
+					<!-- Caroline Rosin (NIST) : change length from 3 to 227. See IHE ITI TF-2x section N.1 -->
+					<!-- Caroline Rosin (NIST) : change usage from R to O -->
+					<Component Name="assigning authority" Usage="O" Datatype="HD" Length="227">
+						<!-- Caroline Rosin (NIST) : change length from 3 to 20. See IHE ITI TF-2x Table E-3 -->
+						<SubComponent Name="namespace ID" Usage="C" Datatype="IS" Length="20" Table="0300"/>
+						<!-- Caroline Rosin (NIST) : change length from 3 to 199. See IHE ITI TF-2x Table E-3 -->
+						<SubComponent Name="universal ID" Usage="C" Datatype="ST" Length="199"/>
+						<!-- Caroline Rosin (NIST) : change length from 3 to 6. See IHE ITI TF-2x Table E-3 -->
+						<SubComponent Name="universal ID type" Usage="C" Datatype="ID" Length="6" Table="0301"/>
+					</Component>
+					<Component Name="identifier type code" Usage="O" Datatype="IS" Length="3" Table="0203"/>
+					<Component Name="assigning facility" Usage="O" Datatype="HD" Length="9">
+						<SubComponent Name="namespace ID" Usage="O" Datatype="IS" Length="3" Table="0300"/>
+						<SubComponent Name="universal ID" Usage="C" Datatype="ST" Length="3"/>
+						<SubComponent Name="universal ID type" Usage="C" Datatype="ID" Length="3" Table="0301"/>
+					</Component>
+				</Field>
+				<Field Name="SSN Number - Patient" Usage="RE" Min="0" Max="1" Datatype="ST" Length="16" ItemNo="00122">
+					<Reference>3.3.2.19</Reference>
+				</Field>
+				<Field Name="Driver's License Number - Patient" Usage="RE" Min="0" Max="1" Datatype="DLN" Length="25" ItemNo="00123">
+					<Reference>3.3.2.20</Reference>
+					<Component Name="Driver's License Number" Usage="RE" Datatype="ST" Length="3"/>
+					<Component Name="Issuing State, province, country" Usage="O" Datatype="IS" Length="3"/>
+					<Component Name="expiration date" Usage="O" Datatype="DT" Length="3"/>
+				</Field>
+				<!-- Caroline Rosin (NIST) : change length from 21 to 250. See IHE ITI TF-2x Table 3.8-2 -->
+				<Field Name="Mother's Identifier" Usage="O" Min="0" Max="2" Datatype="CX" Length="250" ItemNo="00124">
+					<!-- Caroline Rosin (NIST) : change usage from O to R, length from 3 to 15. See IHE ITI TF-2x section N.1 -->
+					<Component Name="ID" Usage="R" Datatype="ST" Length="15"/>
+					<Component Name="check digit" Usage="O" Datatype="ST" Length="1"/>
+					<Component Name="code identifying the check digit scheme employed" Usage="O" Datatype="ID" Length="3"/>
+					<!-- Caroline Rosin (NIST) : change length from 3 to 227. See IHE ITI TF-2x section N.1 -->
+					<Component Name="assigning authority" Usage="R" Datatype="HD" Length="227">
+						<!-- Caroline Rosin (NIST) : change length from 3 to 20. See IHE ITI TF-2x Table E-3 -->
+						<SubComponent Name="namespace ID" Usage="C" Datatype="IS" Length="20" Table="0300"/>
+						<!-- Caroline Rosin (NIST) : change length from 3 to 199. See IHE ITI TF-2x Table E-3 -->
+						<SubComponent Name="universal ID" Usage="C" Datatype="ST" Length="199"/>
+						<!-- Caroline Rosin (NIST) : change length from 3 to 6. See IHE ITI TF-2x Table E-3 -->
+						<SubComponent Name="universal ID type" Usage="C" Datatype="ID" Length="6" Table="0301"/>
+					</Component>
+					<Component Name="identifier type code" Usage="O" Datatype="IS" Length="3" Table="0203"/>
+					<Component Name="assigning facility" Usage="O" Datatype="HD" Length="9">
+						<SubComponent Name="namespace ID" Usage="O" Datatype="IS" Length="3" Table="0300"/>
+						<SubComponent Name="universal ID" Usage="C" Datatype="ST" Length="3"/>
+						<SubComponent Name="universal ID type" Usage="C" Datatype="ID" Length="3" Table="0301"/>
+					</Component>
+				</Field>
+			<!-- Caroline Rosin (NIST) : change length from 80 to 250. See IHE ITI TF-2a Table 3.8-2 -->
+			<Field Name="Ethnic Group" Usage="O" Min="0" Max="*" Datatype="CE" Length="250" Table="0189" ItemNo="00125">
+					<Reference>6.4.7.42</Reference>
+					<Component Name="identifier" Usage="O" Datatype="ST" Length="3"/>
+					<Component Name="text" Usage="O" Datatype="ST" Length="3"/>
+					<Component Name="name of coding system" Usage="O" Datatype="ST" Length="3"/>
+					<Component Name="alternate identifier" Usage="O" Datatype="ST" Length="3"/>
+					<Component Name="alternate text" Usage="O" Datatype="ST" Length="3"/>
+					<Component Name="name of alternate coding system" Usage="O" Datatype="ST" Length="3"/>
+				</Field>
+				<!-- Caroline Rosin (NIST) : change length from 60 to 250. See IHE ITI TF-2a Table 3.8-2 -->
+				<Field Name="Birth Place" Usage="O" Min="0" Max="1" Datatype="ST" Length="250" ItemNo="00126">
+					<Reference>3.3.2.23</Reference>
+				</Field>
+				<Field Name="Multiple Birth Indicator" Usage="O" Min="0" Max="1" Datatype="ID" Length="1" Table="0136" ItemNo="00127">
+					<Reference>3.3.2.24</Reference>
+				</Field>
+				<Field Name="Birth Order" Usage="O" Min="0" Max="1" Datatype="NM" Length="2" ItemNo="00128">
+					<Reference>3.3.2.25</Reference>
+				</Field>
+				<!-- Caroline Rosin (NIST) : change length from 80 to 250. See IHE ITI TF-2a Table 3.8-2 -->
+				<Field Name="Citizenship" Usage="O" Min="0" Max="*" Datatype="CE" Length="250" Table="0171" ItemNo="00129">
+					<Reference>6.4.7.33</Reference>
+					<Component Name="identifier" Usage="O" Datatype="ST" Length="3"/>
+					<Component Name="text" Usage="O" Datatype="ST" Length="3"/>
+					<Component Name="name of coding system" Usage="O" Datatype="ST" Length="3"/>
+					<Component Name="alternate identifier" Usage="O" Datatype="ST" Length="3"/>
+					<Component Name="alternate text" Usage="O" Datatype="ST" Length="3"/>
+					<Component Name="name of alternate coding system" Usage="O" Datatype="ST" Length="3"/>
+				</Field>
+				<!-- Caroline Rosin (NIST) : change length from 60 to 250. See IHE ITI TF-2a Table 3.8-2 -->
+				<Field Name="Veterans Military Status" Usage="O" Min="0" Max="1" Datatype="CE" Length="250" Table="0172" ItemNo="00130">
+					<Reference>3.3.2.27</Reference>
+					<Component Name="identifier" Usage="O" Datatype="ST" Length="3"/>
+					<Component Name="text" Usage="O" Datatype="ST" Length="3"/>
+					<Component Name="name of coding system" Usage="O" Datatype="ST" Length="3"/>
+					<Component Name="alternate identifier" Usage="O" Datatype="ST" Length="3"/>
+					<Component Name="alternate text" Usage="O" Datatype="ST" Length="3"/>
+					<Component Name="name of alternate coding system" Usage="O" Datatype="ST" Length="3"/>
+				</Field>
+				<!-- Caroline Rosin (NIST) : change length from 80 to 250. See IHE ITI TF-2a Table 3.8-2 -->
+				<Field Name="Nationality" Usage="O" Min="0" Max="1" Datatype="CE" Length="250" Table="0212" ItemNo="00739">
+					<Reference>6.4.7.41</Reference>
+					<Component Name="identifier" Usage="O" Datatype="ST" Length="3"/>
+					<Component Name="text" Usage="O" Datatype="ST" Length="3"/>
+					<Component Name="name of coding system" Usage="O" Datatype="ST" Length="3"/>
+					<Component Name="alternate identifier" Usage="O" Datatype="ST" Length="3"/>
+					<Component Name="alternate text" Usage="O" Datatype="ST" Length="3"/>
+					<Component Name="name of alternate coding system" Usage="O" Datatype="ST" Length="3"/>
+				</Field>
+				<Field Name="Patient Death Date and Time" Usage="O" Min="0" Max="1" Datatype="TS" Length="26" ItemNo="00740">
+					<Reference>3.3.2.29</Reference>
+					<!-- Caroline Rosin (NIST) : change datatype from NM to ST to allow [+-ZZZZ] -->
+					<Component Name="Date/Time" Usage="R" Datatype="ST" Length="26">
+						<ImpNote>YYYYMMDD[HHHMM[SS[.SSSS]]][+-ZZZZ]</ImpNote>
+					</Component>
+					<Component Name="degree of precision" Usage="X" Datatype="ST" Length="1">
+						<ImpNote>Retained for backward compatibility only</ImpNote>
+					</Component>
+				</Field>
+				<Field Name="Patient Death Indicator" Usage="O" Min="0" Max="1" Datatype="ID" Length="1" Table="0136" ItemNo="00741">
+					<Reference>3.3.2.30</Reference>
+				</Field>
+			</Segment>
+			<Segment Name="PD1" LongName="patient additional demographic segment" Usage="RE" Min="0" Max="1">
+				<Field Name="Living Dependency" Usage="O" Min="0" Max="1" Datatype="IS" Length="2" Table="0223" ItemNo="00755">
+					<Reference>6.4.7.31</Reference>
+				</Field>
+				<Field Name="Living Arrangement" Usage="O" Min="0" Max="1" Datatype="IS" Length="2" Table="0220" ItemNo="00742">
+					<Reference>6.4.7.35</Reference>
+				</Field>
+				<Field Name="Patient Primary Facility" Usage="O" Min="0" Max="1" Datatype="XON" Length="90" ItemNo="00756">
+					<Reference>3.3.9.3</Reference>
+					<Component Name="organization name" Usage="O" Datatype="ST" Length="3"/>
+					<Component Name="organization name type code" Usage="O" Datatype="IS" Length="3"/>
+					<Component Name="ID number (NM)" Usage="O" Datatype="NM" Length="3"/>
+					<Component Name="check digit" Usage="O" Datatype="NM" Length="3"/>
+					<Component Name="code identifying the check digit scheme employed" Usage="O" Datatype="ID" Length="3"/>
+					<Component Name="assigning authority" Usage="O" Datatype="HD" Length="9">
+						<SubComponent Name="namespace ID" Usage="O" Datatype="IS" Length="3" Table="0300"/>
+						<SubComponent Name="universal ID" Usage="O" Datatype="ST" Length="3"/>
+						<SubComponent Name="universal ID type" Usage="O" Datatype="ID" Length="3" Table="0301"/>
+					</Component>
+					<Component Name="identifier type code" Usage="O" Datatype="IS" Length="3"/>
+					<Component Name="assigning facility ID" Usage="O" Datatype="HD" Length="9">
+						<SubComponent Name="namespace ID" Usage="O" Datatype="IS" Length="3" Table="0300"/>
+						<SubComponent Name="universal ID" Usage="O" Datatype="ST" Length="3"/>
+						<SubComponent Name="universal ID type" Usage="O" Datatype="ID" Length="3" Table="0301"/>
+					</Component>
+					<Component Name="Name Representation code" Usage="O" Datatype="ID" Length="3"/>
+				</Field>
+				<Field Name="Patient Primary Care Provider Name &amp; ID No." Usage="O" Min="0" Max="1" Datatype="XCN" Length="90" ItemNo="00757">
+					<Reference>3.3.9.4</Reference>
+					<Component Name="ID number (ST)" Usage="O" Datatype="ST" Length="3"/>
+					<Component Name="family+last name prefix" Usage="O" Datatype="FN" Length="3"/>
+					<Component Name="given name" Usage="O" Datatype="ST" Length="3"/>
+					<Component Name="middle initial or name" Usage="O" Datatype="ST" Length="3"/>
+					<Component Name="suffix (e.g., JR or III)" Usage="O" Datatype="ST" Length="3"/>
+					<Component Name="prefix (e.g., DR)" Usage="O" Datatype="ST" Length="3"/>
+					<Component Name="degree (e.g., MD)" Usage="O" Datatype="IS" Length="3"/>
+					<Component Name="source table" Usage="O" Datatype="IS" Length="3"/>
+					<Component Name="assigning authority" Usage="O" Datatype="HD" Length="9">
+						<SubComponent Name="namespace ID" Usage="O" Datatype="IS" Length="3" Table="0300"/>
+						<SubComponent Name="universal ID" Usage="O" Datatype="ST" Length="3"/>
+						<SubComponent Name="universal ID type" Usage="O" Datatype="ID" Length="3" Table="0301"/>
+					</Component>
+					<Component Name="name type code" Usage="O" Datatype="ID" Length="3"/>
+					<Component Name="identifier check digit" Usage="O" Datatype="ST" Length="3"/>
+					<Component Name="code identifying the check digit scheme employed" Usage="O" Datatype="ID" Length="3"/>
+					<Component Name="identifier type code" Usage="O" Datatype="IS" Length="3"/>
+					<Component Name="assigning facility" Usage="O" Datatype="HD" Length="9">
+						<SubComponent Name="namespace ID" Usage="O" Datatype="IS" Length="3" Table="0300"/>
+						<SubComponent Name="universal ID" Usage="O" Datatype="ST" Length="3"/>
+						<SubComponent Name="universal ID type" Usage="O" Datatype="ID" Length="3" Table="0301"/>
+					</Component>
+					<Component Name="Name Representation code" Usage="O" Datatype="ID" Length="3"/>
+				</Field>
+				<Field Name="Student Indicator" Usage="O" Min="0" Max="1" Datatype="IS" Length="2" Table="0231" ItemNo="00745">
+					<Reference>6.4.7.38</Reference>
+				</Field>
+				<Field Name="Handicap" Usage="O" Min="0" Max="1" Datatype="IS" Length="2" Table="0295" ItemNo="00753">
+					<Reference>6.4.6.48</Reference>
+				</Field>
+				<Field Name="Living Will" Usage="O" Min="0" Max="1" Datatype="IS" Length="2" Table="0315" ItemNo="00759">
+					<Reference>3.3.9.7</Reference>
+				</Field>
+				<Field Name="Organ Donor" Usage="O" Min="0" Max="1" Datatype="IS" Length="2" Table="0316" ItemNo="00760">
+					<Reference>3.3.9.8</Reference>
+				</Field>
+				<Field Name="Separate Bill" Usage="O" Min="0" Max="1" Datatype="ID" Length="1" Table="0136" ItemNo="00761">
+					<Reference>3.3.9.9</Reference>
+				</Field>
+				<Field Name="Duplicate Patient" Usage="O" Min="0" Max="2" Datatype="CX" Length="21" ItemNo="00762">
+					<Component Name="ID" Usage="O" Datatype="ST" Length="3"/>
+					<Component Name="check digit" Usage="O" Datatype="ST" Length="1"/>
+					<Component Name="code identifying the check digit scheme employed" Usage="O" Datatype="ID" Length="3"/>
+					<Component Name="assigning authority" Usage="R" Datatype="HD" Length="9">
+						<SubComponent Usage="C" Name="namespace ID" Datatype="IS" Length="3" Table="0300"/>
+						<SubComponent Usage="C" Name="universal ID" Datatype="ST" Length="3"/>
+						<SubComponent Usage="C" Name="universal ID type" Datatype="ID" Length="3" Table="0301"/>
+					</Component>
+					<Component Name="identifier type code" Usage="O" Datatype="IS" Length="3" Table="0203"/>
+					<Component Name="assigning facility" Usage="O" Datatype="HD" Length="9">
+						<SubComponent Name="namespace ID" Usage="O" Datatype="IS" Length="3" Table="0300" />
+						<SubComponent Name="universal ID" Usage="C" Datatype="ST" Length="3" />
+						<SubComponent Name="universal ID type" Usage="C" Datatype="ID" Length="3" Table="0301" />
+					</Component>
+				</Field>
+				<Field Name="Publicity Code" Usage="O" Min="0" Max="1" Datatype="CE" Length="80" Table="0215" ItemNo="00743">
+					<Reference>6.4.7.36</Reference>
+					<Component Name="identifier" Usage="O" Datatype="ST" Length="3"/>
+					<Component Name="text" Usage="O" Datatype="ST" Length="3"/>
+					<Component Name="name of coding system" Usage="O" Datatype="ST" Length="3"/>
+					<Component Name="alternate identifier" Usage="O" Datatype="ST" Length="3"/>
+					<Component Name="alternate text" Usage="O" Datatype="ST" Length="3"/>
+					<Component Name="name of alternate coding system" Usage="O" Datatype="ST" Length="3"/>
+				</Field>
+				<Field Name="Protection Indicator" Usage="O" Min="0" Max="1" Datatype="ID" Length="1" Table="0136" ItemNo="00744">
+					<Reference>6.4.7.37</Reference>
+				</Field>
+			</Segment>
+			<Segment Name="MRG" LongName="merge patient information segment-" Usage="R" Min="1" Max="1">
+				<!-- Caroline Rosin (NIST) : change length from 21 to 250. See IHE TF-2a Table 3.8-3 -->
+				<Field Name="Prior Patient Identifier List" Usage="R" Min="1" Max="*" Datatype="CX" Length="250" ItemNo="00211">
+					<!-- Caroline Rosin (NIST) : change usage from O to R, length from 3 to 15. See IHE ITI TF-2x section N.1 -->
+					<Component Name="ID" Usage="R" Datatype="ST" Length="15"/>
+					<Component Name="check digit" Usage="O" Datatype="ST" Length="1"/>
+					<Component Name="code identifying the check digit scheme employed" Usage="O" Datatype="ID" Length="3"/>
+					<!-- Caroline Rosin (NIST) : change length from 3 to 227. See IHE ITI TF-2x section N.1 -->
+					<Component Name="assigning authority" Usage="R" Datatype="HD" Length="227">
+						<!-- Caroline Rosin (NIST) : change length from 3 to 20. See IHE ITI TF-2x Table E-3 -->
+						<SubComponent Name="namespace ID" Usage="C" Datatype="IS" Length="20" Table="0300"/>
+						<!-- Caroline Rosin (NIST) : change length from 3 to 199. See IHE ITI TF-2x Table E-3 -->
+						<SubComponent Name="universal ID" Usage="C" Datatype="ST" Length="199"/>
+						<!-- Caroline Rosin (NIST) : change length from 3 to 6. See IHE ITI TF-2x Table E-3 -->
+						<SubComponent Name="universal ID type" Usage="C" Datatype="ID" Length="6" Table="0301"/>
+					</Component>
+					<Component Name="identifier type code" Usage="O" Datatype="IS" Length="3" Table="0203"/>
+					<Component Name="assigning facility" Usage="O" Datatype="HD" Length="9">
+						<SubComponent Name="namespace ID" Usage="O" Datatype="IS" Length="3" Table="0300" />
+						<SubComponent Name="universal ID" Usage="C" Datatype="ST" Length="3" />
+						<SubComponent Name="universal ID type" Usage="C" Datatype="ID" Length="3" Table="0301" />
+					</Component>
+				</Field>
+				<!-- Caroline Rosin (NIST) : change length from 21 to 250. See IHE TF-2a Table 3.8-3 -->
+				<Field Name="Prior Alternate Patient ID" Usage="O" Min="0" Max="2" Datatype="CX" Length="250" ItemNo="00212">
+					<!-- Caroline Rosin (NIST) : change usage from O to R, length from 3 to 15. See IHE ITI TF-2x section N.1 -->
+					<Component Name="ID" Usage="R" Datatype="ST" Length="15"/>
+					<Component Name="check digit" Usage="O" Datatype="ST" Length="1"/>
+					<Component Name="code identifying the check digit scheme employed" Usage="O" Datatype="ID" Length="3"/>
+					<!-- Caroline Rosin (NIST) : change length from 3 to 227. See IHE ITI TF-2x section N.1 -->
+					<Component Name="assigning authority" Usage="R" Datatype="HD" Length="227">
+						<!-- Caroline Rosin (NIST) : change length from 3 to 20. See IHE ITI TF-2x Table E-3 -->
+						<SubComponent Name="namespace ID" Usage="C" Datatype="IS" Length="20" Table="0300"/>
+						<!-- Caroline Rosin (NIST) : change length from 3 to 199. See IHE ITI TF-2x Table E-3 -->
+						<SubComponent Name="universal ID" Usage="C" Datatype="ST" Length="199"/>
+						<!-- Caroline Rosin (NIST) : change length from 3 to 6. See IHE ITI TF-2x Table E-3 -->
+						<SubComponent Name="universal ID type" Usage="C" Datatype="ID" Length="6" Table="0301"/>
+					</Component>
+					<Component Name="identifier type code" Usage="O" Datatype="IS" Length="3" Table="0203"/>
+					<Component Name="assigning facility" Usage="O" Datatype="HD" Length="9">
+						<SubComponent Name="namespace ID" Usage="O" Datatype="IS" Length="3" Table="0300"/>
+						<SubComponent Name="universal ID" Usage="C" Datatype="ST" Length="3"/>
+						<SubComponent Name="universal ID type" Usage="C" Datatype="ID" Length="3" Table="0301"/>
+					</Component>
+				</Field>
+				<!-- Caroline Rosin (NIST) : change length from 21 to 250. See IHE TF-2a Table 3.8-3 -->
+				<Field Name="Prior Patient Account Number" Usage="O" Min="0" Max="1" Datatype="CX" Length="250" ItemNo="00213">
+					<!-- Caroline Rosin (NIST) : change usage from O to R, length from 3 to 15. See IHE ITI TF-2x section N.1 -->
+					<Component Name="ID" Usage="R" Datatype="ST" Length="15"/>
+					<Component Name="check digit" Usage="O" Datatype="ST" Length="1"/>
+					<Component Name="code identifying the check digit scheme employed" Usage="O" Datatype="ID" Length="3"/>
+					<!-- Caroline Rosin (NIST) : change length from 3 to 227. See IHE ITI TF-2x section N.1 -->
+					<Component Name="assigning authority" Usage="R" Datatype="HD" Length="227">
+						<!-- Caroline Rosin (NIST) : change length from 3 to 20. See IHE ITI TF-2x Table E-3 -->
+						<SubComponent Name="namespace ID" Usage="C" Datatype="IS" Length="20" Table="0300"/>
+						<!-- Caroline Rosin (NIST) : change length from 3 to 199. See IHE ITI TF-2x Table E-3 -->
+						<SubComponent Name="universal ID" Usage="C" Datatype="ST" Length="199"/>
+						<!-- Caroline Rosin (NIST) : change length from 3 to 6. See IHE ITI TF-2x Table E-3 -->
+						<SubComponent Name="universal ID type" Usage="C" Datatype="ID" Length="6" Table="0301"/>
+					</Component>
+					<Component Name="identifier type code" Usage="O" Datatype="IS" Length="3" Table="0203"/>
+					<Component Name="assigning facility" Usage="O" Datatype="HD" Length="9">
+						<SubComponent Name="namespace ID" Usage="O" Datatype="IS" Length="3" Table="0300"/>
+						<SubComponent Name="universal ID" Usage="C" Datatype="ST" Length="3"/>
+						<SubComponent Name="universal ID type" Usage="C" Datatype="ID" Length="3" Table="0301"/>
+					</Component>
+				</Field>
+				<!-- Caroline Rosin (NIST) : change length from 21 to 250. See IHE TF-2a Table 3.8-3 -->
+				<Field Name="Prior Patient ID" Usage="RE" Min="0" Max="1" Datatype="CX" Length="250" ItemNo="00214">
+					<!-- Caroline Rosin (NIST) : change usage from O to R, length from 3 to 15. See IHE ITI TF-2x section N.1 -->
+					<Component Name="ID" Usage="R" Datatype="ST" Length="15"/>
+					<Component Name="check digit" Usage="O" Datatype="ST" Length="1"/>
+					<Component Name="code identifying the check digit scheme employed" Usage="O" Datatype="ID" Length="3"/>
+					<!-- Caroline Rosin (NIST) : change length from 3 to 227. See IHE ITI TF-2x section N.1 -->
+					<Component Name="assigning authority" Usage="R" Datatype="HD" Length="227">
+						<!-- Caroline Rosin (NIST) : change length from 3 to 20. See IHE ITI TF-2x Table E-3 -->
+						<SubComponent Name="namespace ID" Usage="C" Datatype="IS" Length="20" Table="0300"/>
+						<!-- Caroline Rosin (NIST) : change length from 3 to 199. See IHE ITI TF-2x Table E-3 -->
+						<SubComponent Name="universal ID" Usage="C" Datatype="ST" Length="199"/>
+						<!-- Caroline Rosin (NIST) : change length from 3 to 6. See IHE ITI TF-2x Table E-3 -->
+						<SubComponent Name="universal ID type" Usage="C" Datatype="ID" Length="6" Table="0301"/>
+					</Component>
+					<Component Name="identifier type code" Usage="O" Datatype="IS" Length="3" Table="0203"/>
+					<Component Name="assigning facility" Usage="O" Datatype="HD" Length="9">
+						<SubComponent Name="namespace ID" Usage="O" Datatype="IS" Length="3" Table="0300"/>
+						<SubComponent Name="universal ID" Usage="C" Datatype="ST" Length="3"/>
+						<SubComponent Name="universal ID type" Usage="C" Datatype="ID" Length="3" Table="0301"/>
+					</Component>
+				</Field>
+				<!-- Caroline Rosin (NIST) : change length from 21 to 250. See IHE TF-2a Table 3.8-3 -->
+				<Field Name="Prior Visit Number" Usage="O" Min="0" Max="1" Datatype="CX" Length="250" ItemNo="01279">
+					<!-- Caroline Rosin (NIST) : change usage from O to R, length from 3 to 15. See IHE ITI TF-2x section N.1 -->
+					<Component Name="ID" Usage="R" Datatype="ST" Length="15"/>
+					<Component Name="check digit" Usage="O" Datatype="ST" Length="1"/>
+					<Component Name="code identifying the check digit scheme employed" Usage="O" Datatype="ID" Length="3"/>
+					<!-- Caroline Rosin (NIST) : change length from 3 to 227. See IHE ITI TF-2x section N.1 -->
+					<Component Name="assigning authority" Usage="R" Datatype="HD" Length="227">
+						<!-- Caroline Rosin (NIST) : change length from 3 to 20. See IHE ITI TF-2x Table E-3 -->
+						<SubComponent Name="namespace ID" Usage="C" Datatype="IS" Length="20" Table="0300"/>
+						<!-- Caroline Rosin (NIST) : change length from 3 to 199. See IHE ITI TF-2x Table E-3 -->
+						<SubComponent Name="universal ID" Usage="C" Datatype="ST" Length="199"/>
+						<!-- Caroline Rosin (NIST) : change length from 3 to 6. See IHE ITI TF-2x Table E-3 -->
+						<SubComponent Name="universal ID type" Usage="C" Datatype="ID" Length="6" Table="0301"/>
+					</Component>
+					<Component Name="identifier type code" Usage="O" Datatype="IS" Length="3" Table="0203"/>
+					<Component Name="assigning facility" Usage="O" Datatype="HD" Length="9">
+						<SubComponent Name="namespace ID" Usage="O" Datatype="IS" Length="3" Table="0300"/>
+						<SubComponent Name="universal ID" Usage="C" Datatype="ST" Length="3"/>
+						<SubComponent Name="universal ID type" Usage="C" Datatype="ID" Length="3" Table="0301"/>
+					</Component>
+				</Field>
+				<!-- Caroline Rosin (NIST) : change length from 21 to 250. See IHE TF-2a Table 3.8-3 -->
+				<Field Name="Prior Alternate Visit ID" Usage="O" Min="0" Max="1" Datatype="CX" Length="250" ItemNo="01280">
+					<!-- Caroline Rosin (NIST) : change usage from O to R, length from 3 to 15. See IHE ITI TF-2x section N.1 -->
+					<Component Name="ID" Usage="R" Datatype="ST" Length="15"/>
+					<Component Name="check digit" Usage="O" Datatype="ST" Length="1"/>
+					<Component Name="code identifying the check digit scheme employed" Usage="O" Datatype="ID" Length="3"/>
+					<!-- Caroline Rosin (NIST) : change length from 3 to 227. See IHE ITI TF-2x section N.1 -->
+					<Component Name="assigning authority" Usage="R" Datatype="HD" Length="227">
+						<!-- Caroline Rosin (NIST) : change length from 3 to 20. See IHE ITI TF-2x Table E-3 -->
+						<SubComponent Name="namespace ID" Usage="C" Datatype="IS" Length="20" Table="0300"/>
+						<!-- Caroline Rosin (NIST) : change length from 3 to 199. See IHE ITI TF-2x Table E-3 -->
+						<SubComponent Name="universal ID" Usage="C" Datatype="ST" Length="199"/>
+						<!-- Caroline Rosin (NIST) : change length from 3 to 6. See IHE ITI TF-2x Table E-3 -->
+						<SubComponent Name="universal ID type" Usage="C" Datatype="ID" Length="6" Table="0301"/>
+					</Component>
+					<Component Name="identifier type code" Usage="O" Datatype="IS" Length="3" Table="0203"/>
+					<Component Name="assigning facility" Usage="O" Datatype="HD" Length="9">
+						<SubComponent Name="namespace ID" Usage="O" Datatype="IS" Length="3" Table="0300"/>
+						<SubComponent Name="universal ID" Usage="C" Datatype="ST" Length="3"/>
+						<SubComponent Name="universal ID type" Usage="C" Datatype="ID" Length="3" Table="0301"/>
+					</Component>
+				</Field>
+				<!-- Caroline Rosin (NIST) : change length from 48 to 250. See IHE TF-2a Table 3.8-3 -->
+				<Field Name="Prior Patient Name" Usage="RE" Min="0" Max="*" Datatype="XPN" Length="250" ItemNo="01281">
+					<Reference>3.3.8.7</Reference>
+					<!-- Caroline Rosin (NIST) : change usage from O to RE, length from 3 to 194. See IHE ITI TF-2x Appendix N.6 -->
+					<Component Name="family+last name prefix" Usage="RE" Datatype="FN" Length="194">
+						<!-- Caroline Rosin (NIST) : Add the subcomponents -->
+						<SubComponent Name="family name" Usage="O" Datatype="ST" Length="3"/>
+						<SubComponent Name="last name prefix" Usage="O" Datatype="ST" Length="3"/>
+					</Component>
+					<!-- Caroline Rosin (NIST) : change length from 3 to 30. See IHE ITI TF-2x Appendix N.6 -->
+					<Component Name="given name" Usage="O" Datatype="ST" Length="30"/>
+					<!-- Caroline Rosin (NIST) : change length from 3 to 30. See IHE ITI TF-2x Appendix N.6 -->
+					<Component Name="middle initial or name" Usage="O" Datatype="ST" Length="30"/>
+					<!-- Caroline Rosin (NIST) : change length from 3 to 20. See IHE ITI TF-2x Appendix N.6 -->
+					<Component Name="suffix (e.g., JR or III)" Usage="O" Datatype="ST" Length="20"/>
+					<!-- Caroline Rosin (NIST) : change length from 3 to 30. See IHE ITI TF-2x Appendix N.6 -->
+					<Component Name="prefix (e.g., DR)" Usage="O" Datatype="ST" Length="20"/>
+					<!-- Caroline Rosin (NIST) : change usage from O to X, length from 3 to 6. See IHE ITI TF-2x Appendix N.6 -->
+					<Component Name="degree (e.g., MD)" Usage="X" Datatype="IS" Length="6"/>
+					<!-- Caroline Rosin (NIST) : change usage from O to R, length from 3 to 1. See IHE ITI TF-2x Appendix N.6 -->
+					<Component Name="name type code" Usage="R" Datatype="ID" Length="3"/>
+					<!-- Caroline Rosin (NIST) : change length from 3 to 30. See IHE ITI TF-2x Appendix N.6 -->
+					<Component Name="Name Representation code" Usage="O" Datatype="ID" Length="1"/>
+				</Field>
+			</Segment>
+			<Segment Name="PV1" LongName="patient visit segment-" Usage="RE" Min="0" Max="1">
+				<Field Name="Set ID - PV1" Usage="O" Min="0" Max="1" Datatype="SI" Length="4" ItemNo="00131">
+					<Reference>3.3.3.1</Reference>
+				</Field>
+				<Field Name="Patient Class" Usage="R" Min="1" Max="1" Datatype="IS" Length="1" Table="0004" ItemNo="00132">
+					<Reference>3.3.3.2</Reference>
+				</Field>
+				<Field Name="Assigned Patient Location" Usage="O" Min="0" Max="1" Datatype="PL" Length="80" ItemNo="00133">
+					<Reference>6.4.1.16</Reference>
+					<Component Name="point of care" Usage="O" Datatype="IS" Length="3"/>
+					<Component Name="room" Usage="O" Datatype="IS" Length="3"/>
+					<Component Name="bed" Usage="O" Datatype="IS" Length="3"/>
+					<Component Name="facility (HD)" Usage="O" Datatype="HD" Length="9">
+						<SubComponent Name="namespace ID" Usage="O" Datatype="IS" Length="3" Table="0300"/>
+						<SubComponent Name="universal ID" Usage="O" Datatype="ST" Length="3"/>
+						<SubComponent Name="universal ID type" Usage="O" Datatype="ID" Length="3" Table="0301"/>
+					</Component>
+					<Component Name="location status" Usage="O" Datatype="IS" Length="3"/>
+					<Component Name="person location type" Usage="O" Datatype="IS" Length="3"/>
+					<Component Name="building" Usage="O" Datatype="IS" Length="3"/>
+					<Component Name="floor" Usage="O" Datatype="IS" Length="3"/>
+					<Component Name="Location description" Usage="O" Datatype="ST" Length="3"/>
+				</Field>
+				<Field Name="Admission Type" Usage="O" Min="0" Max="1" Datatype="IS" Length="2" Table="0007" ItemNo="00134">
+					<Reference>3.3.3.4</Reference>
+				</Field>
+				<Field Name="Preadmit Number" Usage="O" Min="0" Max="1" Datatype="CX" Length="21" ItemNo="00135">
+					<Component Name="ID" Usage="O" Datatype="ST" Length="3"/>
+					<Component Name="check digit" Usage="O" Datatype="ST" Length="1"/>
+					<Component Name="code identifying the check digit scheme employed" Usage="O" Datatype="ID" Length="3"/>
+					<Component Name="assigning authority" Usage="R" Datatype="HD" Length="9">
+						<SubComponent Usage="C" Name="namespace ID" Datatype="IS" Length="3" Table="0300"/>
+						<SubComponent Usage="C" Name="universal ID" Datatype="ST" Length="3"/>
+						<SubComponent Usage="C" Name="universal ID type" Datatype="ID" Length="3" Table="0301"/>
+					</Component>
+					<Component Name="identifier type code" Usage="O" Datatype="IS" Length="3" Table="0203"/>
+					<Component Name="assigning facility" Usage="O" Datatype="HD" Length="9">
+						<SubComponent Name="namespace ID" Usage="O" Datatype="IS" Length="3" Table="0300" />
+						<SubComponent Name="universal ID" Usage="C" Datatype="ST" Length="3" />
+						<SubComponent Name="universal ID type" Usage="C" Datatype="ID" Length="3" Table="0301" />
+					</Component>
+				</Field>
+				<Field Name="Prior Patient Location" Usage="O" Min="0" Max="1" Datatype="PL" Length="80" ItemNo="00136">
+					<Reference>3.3.3.6</Reference>
+					<Component Name="point of care" Usage="O" Datatype="IS" Length="3"/>
+					<Component Name="room" Usage="O" Datatype="IS" Length="3"/>
+					<Component Name="bed" Usage="O" Datatype="IS" Length="3"/>
+					<Component Name="facility (HD)" Usage="O" Datatype="HD" Length="9">
+						<SubComponent Name="namespace ID" Usage="O" Datatype="IS" Length="3" Table="0300"/>
+						<SubComponent Name="universal ID" Usage="O" Datatype="ST" Length="3"/>
+						<SubComponent Name="universal ID type" Usage="O" Datatype="ID" Length="3" Table="0301"/>
+					</Component>
+					<Component Name="location status" Usage="O" Datatype="IS" Length="3"/>
+					<Component Name="person location type" Usage="O" Datatype="IS" Length="3"/>
+					<Component Name="building" Usage="O" Datatype="IS" Length="3"/>
+					<Component Name="floor" Usage="O" Datatype="IS" Length="3"/>
+					<Component Name="Location description" Usage="O" Datatype="ST" Length="3"/>
+				</Field>
+				<Field Name="Attending Doctor" Usage="O" Min="0" Max="*" Datatype="XCN" Length="60" Table="0010" ItemNo="00137">
+					<Reference>3.3.3.7</Reference>
+					<Component Name="ID number (ST)" Usage="O" Datatype="ST" Length="3"/>
+					<Component Name="family+last name prefix" Usage="O" Datatype="FN" Length="3"/>
+					<Component Name="given name" Usage="O" Datatype="ST" Length="3"/>
+					<Component Name="middle initial or name" Usage="O" Datatype="ST" Length="3"/>
+					<Component Name="suffix (e.g., JR or III)" Usage="O" Datatype="ST" Length="3"/>
+					<Component Name="prefix (e.g., DR)" Usage="O" Datatype="ST" Length="3"/>
+					<Component Name="degree (e.g., MD)" Usage="O" Datatype="IS" Length="3"/>
+					<Component Name="source table" Usage="O" Datatype="IS" Length="3"/>
+					<Component Name="assigning authority" Usage="O" Datatype="HD" Length="9">
+						<SubComponent Name="namespace ID" Usage="O" Datatype="IS" Length="3" Table="0300"/>
+						<SubComponent Name="universal ID" Usage="O" Datatype="ST" Length="3"/>
+						<SubComponent Name="universal ID type" Usage="O" Datatype="ID" Length="3" Table="0301"/>
+					</Component>
+					<Component Name="name type code" Usage="O" Datatype="ID" Length="3"/>
+					<Component Name="identifier check digit" Usage="O" Datatype="ST" Length="3"/>
+					<Component Name="code identifying the check digit scheme employed" Usage="O" Datatype="ID" Length="3"/>
+					<Component Name="identifier type code" Usage="O" Datatype="IS" Length="3"/>
+					<Component Name="assigning facility" Usage="O" Datatype="HD" Length="9">
+						<SubComponent Name="namespace ID" Usage="O" Datatype="IS" Length="3" Table="0300"/>
+						<SubComponent Name="universal ID" Usage="O" Datatype="ST" Length="3"/>
+						<SubComponent Name="universal ID type" Usage="O" Datatype="ID" Length="3" Table="0301"/>
+					</Component>
+					<Component Name="Name Representation code" Usage="O" Datatype="ID" Length="3"/>
+				</Field>
+				<Field Name="Referring Doctor" Usage="O" Min="0" Max="*" Datatype="XCN" Length="60" Table="0010" ItemNo="00138">
+					<Reference>3.3.3.8</Reference>
+					<Component Name="ID number (ST)" Usage="O" Datatype="ST" Length="3"/>
+					<Component Name="family+last name prefix" Usage="O" Datatype="FN" Length="3"/>
+					<Component Name="given name" Usage="O" Datatype="ST" Length="3"/>
+					<Component Name="middle initial or name" Usage="O" Datatype="ST" Length="3"/>
+					<Component Name="suffix (e.g., JR or III)" Usage="O" Datatype="ST" Length="3"/>
+					<Component Name="prefix (e.g., DR)" Usage="O" Datatype="ST" Length="3"/>
+					<Component Name="degree (e.g., MD)" Usage="O" Datatype="IS" Length="3"/>
+					<Component Name="source table" Usage="O" Datatype="IS" Length="3"/>
+					<Component Name="assigning authority" Usage="O" Datatype="HD" Length="9">
+						<SubComponent Name="namespace ID" Usage="O" Datatype="IS" Length="3" Table="0300"/>
+						<SubComponent Name="universal ID" Usage="O" Datatype="ST" Length="3"/>
+						<SubComponent Name="universal ID type" Usage="O" Datatype="ID" Length="3" Table="0301"/>
+					</Component>
+					<Component Name="name type code" Usage="O" Datatype="ID" Length="3"/>
+					<Component Name="identifier check digit" Usage="O" Datatype="ST" Length="3"/>
+					<Component Name="code identifying the check digit scheme employed" Usage="O" Datatype="ID" Length="3"/>
+					<Component Name="identifier type code" Usage="O" Datatype="IS" Length="3"/>
+					<Component Name="assigning facility" Usage="O" Datatype="HD" Length="9">
+						<SubComponent Name="namespace ID" Usage="O" Datatype="IS" Length="3" Table="0300"/>
+						<SubComponent Name="universal ID" Usage="O" Datatype="ST" Length="3"/>
+						<SubComponent Name="universal ID type" Usage="O" Datatype="ID" Length="3" Table="0301"/>
+					</Component>
+					<Component Name="Name Representation code" Usage="O" Datatype="ID" Length="3"/>
+				</Field>
+				<Field Name="Consulting Doctor" Usage="O" Min="0" Max="*" Datatype="XCN" Length="60" Table="0010" ItemNo="00139">
+					<Reference>3.3.3.9</Reference>
+					<Component Name="ID number (ST)" Usage="O" Datatype="ST" Length="3"/>
+					<Component Name="family+last name prefix" Usage="O" Datatype="FN" Length="3"/>
+					<Component Name="given name" Usage="O" Datatype="ST" Length="3"/>
+					<Component Name="middle initial or name" Usage="O" Datatype="ST" Length="3"/>
+					<Component Name="suffix (e.g., JR or III)" Usage="O" Datatype="ST" Length="3"/>
+					<Component Name="prefix (e.g., DR)" Usage="O" Datatype="ST" Length="3"/>
+					<Component Name="degree (e.g., MD)" Usage="O" Datatype="IS" Length="3"/>
+					<Component Name="source table" Usage="O" Datatype="IS" Length="3"/>
+					<Component Name="assigning authority" Usage="O" Datatype="HD" Length="9">
+						<SubComponent Name="namespace ID" Usage="O" Datatype="IS" Length="3" Table="0300"/>
+						<SubComponent Name="universal ID" Usage="O" Datatype="ST" Length="3"/>
+						<SubComponent Name="universal ID type" Usage="O" Datatype="ID" Length="3" Table="0301"/>
+					</Component>
+					<Component Name="name type code" Usage="O" Datatype="ID" Length="3"/>
+					<Component Name="identifier check digit" Usage="O" Datatype="ST" Length="3"/>
+					<Component Name="code identifying the check digit scheme employed" Usage="O" Datatype="ID" Length="3"/>
+					<Component Name="identifier type code" Usage="O" Datatype="IS" Length="3"/>
+					<Component Name="assigning facility" Usage="O" Datatype="HD" Length="9">
+						<SubComponent Name="namespace ID" Usage="O" Datatype="IS" Length="3" Table="0300"/>
+						<SubComponent Name="universal ID" Usage="O" Datatype="ST" Length="3"/>
+						<SubComponent Name="universal ID type" Usage="O" Datatype="ID" Length="3" Table="0301"/>
+					</Component>
+					<Component Name="Name Representation code" Usage="O" Datatype="ID" Length="3"/>
+				</Field>
+				<Field Name="Hospital Service" Usage="O" Min="0" Max="1" Datatype="IS" Length="3" Table="0069" ItemNo="00140">
+					<Reference>3.3.3.10</Reference>
+				</Field>
+				<Field Name="Temporary Location" Usage="O" Min="0" Max="1" Datatype="PL" Length="80" ItemNo="00141">
+					<Reference>3.3.3.11</Reference>
+					<Component Name="point of care" Usage="O" Datatype="IS" Length="3"/>
+					<Component Name="room" Usage="O" Datatype="IS" Length="3"/>
+					<Component Name="bed" Usage="O" Datatype="IS" Length="3"/>
+					<Component Name="facility (HD)" Usage="O" Datatype="HD" Length="9">
+						<SubComponent Name="namespace ID" Usage="O" Datatype="IS" Length="3" Table="0300"/>
+						<SubComponent Name="universal ID" Usage="O" Datatype="ST" Length="3"/>
+						<SubComponent Name="universal ID type" Usage="O" Datatype="ID" Length="3" Table="0301"/>
+					</Component>
+					<Component Name="location status" Usage="O" Datatype="IS" Length="3"/>
+					<Component Name="person location type" Usage="O" Datatype="IS" Length="3"/>
+					<Component Name="building" Usage="O" Datatype="IS" Length="3"/>
+					<Component Name="floor" Usage="O" Datatype="IS" Length="3"/>
+					<Component Name="Location description" Usage="O" Datatype="ST" Length="3"/>
+				</Field>
+				<Field Name="Preadmit Test Indicator" Usage="O" Min="0" Max="1" Datatype="IS" Length="2" Table="0087" ItemNo="00142">
+					<Reference>3.3.3.12</Reference>
+				</Field>
+				<Field Name="Re-admission Indicator" Usage="O" Min="0" Max="1" Datatype="IS" Length="2" Table="0092" ItemNo="00143">
+					<Reference>3.3.3.13</Reference>
+				</Field>
+				<Field Name="Admit Source" Usage="O" Min="0" Max="1" Datatype="IS" Length="3" Table="0023" ItemNo="00144">
+					<Reference>3.3.3.14</Reference>
+				</Field>
+				<Field Name="Ambulatory Status" Usage="O" Min="0" Max="*" Datatype="IS" Length="2" Table="0009" ItemNo="00145">
+					<Reference>6.4.7.32</Reference>
+				</Field>
+				<Field Name="VIP Indicator" Usage="O" Min="0" Max="1" Datatype="IS" Length="2" Table="0099" ItemNo="00146">
+					<Reference>3.3.3.16</Reference>
+				</Field>
+				<Field Name="Admitting Doctor" Usage="O" Min="0" Max="*" Datatype="XCN" Length="60" Table="0010" ItemNo="00147">
+					<Reference>3.3.3.17</Reference>
+					<Component Name="ID number (ST)" Usage="O" Datatype="ST" Length="3"/>
+					<Component Name="family+last name prefix" Usage="O" Datatype="FN" Length="3"/>
+					<Component Name="given name" Usage="O" Datatype="ST" Length="3"/>
+					<Component Name="middle initial or name" Usage="O" Datatype="ST" Length="3"/>
+					<Component Name="suffix (e.g., JR or III)" Usage="O" Datatype="ST" Length="3"/>
+					<Component Name="prefix (e.g., DR)" Usage="O" Datatype="ST" Length="3"/>
+					<Component Name="degree (e.g., MD)" Usage="O" Datatype="IS" Length="3"/>
+					<Component Name="source table" Usage="O" Datatype="IS" Length="3"/>
+					<Component Name="assigning authority" Usage="O" Datatype="HD" Length="9">
+						<SubComponent Name="namespace ID" Usage="O" Datatype="IS" Length="3" Table="0300"/>
+						<SubComponent Name="universal ID" Usage="O" Datatype="ST" Length="3"/>
+						<SubComponent Name="universal ID type" Usage="O" Datatype="ID" Length="3" Table="0301"/>
+					</Component>
+					<Component Name="name type code" Usage="O" Datatype="ID" Length="3"/>
+					<Component Name="identifier check digit" Usage="O" Datatype="ST" Length="3"/>
+					<Component Name="code identifying the check digit scheme employed" Usage="O" Datatype="ID" Length="3"/>
+					<Component Name="identifier type code" Usage="O" Datatype="IS" Length="3"/>
+					<Component Name="assigning facility" Usage="O" Datatype="HD" Length="9">
+						<SubComponent Name="namespace ID" Usage="O" Datatype="IS" Length="3" Table="0300"/>
+						<SubComponent Name="universal ID" Usage="O" Datatype="ST" Length="3"/>
+						<SubComponent Name="universal ID type" Usage="O" Datatype="ID" Length="3" Table="0301"/>
+					</Component>
+					<Component Name="Name Representation code" Usage="O" Datatype="ID" Length="3"/>
+				</Field>
+				<Field Name="Patient Type" Usage="O" Min="0" Max="1" Datatype="IS" Length="2" Table="0018" ItemNo="00148">
+					<Reference>6.4.1.18</Reference>
+				</Field>
+				<Field Name="Visit Number" Usage="O" Min="0" Max="1" Datatype="CX" Length="21" ItemNo="00149">
+					<Component Name="ID" Usage="O" Datatype="ST" Length="3"/>
+					<Component Name="check digit" Usage="O" Datatype="ST" Length="1"/>
+					<Component Name="code identifying the check digit scheme employed" Usage="O" Datatype="ID" Length="3"/>
+					<Component Name="assigning authority" Usage="R" Datatype="HD" Length="9">
+						<SubComponent Usage="C" Name="namespace ID" Datatype="IS" Length="3" Table="0300"/>
+						<SubComponent Usage="C" Name="universal ID" Datatype="ST" Length="3"/>
+						<SubComponent Usage="C" Name="universal ID type" Datatype="ID" Length="3" Table="0301"/>
+					</Component>
+					<Component Name="identifier type code" Usage="O" Datatype="IS" Length="3" Table="0203"/>
+					<Component Name="assigning facility" Usage="O" Datatype="HD" Length="9">
+						<SubComponent Name="namespace ID" Usage="O" Datatype="IS" Length="3" Table="0300" />
+						<SubComponent Name="universal ID" Usage="C" Datatype="ST" Length="3" />
+						<SubComponent Name="universal ID type" Usage="C" Datatype="ID" Length="3" Table="0301" />
+					</Component>
+				</Field>
+				<Field Name="Financial Class" Usage="O" Min="0" Max="*" Datatype="FC" Length="50" Table="0064" ItemNo="00150">
+					<Reference>3.3.3.20</Reference>
+					<Component Name="Financial Class" Usage="O" Datatype="IS" Length="3" Table="0064"/>
+					<Component Name="Effective Date" Usage="O" Datatype="TS" Length="26">
+						<!-- Caroline Rosin (NIST) : change datatype from NM to ST to allow [+-ZZZZ] -->
+						<SubComponent Name="Date/Time" Usage="R" Datatype="ST" Length="26">
+							<ImpNote>YYYYMMDD[HHHMM[SS[.SSSS]]][+-ZZZZ]</ImpNote>
+						</SubComponent>
+						<SubComponent Name="degree of precision" Usage="X" Datatype="ST" Length="1">
+							<ImpNote>Retained for backward compatibility only</ImpNote>
+						</SubComponent>
+					</Component>
+				</Field>
+				<Field Name="Charge Price Indicator" Usage="O" Min="0" Max="1" Datatype="IS" Length="2" Table="0032" ItemNo="00151">
+					<Reference>3.3.3.21</Reference>
+				</Field>
+				<Field Name="Courtesy Code" Usage="O" Min="0" Max="1" Datatype="IS" Length="2" Table="0045" ItemNo="00152">
+					<Reference>3.3.3.22</Reference>
+				</Field>
+				<Field Name="Credit Rating" Usage="O" Min="0" Max="1" Datatype="IS" Length="2" Table="0046" ItemNo="00153">
+					<Reference>3.3.3.23</Reference>
+				</Field>
+				<Field Name="Contract Code" Usage="O" Min="0" Max="*" Datatype="IS" Length="2" Table="0044" ItemNo="00154">
+					<Reference>3.3.3.24</Reference>
+				</Field>
+				<Field Name="Contract Effective Date" Usage="O" Min="0" Max="*" Datatype="DT" Length="8" ItemNo="00155">
+					<Reference>3.3.3.25</Reference>
+				</Field>
+				<Field Name="Contract Amount" Usage="O" Min="0" Max="*" Datatype="NM" Length="12" ItemNo="00156">
+					<Reference>3.3.3.26</Reference>
+				</Field>
+				<Field Name="Contract Period" Usage="O" Min="0" Max="*" Datatype="NM" Length="3" ItemNo="00157">
+					<Reference>3.3.3.27</Reference>
+				</Field>
+				<Field Name="Interest Code" Usage="O" Min="0" Max="1" Datatype="IS" Length="2" Table="0073" ItemNo="00158">
+					<Reference>3.3.3.28</Reference>
+				</Field>
+				<Field Name="Transfer to Bad Debt Code" Usage="O" Min="0" Max="1" Datatype="IS" Length="1" Table="0110" ItemNo="00159">
+					<Reference>3.3.3.29</Reference>
+				</Field>
+				<Field Name="Transfer to Bad Debt Date" Usage="O" Min="0" Max="1" Datatype="DT" Length="8" ItemNo="00160">
+					<Reference>3.3.3.30</Reference>
+				</Field>
+				<Field Name="Bad Debt Agency Code" Usage="O" Min="0" Max="1" Datatype="IS" Length="10" Table="0021" ItemNo="00161">
+					<Reference>3.3.3.31</Reference>
+				</Field>
+				<Field Name="Bad Debt Transfer Amount" Usage="O" Min="0" Max="1" Datatype="NM" Length="12" ItemNo="00162">
+					<Reference>3.3.3.32</Reference>
+				</Field>
+				<Field Name="Bad Debt Recovery Amount" Usage="O" Min="0" Max="1" Datatype="NM" Length="12" ItemNo="00163">
+					<Reference>3.3.3.33</Reference>
+				</Field>
+				<Field Name="Delete Account Indicator" Usage="O" Min="0" Max="1" Datatype="IS" Length="1" Table="0111" ItemNo="00164">
+					<Reference>3.3.3.34</Reference>
+				</Field>
+				<Field Name="Delete Account Date" Usage="O" Min="0" Max="1" Datatype="DT" Length="8" ItemNo="00165">
+					<Reference>3.3.3.35</Reference>
+				</Field>
+				<Field Name="Discharge Disposition" Usage="O" Min="0" Max="1" Datatype="IS" Length="3" Table="0112" ItemNo="00166">
+					<Reference>3.3.3.36</Reference>
+				</Field>
+				<Field Name="Discharged to Location" Usage="O" Min="0" Max="1" Datatype="DLD" Length="29" Table="0113" ItemNo="00167">
+					<Reference>3.3.3.37</Reference>
+					<Component Name="discharge location" Usage="O" Datatype="ID" Length="3"/>
+					<Component Name="effective date" Usage="O" Datatype="TS" Length="26">
+						<!-- Caroline Rosin (NIST) : change datatype from NM to ST to allow [+-ZZZZ] -->
+						<SubComponent Name="Date/Time" Usage="R" Datatype="ST" Length="26">
+							<ImpNote>YYYYMMDD[HHHMM[SS[.SSSS]]][+-ZZZZ]</ImpNote>
+						</SubComponent>
+						<SubComponent Name="degree of precision" Usage="X" Datatype="ST" Length="1">
+							<ImpNote>Retained for backward compatibility only</ImpNote>
+						</SubComponent>
+					</Component>
+				</Field>
+				<Field Name="Diet Type" Usage="O" Min="0" Max="1" Datatype="CE" Length="80" Table="0114" ItemNo="00168">
+					<Reference>3.3.3.38</Reference>
+					<Component Name="identifier" Usage="O" Datatype="ST" Length="3"/>
+					<Component Name="text" Usage="O" Datatype="ST" Length="3"/>
+					<Component Name="name of coding system" Usage="O" Datatype="ST" Length="3"/>
+					<Component Name="alternate identifier" Usage="O" Datatype="ST" Length="3"/>
+					<Component Name="alternate text" Usage="O" Datatype="ST" Length="3"/>
+					<Component Name="name of alternate coding system" Usage="O" Datatype="ST" Length="3"/>
+				</Field>
+				<Field Name="Servicing Facility" Usage="O" Min="0" Max="1" Datatype="IS" Length="2" Table="0115" ItemNo="00169">
+					<Reference>3.3.3.39</Reference>
+				</Field>
+				<Field Name="Bed Status" Usage="X" Min="0" Max="*" Datatype="IS" Length="1" Table="0116" ItemNo="00170">
+					<Reference>3.3.7.2</Reference>
+				</Field>
+				<Field Name="Account Status" Usage="O" Min="0" Max="1" Datatype="IS" Length="2" Table="0117" ItemNo="00171">
+					<Reference>3.3.3.41</Reference>
+				</Field>
+				<Field Name="Pending Location" Usage="O" Min="0" Max="1" Datatype="PL" Length="80" ItemNo="00172">
+					<Reference>3.3.3.42</Reference>
+					<Component Name="point of care" Usage="O" Datatype="IS" Length="3"/>
+					<Component Name="room" Usage="O" Datatype="IS" Length="3"/>
+					<Component Name="bed" Usage="O" Datatype="IS" Length="3"/>
+					<Component Name="facility (HD)" Usage="O" Datatype="HD" Length="9">
+						<SubComponent Name="namespace ID" Usage="O" Datatype="IS" Length="3" Table="0300"/>
+						<SubComponent Name="universal ID" Usage="O" Datatype="ST" Length="3"/>
+						<SubComponent Name="universal ID type" Usage="O" Datatype="ID" Length="3" Table="0301"/>
+					</Component>
+					<Component Name="location status" Usage="O" Datatype="IS" Length="3"/>
+					<Component Name="person location type" Usage="O" Datatype="IS" Length="3"/>
+					<Component Name="building" Usage="O" Datatype="IS" Length="3"/>
+					<Component Name="floor" Usage="O" Datatype="IS" Length="3"/>
+					<Component Name="Location description" Usage="O" Datatype="ST" Length="3"/>
+				</Field>
+				<Field Name="Prior Temporary Location" Usage="O" Min="0" Max="1" Datatype="PL" Length="80" ItemNo="00173">
+					<Reference>3.3.3.43</Reference>
+					<Component Name="point of care" Usage="O" Datatype="IS" Length="3"/>
+					<Component Name="room" Usage="O" Datatype="IS" Length="3"/>
+					<Component Name="bed" Usage="O" Datatype="IS" Length="3"/>
+					<Component Name="facility (HD)" Usage="O" Datatype="HD" Length="9">
+						<SubComponent Name="namespace ID" Usage="O" Datatype="IS" Length="3" Table="0300"/>
+						<SubComponent Name="universal ID" Usage="O" Datatype="ST" Length="3"/>
+						<SubComponent Name="universal ID type" Usage="O" Datatype="ID" Length="3" Table="0301"/>
+					</Component>
+					<Component Name="location status" Usage="O" Datatype="IS" Length="3"/>
+					<Component Name="person location type" Usage="O" Datatype="IS" Length="3"/>
+					<Component Name="building" Usage="O" Datatype="IS" Length="3"/>
+					<Component Name="floor" Usage="O" Datatype="IS" Length="3"/>
+					<Component Name="Location description" Usage="O" Datatype="ST" Length="3"/>
+				</Field>
+				<Field Name="Admit Date/Time" Usage="O" Min="0" Max="1" Datatype="TS" Length="26" ItemNo="00174">
+					<Reference>3.3.3.44</Reference>
+					<!-- Caroline Rosin (NIST) : change datatype from NM to ST to allow [+-ZZZZ] -->
+					<Component Name="Date/Time" Usage="R" Datatype="ST" Length="26">
+						<ImpNote>YYYYMMDD[HHHMM[SS[.SSSS]]][+-ZZZZ]</ImpNote>
+					</Component>
+					<Component Name="degree of precision" Usage="X" Datatype="ST" Length="1">
+						<ImpNote>Retained for backward compatibility only</ImpNote>
+					</Component>
+				</Field>
+				<Field Name="Discharge Date/Time" Usage="O" Min="0" Max="1" Datatype="TS" Length="26" ItemNo="00175">
+					<Reference>3.3.3.45</Reference>
+					<!-- Caroline Rosin (NIST) : change datatype from NM to ST to allow [+-ZZZZ] -->
+					<Component Name="Date/Time" Usage="R" Datatype="ST" Length="26">
+						<ImpNote>YYYYMMDD[HHHMM[SS[.SSSS]]][+-ZZZZ]</ImpNote>
+					</Component>
+					<Component Name="degree of precision" Usage="X" Datatype="ST" Length="1">
+						<ImpNote>Retained for backward compatibility only</ImpNote>
+					</Component>
+				</Field>
+				<Field Name="Current Patient Balance" Usage="O" Min="0" Max="1" Datatype="NM" Length="12" ItemNo="00176">
+					<Reference>3.3.3.46</Reference>
+				</Field>
+				<Field Name="Total Charges" Usage="O" Min="0" Max="1" Datatype="NM" Length="12" ItemNo="00177">
+					<Reference>3.3.3.47</Reference>
+				</Field>
+				<Field Name="Total Adjustments" Usage="O" Min="0" Max="1" Datatype="NM" Length="12" ItemNo="00178">
+					<Reference>3.3.3.48</Reference>
+				</Field>
+				<Field Name="Total Payments" Usage="O" Min="0" Max="1" Datatype="NM" Length="12" ItemNo="00179">
+					<Reference>3.3.3.49</Reference>
+				</Field>
+				<Field Name="Alternate Visit ID" Usage="O" Min="0" Max="1" Datatype="CX" Length="21" Table="0203" ItemNo="00180">
+					<Component Name="ID" Usage="O" Datatype="ST" Length="3"/>
+					<Component Name="check digit" Usage="O" Datatype="ST" Length="1"/>
+					<Component Name="code identifying the check digit scheme employed" Usage="O" Datatype="ID" Length="3"/>
+					<Component Name="assigning authority" Usage="R" Datatype="HD" Length="9">
+						<SubComponent Usage="C" Name="namespace ID" Datatype="IS" Length="3" Table="0300"/>
+						<SubComponent Usage="C" Name="universal ID" Datatype="ST" Length="3"/>
+						<SubComponent Usage="C" Name="universal ID type" Datatype="ID" Length="3" Table="0301"/>
+					</Component>
+					<Component Name="identifier type code" Usage="O" Datatype="IS" Length="3" Table="0203"/>
+					<Component Name="assigning facility" Usage="O" Datatype="HD" Length="9">
+						<SubComponent Name="namespace ID" Usage="O" Datatype="IS" Length="3" Table="0300" />
+						<SubComponent Name="universal ID" Usage="C" Datatype="ST" Length="3" />
+						<SubComponent Name="universal ID type" Usage="C" Datatype="ID" Length="3" Table="0301" />
+					</Component>
+				</Field>
+				<Field Name="Visit Indicator" Usage="O" Min="0" Max="1" Datatype="IS" Length="1" Table="0326" ItemNo="01226">
+					<Reference>3.3.3.51</Reference>
+				</Field>
+				<Field Name="Other Healthcare Provider" Usage="O" Min="0" Max="*" Datatype="XCN" Length="60" Table="0010" ItemNo="01274">
+					<Reference>3.3.3.52</Reference>
+					<Component Name="ID number (ST)" Usage="O" Datatype="ST" Length="3"/>
+					<Component Name="family+last name prefix" Usage="O" Datatype="FN" Length="3"/>
+					<Component Name="given name" Usage="O" Datatype="ST" Length="3"/>
+					<Component Name="middle initial or name" Usage="O" Datatype="ST" Length="3"/>
+					<Component Name="suffix (e.g., JR or III)" Usage="O" Datatype="ST" Length="3"/>
+					<Component Name="prefix (e.g., DR)" Usage="O" Datatype="ST" Length="3"/>
+					<Component Name="degree (e.g., MD)" Usage="O" Datatype="IS" Length="3"/>
+					<Component Name="source table" Usage="O" Datatype="IS" Length="3"/>
+					<Component Name="assigning authority" Usage="O" Datatype="HD" Length="9">
+						<SubComponent Name="namespace ID" Usage="O" Datatype="IS" Length="3" Table="0300"/>
+						<SubComponent Name="universal ID" Usage="O" Datatype="ST" Length="3"/>
+						<SubComponent Name="universal ID type" Usage="O" Datatype="ID" Length="3" Table="0301"/>
+					</Component>
+					<Component Name="name type code" Usage="O" Datatype="ID" Length="3"/>
+					<Component Name="identifier check digit" Usage="O" Datatype="ST" Length="3"/>
+					<Component Name="code identifying the check digit scheme employed" Usage="O" Datatype="ID" Length="3"/>
+					<Component Name="identifier type code" Usage="O" Datatype="IS" Length="3"/>
+					<Component Name="assigning facility" Usage="O" Datatype="HD" Length="9">
+						<SubComponent Name="namespace ID" Usage="O" Datatype="IS" Length="3" Table="0300"/>
+						<SubComponent Name="universal ID" Usage="O" Datatype="ST" Length="3"/>
+						<SubComponent Name="universal ID type" Usage="O" Datatype="ID" Length="3" Table="0301"/>
+					</Component>
+					<Component Name="Name Representation code" Usage="O" Datatype="ID" Length="3"/>
+				</Field>
+			</Segment>
+		</SegGroup>
+	</HL7v2xStaticDef>
+</HL7v2xConformanceProfile>
