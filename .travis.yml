@@ -2,3 +2,12 @@ language: java
 
 jdk:
 - oraclejdk8
+
+# Do only the necessary stuff
+script:
+  - mvn clean install -q
+ 
+# Actions to perform after the build.
+after_success:
+  - ./travis_after_success.sh
+  
