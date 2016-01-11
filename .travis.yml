@@ -3,6 +3,12 @@ language: java
 jdk:
 - oraclejdk8
 
+# Install WGet.
+addons:
+  apt:
+    packages:
+    - wget
+
 # Do only the necessary stuff
 script:
   - mvn clean install -q
