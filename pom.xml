@@ -26,15 +26,15 @@
         <osgi.bundle.license>Apache License, Version 2.0;url=http://www.apache.org/licenses/LICENSE-2.0;description=OpenSource license provided by the Apache foundation</osgi.bundle.license>
         <osgi.bundle.category>healthcare</osgi.bundle.category>
 
-        <assembly-plugin-version>2.4</assembly-plugin-version>
+        <assembly-plugin-version>2.6</assembly-plugin-version>
         <bundle-plugin-version>2.0.1</bundle-plugin-version>
-        <compiler-plugin-version>3.2</compiler-plugin-version>
-        <download-plugin-version>1.2.0</download-plugin-version>
-        <gpg-plugin-version>1.5</gpg-plugin-version>
-        <jar-plugin-version>2.4</jar-plugin-version>
-        <javadocs-plugin-version>2.9.1</javadocs-plugin-version>
-        <nexus-staging-plugin-version>1.6.3</nexus-staging-plugin-version>
-        <sources-plugin-version>2.2.1</sources-plugin-version>
+        <compiler-plugin-version>3.5</compiler-plugin-version>
+        <download-plugin-version>1.2.1</download-plugin-version>
+        <gpg-plugin-version>1.6</gpg-plugin-version>
+        <jar-plugin-version>2.6</jar-plugin-version>
+        <javadocs-plugin-version>2.10.3</javadocs-plugin-version>
+        <nexus-staging-plugin-version>1.6.6</nexus-staging-plugin-version>
+        <sources-plugin-version>2.4</sources-plugin-version>
 
         <!-- You can set this to true e.g. in CI builds to force downloading the files from the source
              instead of accessing them from the cache -->
@@ -43,9 +43,9 @@
         <beanutils-version>1.9.2</beanutils-version>
         <commons-collections-version>3.2.2</commons-collections-version>
         <commons-io-version>2.4</commons-io-version>
-        <easymock-version>3.3.1</easymock-version>
+        <easymock-version>3.4</easymock-version>
         <hapi-version>2.2</hapi-version>
-        <slf4j-version>1.7.12</slf4j-version>
+        <slf4j-version>1.7.14</slf4j-version>
         <junit-version>4.12</junit-version>
     </properties>
 
