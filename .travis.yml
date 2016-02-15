@@ -12,24 +12,18 @@ script:
 # Test, Install, Deploy in one step
 - mvn deploy -q --settings settings.xml
 after_failure:
-# Set environment variable in case tests have failed
-- test $TRAVIS_TEST_RESULT != 0 && export TESTS_FAILED=true
-before_deploy:
-# Zip everything
+# Zip everything. Or use after_failure instead
 - wget -q --no-check-certificate -O - https://raw.githubusercontent.com/oehf/ipf-labs/master/maven/travis_before_deploy.sh | sh
-deploy:
-  provider: s3
-  skip_cleanup: true
-  access_key_id: AKIAIG3NJZOJH6AXNTLQ
-  secret_access_key:
-    secure: jJeccaeqD8PAg4hQ/CgYYOtyahPRxVcrurwlEtFj3RODYupuhW0aaH1FXUK6fc+kSII5LVjQ660V9IAZ8Rw3SYj91s+CRR+iVNlK/do98HsDvsvOohyYfAM+M7eZ1POanOoJQPvXHMmRwZ9hen9kzqJSW1Tb0NGcikedzCbfJus=
-  bucket: builds.openehealth.org
-  local-dir: $TRAVIS_BUILD_DIR/s3-upload
-  upload-dir: ipf-gazelle
-  acl: authenticated_read
-  on:
-    condition: $TESTS_FAILED = true
-    repo: oehf/ipf-gazelle
+addons:
+  artifacts:
+    s3_region: "us-east-1"
+    bucket: builds.openehealth.org
+    key: AKIAIG3NJZOJH6AXNTLQ
+    secret:
+      secure: iAPFqtfyJAW7nAZ/jAXFH2kran0lKKULlF7fZnfnNPA8uC4QGXerEH340pdfbG4EfiRrY2MFDoEd96JNfUMB+RHuV2Zo5ueFQMFqB2FPMizM8Z2gIWds/bNbelnpiq0VMP80t4+APvu40If+80yUVitOVh+vxmKnJcy1vkYR9Cg=
+    paths:
+    - $(ls s3-upload/*.zip)
+    target_paths: "ipf-gazelle"
 env:
   global:
   - secure: pyDpb35W6hP4Tuq3044Nosn4XuIvhuU3AT+Q+u1agm22netNYycU5xA10NsMZ0uPf2vi3AKf+Zco7TJ96UiSIKxvnZULfIYxMfJqSBcwCd+apGYGMRdGzZBfYg8Fcob+8njY73xjjVRBbEdrD5aWBmmWnGwpp2FzSnlgixw8blc=
