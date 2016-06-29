@@ -16,6 +16,7 @@
 package org.openehealth.ipf.gazelle.validation.core.util;
 
 import java.util.List;
+import java.util.Objects;
 
 import ca.uhn.hl7v2.HL7Exception;
 import ca.uhn.hl7v2.model.Message;
@@ -117,7 +118,7 @@ public abstract class MessageUtils {
         String mshValue;
         try {
             mshValue = mshField(fieldNo, terser);
-            profileViolatedWhen(mshValue == null || !mshValue.equals(profileValue), violations,
+            profileViolatedWhen(!Objects.equals(mshValue, profileValue), violations,
                     validationMessage, mshValue, profileValue);
         } catch (HL7Exception e) {
             violations.add(new ValidationException("Could not obtain" + fieldNo, e));

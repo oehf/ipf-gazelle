@@ -59,18 +59,20 @@ public abstract class AbstractGazelleProfileValidatorTest extends Assert {
         unmarshaller = jaxbContext.createUnmarshaller();
     }
 
-    protected void printOutExceptions(ValidationException[] exceptions) {
-        for (ValidationException exc : exceptions) {
-            switch (exc.getSeverity()) {
-                case ERROR:
-                    LOG.error("ERROR:", exc);
-                    break;
-                case WARNING:
-                    LOG.warn("WARN:", exc);
-                    break;
-                case INFO:
-                    LOG.warn("INFO:", exc);
-                    break;
+    protected void printOutExceptions(ValidationException... exceptions) {
+        if (exceptions != null) {
+            for (ValidationException exc : exceptions) {
+                switch (exc.getSeverity()) {
+                    case ERROR:
+                        LOG.error("ERROR:", exc);
+                        break;
+                    case WARNING:
+                        LOG.warn("WARN:", exc);
+                        break;
+                    case INFO:
+                        LOG.warn("INFO:", exc);
+                        break;
+                }
             }
         }
     }

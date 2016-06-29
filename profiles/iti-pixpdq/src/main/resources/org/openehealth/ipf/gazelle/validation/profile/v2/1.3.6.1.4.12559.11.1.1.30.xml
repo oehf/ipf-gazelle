@@ -767,7 +767,7 @@
 					<Component Name="census tract" Usage="O" Datatype="IS" Length="20" Table="0288"/>
 					<Component Name="address representation code" Usage="O" Datatype="ID" Length="1" Table="0465"/>
 					<Component Name="address validity range" Usage="X" Datatype="DR" Length="53">
-						<ImpNote>deprecated as of v2.5 </ImpNote>
+						<ImpNote>deprecated as of pdqquery.v2.5</ImpNote>
 						<SubComponent Name="range start date/time" Usage="O" Datatype="TS" Length="26"/>
 						<SubComponent Name="range end date/time" Usage="O" Datatype="TS" Length="26" />
 					</Component>

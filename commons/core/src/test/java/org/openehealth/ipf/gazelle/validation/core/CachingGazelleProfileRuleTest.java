@@ -79,15 +79,12 @@ public class CachingGazelleProfileRuleTest extends Assert {
         final CountDownLatch latch = new CountDownLatch(runs);
         for (int i = 0; i < runs; i++) {
             Thread.sleep(10);
-            executor.submit(new Runnable() {
-                @Override
-                public void run() {
-                    try {
-                        rules.add(profileRule1.parseProfile(context, "4711"));
-                        latch.countDown();
-                    } catch (Exception e) {
-                        // do nothing
-                    }
+            executor.submit(() -> {
+                try {
+                    rules.add(profileRule1.parseProfile(context, "4711"));
+                    latch.countDown();
+                } catch (Exception e) {
+                    // do nothing
                 }
             });
         }

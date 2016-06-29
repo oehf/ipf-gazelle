@@ -252,7 +252,7 @@ public class GazelleProfileRule extends AbstractMessageRule {
     protected List<ValidationException> checkForExtraFields(Segment segment, List<Integer> allowedFields) {
         ArrayList<ValidationException> exList = new ArrayList<>();
         for (int i = 1; i <= segment.numFields(); i++) {
-            if (!allowedFields.contains(new Integer(i))) {
+            if (!allowedFields.contains(i)) {
                 try {
                     Type[] reps = segment.getField(i);
                     for (Type rep : reps) {
@@ -459,18 +459,20 @@ public class GazelleProfileRule extends AbstractMessageRule {
     }
 
 
-    private static <T extends Structure> List<T> nonEmptyStructure(T[] input) throws HL7Exception {
+    private static <T extends Structure> List<T> nonEmptyStructure(T... input) throws HL7Exception {
         List<T> result = new ArrayList<>();
-        for (T element : input) {
-            if (!isEmpty(element)) result.add(element);
+        if (input != null) {
+            for (T element : input) {
+                if (!isEmpty(element)) result.add(element);
+            }
         }
         return result;
     }
 
     // In contrast to {@link #nonEmptyStructure, this will only remove trailing empty fields.
     // If all fields are empty, an empty list is returned
-    private static <T extends Type> Collection<T> nonEmptyField(T[] input) throws HL7Exception {
-        if (input.length == 0) return Collections.emptySet();
+    private static <T extends Type> Collection<T> nonEmptyField(T... input) throws HL7Exception {
+        if (input == null || input.length == 0) return Collections.emptySet();
         if (input.length == 1) return isEmpty(input[0]) ? Collections.<T>emptySet() : Collections.singleton(input[0]);
 
         boolean seenNonEmptyRepetition = false;
