@@ -23,6 +23,6 @@ package org.openehealth.ipf.gazelle.validation.profile;
  */
 public interface ConformanceProfile {
 
-    public ConformanceProfileInfo profileInfo();
+    ConformanceProfileInfo profileInfo();
 
 }

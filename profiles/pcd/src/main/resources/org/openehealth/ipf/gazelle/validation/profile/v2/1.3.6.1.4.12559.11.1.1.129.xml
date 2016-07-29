@@ -1,14 +1,15 @@
-<?xml version="1.0" encoding="utf-8"?><!--$Id: ORU_R01.xml 36566 2013-07-15 09:06:52Z aberge $--><!-- Copyright 2011 IHE International (http://www.ihe.net)
+<?xml version="1.0" encoding="utf-8"?><?xml-stylesheet type="text/xsl" href="http://gazelle.ihe.net/xsl/mp2htm.xsl"?>
+<!--$Id: ORU_R01.xml 36566 2013-07-15 09:06:52Z aberge $--><!-- Copyright 2011 IHE International (http://www.ihe.net)
   Licensed under the Apache License, Version 2.0 (the "License");
-  you may not use this file except in compliance with the License. 
-  You may obtain a copy of the License at 
-  http://www.apache.org/licenses/LICENSE-2.0 
-  Unless required by applicable law or agreed to in writing, software 
-  distributed under the License is distributed on an "AS IS" BASIS, 
-  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. 
-  See the License for the specific language governing permissions and 
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+  http://www.apache.org/licenses/LICENSE-2.0
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
   limitations under the License.
---><!-- important notice: this HL7 message profile is used for both PCD-01/DOR/ORU^R01^ORU_R01 and PCD-01/DOF/ORU^R01^ORU_R01 --><?xml-stylesheet type="text/xsl" href="http://gazelle.ihe.net/xsl/mp2htm.xsl"?>
+--><!-- important notice: this HL7 message profile is used for both PCD-01/DOR/ORU^R01^ORU_R01 and PCD-01/DOF/ORU^R01^ORU_R01 -->
 <HL7v2xConformanceProfile xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://gazelle.ihe.net/xsd/HL7MessageProfileSchema.xsd" HL7Version="2.6" ProfileType="Constrainable">
    <MetaData Name="PCD" OrgName="IHE" Version="2.3.1" Status="DRAFT" Topics="confsig-IHE-2.6-profile-accNE_accAL-Deferred"/>
    <ImpNote>ORU/ACK - Unsolicited transmission of an observation message</ImpNote>

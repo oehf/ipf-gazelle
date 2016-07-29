@@ -21,12 +21,18 @@ package org.openehealth.ipf.gazelle.validation.profile;
  */
 public interface ConformanceProfileInfo {
 
-    public String profileId();
-    public String transaction();
-    public String triggerEvent();
-    public String type();
-    public String event();
-    public String structure();
-    public String hl7version();
+    String profileId();
+
+    String transaction();
+
+    String triggerEvent();
+
+    String type();
+
+    String event();
+
+    String structure();
+
+    String hl7version();
 
 }

@@ -31,6 +31,6 @@ import java.util.List;
  */
 public interface HL7v2Transactions {
 
-    public List<ConformanceProfile> conformanceProfiles();
+    List<ConformanceProfile> conformanceProfiles();
 
 }
