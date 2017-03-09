@@ -33,7 +33,7 @@
         <gpg-plugin-version>1.6</gpg-plugin-version>
         <jar-plugin-version>3.0.2</jar-plugin-version>
         <javadocs-plugin-version>2.10.4</javadocs-plugin-version>
-        <nexus-staging-plugin-version>1.6.7</nexus-staging-plugin-version>
+        <nexus-staging-plugin-version>1.6.3</nexus-staging-plugin-version>
         <release-plugin-version>2.5.3</release-plugin-version>
         <sources-plugin-version>3.0.1</sources-plugin-version>
 
