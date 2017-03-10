@@ -45,11 +45,27 @@
                         </goals>
                         <configuration>
                             <properties>
-                                <javax.net.ssl.keyStore>${project.basedir}/../gazelle.jks</javax.net.ssl.keyStore>
                                 <javax.net.ssl.trustStore>${project.basedir}/../gazelle.jks</javax.net.ssl.trustStore>
-                                <javax.net.ssl.keyStorePassword>initinit</javax.net.ssl.keyStorePassword>
                                 <javax.net.ssl.trustStorePassword>initinit</javax.net.ssl.trustStorePassword>
                             </properties>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.codehaus.gmaven</groupId>
+                <artifactId>groovy-maven-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <phase>generate-resources</phase>
+                        <goals>
+                            <goal>execute</goal>
+                        </goals>
+                        <configuration>
+                            <source>
+                                System.clearProperty('javax.net.ssl.trustStore')
+                                System.clearProperty('javax.net.ssl.trustStorePassword')
+                            </source>
                         </configuration>
                     </execution>
                 </executions>
