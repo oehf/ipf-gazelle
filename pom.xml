@@ -26,9 +26,8 @@
         <osgi.bundle.license>Apache License, Version 2.0;url=http://www.apache.org/licenses/LICENSE-2.0;description=OpenSource license provided by the Apache foundation</osgi.bundle.license>
         <osgi.bundle.category>healthcare</osgi.bundle.category>
 
-        <assembly-plugin-version>2.6</assembly-plugin-version>
         <bundle-plugin-version>2.0.1</bundle-plugin-version>
-        <compiler-plugin-version>3.5.1</compiler-plugin-version>
+        <compiler-plugin-version>3.6.1</compiler-plugin-version>
         <download-plugin-version>1.3.0</download-plugin-version>
         <gpg-plugin-version>1.6</gpg-plugin-version>
         <jar-plugin-version>3.0.2</jar-plugin-version>
@@ -41,12 +40,12 @@
              instead of accessing them from the cache -->
         <skipCache>false</skipCache>
 
-        <beanutils-version>1.9.2</beanutils-version>
+        <beanutils-version>1.9.3</beanutils-version>
         <commons-collections-version>3.2.2</commons-collections-version>
         <commons-io-version>2.5</commons-io-version>
         <easymock-version>3.4</easymock-version>
-        <hapi-version>2.2</hapi-version>
-        <slf4j-version>1.7.21</slf4j-version>
+        <hapi-version>2.3</hapi-version>
+        <slf4j-version>1.7.25</slf4j-version>
         <junit-version>4.12</junit-version>
     </properties>
 
@@ -211,10 +210,6 @@
     <build>
         <pluginManagement>
             <plugins>
-                <plugin>
-                    <artifactId>maven-assembly-plugin</artifactId>
-                    <version>${assembly-plugin-version}</version>
-                </plugin>
                 <plugin>
                     <groupId>com.googlecode.maven-download-plugin</groupId>
                     <artifactId>download-maven-plugin</artifactId>

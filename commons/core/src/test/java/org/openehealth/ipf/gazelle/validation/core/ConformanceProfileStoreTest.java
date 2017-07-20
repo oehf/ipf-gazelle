@@ -24,6 +24,9 @@ import org.openehealth.ipf.gazelle.validation.profile.pixpdq.ItiPixPdqProfile;
 
 import java.io.IOException;
 
+import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.CoreMatchers.nullValue;
+
 /**
  * @author Boris Stanojevic
  */
@@ -54,13 +57,13 @@ public class ConformanceProfileStoreTest extends AbstractGazelleProfileValidator
         assertTrue(profileString.contains("MsgStructID=\"RSP_K23\""));
     }
 
-    @Test(expected = NullPointerException.class)
+    @Test
     public void testNonExistingProfile() throws IOException {
-        profileStore.getProfile("BLAH");
+        assertThat(profileStore.getProfile("BLAH"), is(nullValue()));
     }
 
-    @Test(expected = NullPointerException.class)
+    @Test
     public void testNullProfile() throws IOException {
-        profileStore.getProfile(null);
+        assertThat(profileStore.getProfile(null), is(nullValue()));
     }
 }
