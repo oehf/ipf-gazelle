@@ -9,6 +9,7 @@
 
     <properties>
         <!-- Default Bundle Properties -->
+        <!--
         <osgi.export.pkg>*</osgi.export.pkg>
         <osgi.import.pkg>org.slf4j.*;version="[1.6,2)",*</osgi.import.pkg>
         <osgi.dynamic.import.pkg />
@@ -25,7 +26,7 @@
         <osgi.bundle.vendor>Open eHealth Foundation</osgi.bundle.vendor>
         <osgi.bundle.license>Apache License, Version 2.0;url=http://www.apache.org/licenses/LICENSE-2.0;description=OpenSource license provided by the Apache foundation</osgi.bundle.license>
         <osgi.bundle.category>healthcare</osgi.bundle.category>
-
+        -->
         <bundle-plugin-version>2.0.1</bundle-plugin-version>
         <compiler-plugin-version>3.6.1</compiler-plugin-version>
         <download-plugin-version>1.3.0</download-plugin-version>
@@ -264,6 +265,7 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
             </plugin>
+            <!--
             <plugin>
                 <groupId>org.apache.felix</groupId>
                 <artifactId>maven-bundle-plugin</artifactId>
@@ -271,15 +273,11 @@
                     <unpackBundle>true</unpackBundle>
                     <manifestLocation>META-INF</manifestLocation>
                     <instructions>
-                        <!-- remove the qualifier from ANY versioning rule -->
+
                         <_versionpolicy>"$(version;===;$(@))"</_versionpolicy>
 
-                        <!-- This doesn't work with the 2.0.1 version of the plug-in, but probably later-->
-                        <!--_versionpolicy-impl>[$(version;==;$(@)),$(version;=+;$(@)))</_versionpolicy-impl-->
-                        <!--_versionpolicy-uses>[$(version;=;$(@)),$(version;+;$(@)))</_versionpolicy-uses-->
-                        <!-- enable simple spring xml file analysis -->
                         <_plugin>aQute.lib.spring.SpringComponent</_plugin>
-                        <!-- Changed behavior in the > 2.0.0 bundle version forces us to do it this way -->
+
                         <Bundle-SymbolicName>${project.groupId}.${project.artifactId}</Bundle-SymbolicName>
                         <Export-Package>${osgi.export.pkg}</Export-Package>
                         <Import-Package>${osgi.import.pkg}</Import-Package>
@@ -292,12 +290,10 @@
                         <Require-Bundle>${osgi.require.bundle}</Require-Bundle>
                         <Bundle-Category>${osgi.bundle.category}</Bundle-Category>
 
-                        <!-- project specifics -->
                         <Bundle-Description>${project.description}</Bundle-Description>
                         <Bundle-Vendor>${osgi.bundle.vendor}</Bundle-Vendor>
                         <Bundle-License>${osgi.bundle.license}</Bundle-License>
 
-                        <!-- custom headers (not according to OSGi-Spec standard) -->
                         <Spring-Context>${osgi.spring.context}</Spring-Context>
                         <Extension-Classes>${ipf.extension.classes}</Extension-Classes>
                         <Extension-Beans>${ipf.extension.beans}</Extension-Beans>
@@ -330,13 +326,9 @@
                     </execution>
                 </executions>
             </plugin>
+-->
             <plugin>
                 <artifactId>maven-jar-plugin</artifactId>
-                <configuration>
-                    <archive>
-                        <manifestFile>META-INF/MANIFEST.MF</manifestFile>
-                    </archive>
-                </configuration>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
