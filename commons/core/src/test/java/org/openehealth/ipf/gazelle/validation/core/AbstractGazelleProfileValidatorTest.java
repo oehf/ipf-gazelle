@@ -118,7 +118,7 @@ public abstract class AbstractGazelleProfileValidatorTest extends Assert {
     }
 
     protected HL7V2XConformanceProfile unmarshalProfile(ConformanceProfile profile)
-            throws ProfileException, IOException, JAXBException {
+            throws IOException, JAXBException {
 
         String profileString = hapiContext.getProfileStore().getProfile(profile.profileInfo().profileId());
         return (HL7V2XConformanceProfile) unmarshaller.unmarshal(new ByteArrayInputStream(profileString.getBytes()));
