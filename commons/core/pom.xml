@@ -2,13 +2,13 @@
     
     <modelVersion>4.0.0</modelVersion>
     <artifactId>ipf-gazelle-validation-commons-core</artifactId>
-    <version>1.3-SNAPSHOT</version>
+    <version>1.3.0</version>
     <name>ipf-gazelle-validation-commons-core</name>
 
     <parent>
         <groupId>org.openehealth.ipf.gazelle</groupId>
         <artifactId>ipf-gazelle-validation-commons</artifactId>
-        <version>1.3-SNAPSHOT</version>
+        <version>1.3.0</version>
     </parent>
 
     <dependencies>
