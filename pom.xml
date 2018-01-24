@@ -8,26 +8,6 @@
     <packaging>pom</packaging>
 
     <properties>
-        <!-- Default Bundle Properties -->
-        <!--
-        <osgi.export.pkg>*</osgi.export.pkg>
-        <osgi.import.pkg>org.slf4j.*;version="[1.6,2)",*</osgi.import.pkg>
-        <osgi.dynamic.import.pkg />
-        <osgi.private.pkg />
-        <osgi.bundle.activator />
-        <osgi.bundle.classpath />
-        <osgi.embed.dependency />
-        <osgi.fragment.host />
-        <osgi.require.bundle />
-        <osgi.spring.context />
-        <ipf.extension.classes />
-        <ipf.extension.beans />
-        <eclipse.supplement.bundle />
-        <osgi.bundle.vendor>Open eHealth Foundation</osgi.bundle.vendor>
-        <osgi.bundle.license>Apache License, Version 2.0;url=http://www.apache.org/licenses/LICENSE-2.0;description=OpenSource license provided by the Apache foundation</osgi.bundle.license>
-        <osgi.bundle.category>healthcare</osgi.bundle.category>
-        -->
-        <bundle-plugin-version>2.0.1</bundle-plugin-version>
         <compiler-plugin-version>3.7.0</compiler-plugin-version>
         <download-plugin-version>1.3.0</download-plugin-version>
         <gpg-plugin-version>1.6</gpg-plugin-version>

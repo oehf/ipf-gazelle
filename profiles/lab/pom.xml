@@ -10,11 +10,6 @@
         <version>1.4-SNAPSHOT</version>
     </parent>
 
-    <properties>
-        <osgi.export.pkg>org.openehealth.ipf.gazelle.validation.profile.pdqquery.v2.lab,*</osgi.export.pkg>
-        <osgi.fragment.host>org.openehealth.ipf.gazelle.ipf-gazelle-validation-profiles-core</osgi.fragment.host>
-    </properties>
-
     <dependencies>
         <dependency>
             <groupId>org.openehealth.ipf.gazelle</groupId>
