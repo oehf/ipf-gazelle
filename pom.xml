@@ -9,7 +9,7 @@
 
     <properties>
         <compiler-plugin-version>3.8.0</compiler-plugin-version>
-        <download-plugin-version>1.3.0</download-plugin-version>
+        <download-plugin-version>1.6.0</download-plugin-version>
         <gpg-plugin-version>1.6</gpg-plugin-version>
         <jar-plugin-version>3.1.0</jar-plugin-version>
         <javadocs-plugin-version>2.10.4</javadocs-plugin-version>
