@@ -10,6 +10,7 @@ package org.openehealth.ipf.gazelle.validation.core.stub;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import javax.xml.bind.JAXBElement;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -470,11 +471,7 @@ public class HL7V2XConformanceProfile {
          *     
          */
         public AcknowledgmentType getAccAck() {
-            if (accAck == null) {
-                return AcknowledgmentType.NE;
-            } else {
-                return accAck;
-            }
+            return Objects.requireNonNullElse(accAck, AcknowledgmentType.NE);
         }
 
         /**
@@ -498,11 +495,7 @@ public class HL7V2XConformanceProfile {
          *     
          */
         public AcknowledgmentType getAppAck() {
-            if (appAck == null) {
-                return AcknowledgmentType.AL;
-            } else {
-                return appAck;
-            }
+            return Objects.requireNonNullElse(appAck, AcknowledgmentType.AL);
         }
 
         /**
@@ -526,11 +519,7 @@ public class HL7V2XConformanceProfile {
          *     
          */
         public String getMsgAckMode() {
-            if (msgAckMode == null) {
-                return "Deferred";
-            } else {
-                return msgAckMode;
-            }
+            return Objects.requireNonNullElse(msgAckMode, "Deferred");
         }
 
         /**
@@ -554,11 +543,7 @@ public class HL7V2XConformanceProfile {
          *     
          */
         public String getQueryMessageType() {
-            if (queryMessageType == null) {
-                return "NonQuery";
-            } else {
-                return queryMessageType;
-            }
+            return Objects.requireNonNullElse(queryMessageType, "NonQuery");
         }
 
         /**
@@ -582,11 +567,7 @@ public class HL7V2XConformanceProfile {
          *     
          */
         public String getQueryMode() {
-            if (queryMode == null) {
-                return "RealTime";
-            } else {
-                return queryMode;
-            }
+            return Objects.requireNonNullElse(queryMode, "RealTime");
         }
 
         /**

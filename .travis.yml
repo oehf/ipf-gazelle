@@ -1,10 +1,20 @@
 language: java
 jdk:
-- openjdk8
+- openjdk11
+- openjdk13
 addons:
   apt:
     packages:
     - wget
+  artifacts:
+    s3_region: "us-east-1"
+    bucket: builds.openehealth.org
+    key: AKIAIG3NJZOJH6AXNTLQ
+    secret:
+      secure: iAPFqtfyJAW7nAZ/jAXFH2kran0lKKULlF7fZnfnNPA8uC4QGXerEH340pdfbG4EfiRrY2MFDoEd96JNfUMB+RHuV2Zo5ueFQMFqB2FPMizM8Z2gIWds/bNbelnpiq0VMP80t4+APvu40If+80yUVitOVh+vxmKnJcy1vkYR9Cg=
+    paths:
+      - $(ls s3-upload/*.zip)
+    target_paths: "ipf-gazelle"
 before_script:
 # Download custom settings for snapshot deployment
 - wget -q https://raw.githubusercontent.com/oehf/ipf-labs/master/maven/settings.xml --no-check-certificate
@@ -14,16 +24,6 @@ script:
 after_failure:
 # Zip everything. Or use after_failure instead
 - wget -q --no-check-certificate -O - https://raw.githubusercontent.com/oehf/ipf-labs/master/maven/travis_before_deploy.sh | sh
-addons:
-  artifacts:
-    s3_region: "us-east-1"
-    bucket: builds.openehealth.org
-    key: AKIAIG3NJZOJH6AXNTLQ
-    secret:
-      secure: iAPFqtfyJAW7nAZ/jAXFH2kran0lKKULlF7fZnfnNPA8uC4QGXerEH340pdfbG4EfiRrY2MFDoEd96JNfUMB+RHuV2Zo5ueFQMFqB2FPMizM8Z2gIWds/bNbelnpiq0VMP80t4+APvu40If+80yUVitOVh+vxmKnJcy1vkYR9Cg=
-    paths:
-    - $(ls s3-upload/*.zip)
-    target_paths: "ipf-gazelle"
 env:
   global:
   - secure: pyDpb35W6hP4Tuq3044Nosn4XuIvhuU3AT+Q+u1agm22netNYycU5xA10NsMZ0uPf2vi3AKf+Zco7TJ96UiSIKxvnZULfIYxMfJqSBcwCd+apGYGMRdGzZBfYg8Fcob+8njY73xjjVRBbEdrD5aWBmmWnGwpp2FzSnlgixw8blc=

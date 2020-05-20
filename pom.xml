@@ -3,16 +3,20 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.openehealth.ipf.gazelle</groupId>
     <artifactId>ipf-gazelle-validation</artifactId>
-    <version>1.6-SNAPSHOT</version>
+    <version>4.0-SNAPSHOT</version>
     <name>ipf-gazelle-validation</name>
     <packaging>pom</packaging>
 
     <properties>
-        <compiler-plugin-version>3.8.0</compiler-plugin-version>
-        <download-plugin-version>1.3.0</download-plugin-version>
+
+        <maven.compiler.source>11</maven.compiler.source>
+        <maven.compiler.target>11</maven.compiler.target>
+
+        <compiler-plugin-version>3.8.1</compiler-plugin-version>
+        <download-plugin-version>1.6.0</download-plugin-version>
         <gpg-plugin-version>1.6</gpg-plugin-version>
         <jar-plugin-version>3.1.0</jar-plugin-version>
-        <javadocs-plugin-version>2.10.4</javadocs-plugin-version>
+        <javadocs-plugin-version>3.2.0</javadocs-plugin-version>
         <nexus-staging-plugin-version>1.6.3</nexus-staging-plugin-version>
         <release-plugin-version>2.5.3</release-plugin-version>
         <sources-plugin-version>3.0.1</sources-plugin-version>
@@ -27,6 +31,7 @@
         <easymock-version>3.5</easymock-version>
         <hapi-version>2.3</hapi-version>
         <slf4j-version>1.7.28</slf4j-version>
+        <jaxb-version>2.3.3</jaxb-version>
         <junit-version>4.12</junit-version>
     </properties>
 
@@ -168,6 +173,16 @@
                 <version>${slf4j-version}</version>
             </dependency>
             <dependency>
+                <groupId>org.glassfish.jaxb</groupId>
+                <artifactId>jaxb-runtime</artifactId>
+                <version>${jaxb-version}</version>
+            </dependency>
+            <dependency>
+                <groupId>jakarta.xml.bind</groupId>
+                <artifactId>jakarta.xml.bind-api</artifactId>
+                <version>${jaxb-version}</version>
+            </dependency>
+            <dependency>
                 <groupId>org.slf4j</groupId>
                 <artifactId>slf4j-simple</artifactId>
                 <version>${slf4j-version}</version>
@@ -206,10 +221,7 @@
                     <artifactId>maven-compiler-plugin</artifactId>
                     <version>${compiler-plugin-version}</version>
                     <configuration>
-                        <source>1.8</source>
-                        <target>1.8</target>
-                        <fork>true</fork>
-                        <verbose>false</verbose>
+                        <release>11</release>
                     </configuration>
                 </plugin>
                 <plugin>
@@ -230,14 +242,6 @@
                         </execution>
                     </executions>
                 </plugin>
-                <plugin>
-                    <groupId>org.apache.felix</groupId>
-                    <artifactId>maven-bundle-plugin</artifactId>
-                    <version>${bundle-plugin-version}</version>  <configuration>
-                    <excludeDependencies>*;scope=provided|runtime</excludeDependencies>
-                </configuration>
-                    <extensions>true</extensions>
-                </plugin>
             </plugins>
         </pluginManagement>
         <plugins>
@@ -245,68 +249,7 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
             </plugin>
-            <!--
-            <plugin>
-                <groupId>org.apache.felix</groupId>
-                <artifactId>maven-bundle-plugin</artifactId>
-                <configuration>
-                    <unpackBundle>true</unpackBundle>
-                    <manifestLocation>META-INF</manifestLocation>
-                    <instructions>
 
-                        <_versionpolicy>"$(version;===;$(@))"</_versionpolicy>
-
-                        <_plugin>aQute.lib.spring.SpringComponent</_plugin>
-
-                        <Bundle-SymbolicName>${project.groupId}.${project.artifactId}</Bundle-SymbolicName>
-                        <Export-Package>${osgi.export.pkg}</Export-Package>
-                        <Import-Package>${osgi.import.pkg}</Import-Package>
-                        <DynamicImport-Package>${osgi.dynamic.import.pkg}</DynamicImport-Package>
-                        <Private-Package>${osgi.private.pkg}</Private-Package>
-                        <Bundle-Activator>${osgi.bundle.activator}</Bundle-Activator>
-                        <Bundle-ClassPath>${osgi.bundle.classpath}</Bundle-ClassPath>
-                        <Embed-Dependency>${osgi.embed.dependency}</Embed-Dependency>
-                        <Fragment-Host>${osgi.fragment.host}</Fragment-Host>
-                        <Require-Bundle>${osgi.require.bundle}</Require-Bundle>
-                        <Bundle-Category>${osgi.bundle.category}</Bundle-Category>
-
-                        <Bundle-Description>${project.description}</Bundle-Description>
-                        <Bundle-Vendor>${osgi.bundle.vendor}</Bundle-Vendor>
-                        <Bundle-License>${osgi.bundle.license}</Bundle-License>
-
-                        <Spring-Context>${osgi.spring.context}</Spring-Context>
-                        <Extension-Classes>${ipf.extension.classes}</Extension-Classes>
-                        <Extension-Beans>${ipf.extension.beans}</Extension-Beans>
-                        <Eclipse-SupplementBundle>${eclipse.supplement.bundle}</Eclipse-SupplementBundle>
-
-                        <Build-Time>$(now)</Build-Time>
-                    </instructions>
-                </configuration>
-                <executions>
-                    <execution>
-                        <id>bundle-manifest</id>
-                        <phase>process-classes</phase>
-                        <goals>
-                            <goal>manifest</goal>
-                        </goals>
-                    </execution>
-                    <execution>
-                        <id>bundle-install</id>
-                        <phase>install</phase>
-                        <goals>
-                            <goal>install</goal>
-                        </goals>
-                    </execution>
-                    <execution>
-                        <id>bundle-deploy</id>
-                        <phase>deploy</phase>
-                        <goals>
-                            <goal>deploy</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
--->
             <plugin>
                 <artifactId>maven-jar-plugin</artifactId>
             </plugin>

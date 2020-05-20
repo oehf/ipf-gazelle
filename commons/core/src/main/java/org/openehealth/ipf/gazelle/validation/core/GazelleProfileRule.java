@@ -49,9 +49,9 @@ import static org.openehealth.ipf.gazelle.validation.core.util.ProfileValidation
  */
 public class GazelleProfileRule extends AbstractMessageRule {
 
-    private EncodingCharacters enc;
+    private final EncodingCharacters enc;
     private static final Logger LOG = LoggerFactory.getLogger(GazelleProfileRule.class);
-    private HL7V2XConformanceProfile profile;
+    private final HL7V2XConformanceProfile profile;
     private boolean validateChildren = true;
 
     public GazelleProfileRule(HL7V2XConformanceProfile profile) {
@@ -88,7 +88,7 @@ public class GazelleProfileRule extends AbstractMessageRule {
             checkMSHVersionField(profile.getHL7Version(), terser, violations);
             violations.addAll(testGroup(message, staticDef.getSegmentsAndSegGroups()));
         }
-        return violations.toArray(new ValidationException[violations.size()]);
+        return violations.toArray(new ValidationException[0]);
     }
 
     /**
@@ -267,7 +267,6 @@ public class GazelleProfileRule extends AbstractMessageRule {
     }
 
     protected List<ValidationException> testField(Type type, SegmentType.Field profile, boolean escape) {
-        List<ValidationException> exList = new ArrayList<>();
 
         UsageInfo usage = new UsageInfo(profile);
 
@@ -276,7 +275,7 @@ public class GazelleProfileRule extends AbstractMessageRule {
         if (!escape && Primitive.class.isAssignableFrom(type.getClass()))
             encoded = ((Primitive) type).getValue();
 
-        exList.addAll(testType(type, profile.getDatatype(), usage, encoded, false));
+        List<ValidationException> exList = new ArrayList<>(testType(type, profile.getDatatype(), usage, encoded, false));
 
         // test children
         if (validateChildren) {
@@ -400,9 +399,8 @@ public class GazelleProfileRule extends AbstractMessageRule {
     }
 
     protected List<ValidationException> testComponent(Type type, SegmentType.Field.Component profile) {
-        List<ValidationException> exList = new ArrayList<>();
         UsageInfo usage = new UsageInfo(profile);
-        exList.addAll(testType(type, profile.getDatatype(), usage, null));
+        List<ValidationException> exList = new ArrayList<>(testType(type, profile.getDatatype(), usage, null));
 
         // test children
         try {
@@ -459,6 +457,7 @@ public class GazelleProfileRule extends AbstractMessageRule {
     }
 
 
+    @SafeVarargs
     private static <T extends Structure> List<T> nonEmptyStructure(T... input) throws HL7Exception {
         List<T> result = new ArrayList<>();
         if (input != null) {
@@ -471,9 +470,10 @@ public class GazelleProfileRule extends AbstractMessageRule {
 
     // In contrast to {@link #nonEmptyStructure, this will only remove trailing empty fields.
     // If all fields are empty, an empty list is returned
+    @SafeVarargs
     private static <T extends Type> Collection<T> nonEmptyField(T... input) throws HL7Exception {
         if (input == null || input.length == 0) return Collections.emptySet();
-        if (input.length == 1) return isEmpty(input[0]) ? Collections.<T>emptySet() : Collections.singleton(input[0]);
+        if (input.length == 1) return isEmpty(input[0]) ? Collections.emptySet() : Collections.singleton(input[0]);
 
         boolean seenNonEmptyRepetition = false;
         List<T> result = new ArrayList<>();
@@ -483,7 +483,7 @@ public class GazelleProfileRule extends AbstractMessageRule {
                 seenNonEmptyRepetition = result.add(element);
             }
         }
-        return seenNonEmptyRepetition ? result : Collections.<T>emptySet();
+        return result;
     }
 
     // Work around HAPI #224: TSComponentOne implementation of isEmpty is buggy

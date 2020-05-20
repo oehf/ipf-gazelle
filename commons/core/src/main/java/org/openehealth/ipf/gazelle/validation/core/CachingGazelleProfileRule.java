@@ -99,8 +99,6 @@ public class CachingGazelleProfileRule extends AbstractMessageRule {
      * @param hapiContext HapiContext from the message
      * @param profileId   profile id
      * @return GazelleProfileRule
-     * @throws JAXBException
-     * @throws IOException
      */
     protected GazelleProfileRule parseProfile(HapiContext hapiContext, String profileId) throws JAXBException, IOException {
 
@@ -116,7 +114,7 @@ public class CachingGazelleProfileRule extends AbstractMessageRule {
             LOG.debug("Added conformance profile {} to cache", profileId);
             return loaded;
         } else {
-            LOG.debug("Parsed conformance profile {}, but was already added");
+            LOG.debug("Parsed conformance profile {}, but was already added", profileId);
             return VALIDATOR_CACHE.get(profileId);
         }
 
@@ -126,8 +124,7 @@ public class CachingGazelleProfileRule extends AbstractMessageRule {
         String profileString = hapiContext.getProfileStore().getProfile(profileId);
         HL7V2XConformanceProfile conformanceProfile =
                 (HL7V2XConformanceProfile) getUnmarshaller().unmarshal(new ByteArrayInputStream(profileString.getBytes()));
-        GazelleProfileRule validator = new GazelleProfileRule(conformanceProfile);
-        return validator;
+        return new GazelleProfileRule(conformanceProfile);
     }
 
     // Unmarshaller are not thread-safe, but creation should happen only once for each profile

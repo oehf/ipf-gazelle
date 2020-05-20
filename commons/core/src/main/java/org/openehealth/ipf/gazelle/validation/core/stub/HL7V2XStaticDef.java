@@ -11,6 +11,7 @@ package org.openehealth.ipf.gazelle.validation.core.stub;
 import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
@@ -383,11 +384,7 @@ public class HL7V2XStaticDef {
      *     
      */
     public String getRole() {
-        if (role == null) {
-            return "Sender";
-        } else {
-            return role;
-        }
+        return Objects.requireNonNullElse(role, "Sender");
     }
 
     /**
