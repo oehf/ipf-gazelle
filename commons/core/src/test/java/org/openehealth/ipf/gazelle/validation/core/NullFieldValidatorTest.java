@@ -19,10 +19,13 @@ import ca.uhn.hl7v2.Severity;
 import ca.uhn.hl7v2.model.Message;
 import ca.uhn.hl7v2.parser.PipeParser;
 import ca.uhn.hl7v2.validation.ValidationException;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.openehealth.ipf.gazelle.validation.core.stub.HL7V2XConformanceProfile;
 
 import java.io.InputStream;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
  * @author Dmytro Rud

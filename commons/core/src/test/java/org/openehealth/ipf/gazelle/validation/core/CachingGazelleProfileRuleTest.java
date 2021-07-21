@@ -18,10 +18,9 @@ package org.openehealth.ipf.gazelle.validation.core;
 
 import ca.uhn.hl7v2.DefaultHapiContext;
 import ca.uhn.hl7v2.HapiContext;
-import org.junit.After;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.openehealth.ipf.gazelle.validation.core.stub.HL7V2XConformanceProfile;
 import org.openehealth.ipf.gazelle.validation.profile.ConformanceProfile;
 import org.openehealth.ipf.gazelle.validation.profile.ConformanceProfileInfo;
@@ -34,24 +33,25 @@ import java.util.concurrent.*;
 
 import static org.easymock.EasyMock.createMock;
 import static org.easymock.EasyMock.expect;
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  *
  */
-public class CachingGazelleProfileRuleTest extends Assert {
+public class CachingGazelleProfileRuleTest {
 
     private CachingGazelleProfileRule profileRule1;
     private CachingGazelleProfileRule profileRule2;
     private ConformanceProfile mockProfile;
 
-    @Before
+    @BeforeEach
     public void setup() {
         mockProfile = createMock(ConformanceProfile.class);
         profileRule1 = new TestCachingGazelleProfileRule(mockProfile);
         profileRule2 = new TestCachingGazelleProfileRule(mockProfile);
     }
 
-    @After
+    @AfterEach
     public void tearDown() {
         profileRule1.reset();
     }

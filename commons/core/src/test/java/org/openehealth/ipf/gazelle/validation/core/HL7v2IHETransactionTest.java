@@ -16,16 +16,16 @@
 package org.openehealth.ipf.gazelle.validation.core;
 
 
-import java.util.List;
-
 import ca.uhn.hl7v2.HL7Exception;
 import ca.uhn.hl7v2.model.Message;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.openehealth.ipf.gazelle.validation.core.util.MessageUtils;
 import org.openehealth.ipf.gazelle.validation.profile.ConformanceProfile;
 import org.openehealth.ipf.gazelle.validation.profile.HL7v2Transactions;
 import org.openehealth.ipf.gazelle.validation.profile.pixpdq.ItiPixPdqProfile;
 import org.openehealth.ipf.gazelle.validation.profile.pixpdq.PixPdqTransactions;
+
+import java.util.List;
 
 /**
  * @author Boris Stanojevic

@@ -17,8 +17,8 @@ package org.openehealth.ipf.gazelle.validation.core;
 
 
 import ca.uhn.hl7v2.conf.store.ProfileStore;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.openehealth.ipf.gazelle.validation.profile.pam.ItiPamProfile;
 import org.openehealth.ipf.gazelle.validation.profile.pixpdq.ItiPixPdqProfile;
 
@@ -26,6 +26,9 @@ import java.io.IOException;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.nullValue;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
  * @author Boris Stanojevic
@@ -34,7 +37,7 @@ public class ConformanceProfileStoreTest extends AbstractGazelleProfileValidator
 
     private ProfileStore profileStore;
 
-    @Before
+    @BeforeEach
     public void setup() throws Exception {
         profileStore = hapiContext.getProfileStore();
     }

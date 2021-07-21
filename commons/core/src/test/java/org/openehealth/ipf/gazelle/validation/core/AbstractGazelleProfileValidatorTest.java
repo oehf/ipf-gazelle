@@ -15,12 +15,6 @@
  */
 package org.openehealth.ipf.gazelle.validation.core;
 
-import java.io.ByteArrayInputStream;
-import java.io.IOException;
-import javax.xml.bind.JAXBContext;
-import javax.xml.bind.JAXBException;
-import javax.xml.bind.Unmarshaller;
-
 import ca.uhn.hl7v2.DefaultHapiContext;
 import ca.uhn.hl7v2.HL7Exception;
 import ca.uhn.hl7v2.HapiContext;
@@ -33,18 +27,23 @@ import ca.uhn.hl7v2.conf.store.DefaultCodeStoreRegistry;
 import ca.uhn.hl7v2.model.Message;
 import ca.uhn.hl7v2.validation.ValidationException;
 import org.apache.commons.io.IOUtils;
-import org.junit.Assert;
-import org.junit.Before;
+import org.junit.jupiter.api.BeforeEach;
 import org.openehealth.ipf.gazelle.validation.core.stub.HL7V2XConformanceProfile;
 import org.openehealth.ipf.gazelle.validation.profile.ConformanceProfile;
 import org.openehealth.ipf.gazelle.validation.profile.store.GazelleProfileStore;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBException;
+import javax.xml.bind.Unmarshaller;
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+
 /**
  * @author Boris Stanojevic
  */
-public abstract class AbstractGazelleProfileValidatorTest extends Assert {
+public abstract class AbstractGazelleProfileValidatorTest {
 
     private static final Logger LOG = LoggerFactory.getLogger(AbstractGazelleProfileValidatorTest.class);
 
@@ -52,7 +51,7 @@ public abstract class AbstractGazelleProfileValidatorTest extends Assert {
 
     protected Unmarshaller unmarshaller;
 
-    @Before
+    @BeforeEach
     public void onBefore() throws IOException, JAXBException {
         hapiContext = createHapiContext(false);
         JAXBContext jaxbContext = JAXBContext.newInstance(HL7V2XConformanceProfile.class);
