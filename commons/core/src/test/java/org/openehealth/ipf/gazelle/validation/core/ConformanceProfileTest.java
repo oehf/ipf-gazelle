@@ -17,7 +17,6 @@ package org.openehealth.ipf.gazelle.validation.core;
 
 
 import org.junit.jupiter.api.Test;
-import org.openehealth.ipf.gazelle.validation.profile.ConformanceProfileInfo;
 import org.openehealth.ipf.gazelle.validation.profile.card.CardProfile;
 import org.openehealth.ipf.gazelle.validation.profile.rad.RadProfile;
 
@@ -28,7 +27,7 @@ public class ConformanceProfileTest {
 
     @Test
     public void testProfile(){
-        ConformanceProfileInfo conformanceProfileInfo = CardProfile.CARD_7_ACK_ALL.profileInfo();
+        var conformanceProfileInfo = CardProfile.CARD_7_ACK_ALL.profileInfo();
         assert conformanceProfileInfo.triggerEvent().equals("ACK^ALL^ACK");
         assert conformanceProfileInfo.type().equals("ACK");
         assert conformanceProfileInfo.structure().equals("ACK");
@@ -46,7 +45,7 @@ public class ConformanceProfileTest {
         assert conformanceProfileInfo.profileId().equals("1.3.6.1.4.12559.11.1.1.4");
         assert conformanceProfileInfo.hl7version().equals("2.3.1");
 
-        ConformanceProfileInfo conformanceProfileInfo1 = RadProfile.RAD_48_SIU_S12.profileInfo();
+        var conformanceProfileInfo1 = RadProfile.RAD_48_SIU_S12.profileInfo();
         assert conformanceProfileInfo.equals(conformanceProfileInfo1);
     }
 }

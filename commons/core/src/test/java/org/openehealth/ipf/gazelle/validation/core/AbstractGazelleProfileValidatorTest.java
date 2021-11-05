@@ -54,13 +54,13 @@ public abstract class AbstractGazelleProfileValidatorTest {
     @BeforeEach
     public void onBefore() throws IOException, JAXBException {
         hapiContext = createHapiContext(false);
-        JAXBContext jaxbContext = JAXBContext.newInstance(HL7V2XConformanceProfile.class);
+        var jaxbContext = JAXBContext.newInstance(HL7V2XConformanceProfile.class);
         unmarshaller = jaxbContext.createUnmarshaller();
     }
 
     protected void printOutExceptions(ValidationException... exceptions) {
         if (exceptions != null) {
-            for (ValidationException exc : exceptions) {
+            for (var exc : exceptions) {
                 switch (exc.getSeverity()) {
                     case ERROR:
                         LOG.error("ERROR:", exc);
@@ -77,8 +77,8 @@ public abstract class AbstractGazelleProfileValidatorTest {
     }
 
     protected int countExceptions(ValidationException[] exceptions, Severity severity) {
-        int count = 0;
-        for (ValidationException exc : exceptions) {
+        var count = 0;
+        for (var exc : exceptions) {
             if (severity.equals(exc.getSeverity())) {
                 ++count;
             }
@@ -107,10 +107,10 @@ public abstract class AbstractGazelleProfileValidatorTest {
 
     protected RuntimeProfile parseProfile(String profileId)
             throws ProfileException, IOException {
-        String profileString = hapiContext.getProfileStore().getProfile(profileId);
-        ProfileParser profileParser = new ProfileParser(false);
-        RuntimeProfile runtimeProfile = profileParser.parse(profileString);
-        MetaData metaData = new MetaData();
+        var profileString = hapiContext.getProfileStore().getProfile(profileId);
+        var profileParser = new ProfileParser(false);
+        var runtimeProfile = profileParser.parse(profileString);
+        var metaData = new MetaData();
         metaData.setVersion(runtimeProfile.getHL7Version());
         runtimeProfile.getMessage().setMetaData(metaData);
         return runtimeProfile;
@@ -119,7 +119,7 @@ public abstract class AbstractGazelleProfileValidatorTest {
     protected HL7V2XConformanceProfile unmarshalProfile(ConformanceProfile profile)
             throws IOException, JAXBException {
 
-        String profileString = hapiContext.getProfileStore().getProfile(profile.profileInfo().profileId());
+        var profileString = hapiContext.getProfileStore().getProfile(profile.profileInfo().profileId());
         return (HL7V2XConformanceProfile) unmarshaller.unmarshal(new ByteArrayInputStream(profileString.getBytes()));
     }
 

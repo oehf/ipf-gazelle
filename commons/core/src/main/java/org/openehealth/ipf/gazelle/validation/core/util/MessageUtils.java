@@ -80,8 +80,8 @@ public abstract class MessageUtils {
      */
     public static ConformanceProfile guessGazelleProfile(HL7v2Transactions iheTransaction, Message message)
             throws HL7Exception {
-        Terser terser = new Terser(message);
-        for (ConformanceProfile conformanceProfile : iheTransaction.conformanceProfiles()) {
+        var terser = new Terser(message);
+        for (var conformanceProfile : iheTransaction.conformanceProfiles()) {
             if (matches(conformanceProfile.profileInfo(), terser)) {
                 return conformanceProfile;
             }

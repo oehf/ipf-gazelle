@@ -62,7 +62,7 @@ public class CachingGazelleProfileRuleTest {
         expect(mockProfile.profileInfo()).andReturn(cpi);
         HapiContext context = new DefaultHapiContext();
 
-        GazelleProfileRule obtainedRule = profileRule1.parseProfile(context, "4711");
+        var obtainedRule = profileRule1.parseProfile(context, "4711");
         assertSame(obtainedRule, profileRule1.parseProfile(context, "4711"));
         assertSame(obtainedRule, profileRule2.parseProfile(context, "4711"));
     }
@@ -73,11 +73,11 @@ public class CachingGazelleProfileRuleTest {
         expect(mockProfile.profileInfo()).andReturn(cpi);
         final HapiContext context = new DefaultHapiContext();
 
-        ExecutorService executor = Executors.newCachedThreadPool();
+        var executor = Executors.newCachedThreadPool();
         final List<GazelleProfileRule> rules = new CopyOnWriteArrayList<>();
-        int runs = 100;
-        final CountDownLatch latch = new CountDownLatch(runs);
-        for (int i = 0; i < runs; i++) {
+        var runs = 100;
+        final var latch = new CountDownLatch(runs);
+        for (var i = 0; i < runs; i++) {
             Thread.sleep(10);
             executor.submit(() -> {
                 try {
@@ -90,8 +90,8 @@ public class CachingGazelleProfileRuleTest {
         }
         assertTrue(latch.await(5, TimeUnit.SECONDS));
         assertEquals(runs, rules.size());
-        GazelleProfileRule expected = rules.get(0);
-        for (int i = 1; i < runs; i++) {
+        var expected = rules.get(0);
+        for (var i = 1; i < runs; i++) {
             assertSame(expected, rules.get(i));
         }
     }

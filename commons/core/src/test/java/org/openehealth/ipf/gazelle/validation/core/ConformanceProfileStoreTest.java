@@ -44,7 +44,7 @@ public class ConformanceProfileStoreTest extends AbstractGazelleProfileValidator
 
     @Test
     public void testITI30ProfileStore() throws IOException {
-        String profileString = profileStore.getProfile(ItiPamProfile.ITI_30_ADT_A47.profileInfo().profileId());
+        var profileString = profileStore.getProfile(ItiPamProfile.ITI_30_ADT_A47.profileInfo().profileId());
         assertNotNull(profileString);
         assertTrue(profileString.contains("HL7v2xStaticDef"));
         assertTrue(profileString.contains("EventType=\"A47\""));
@@ -53,7 +53,7 @@ public class ConformanceProfileStoreTest extends AbstractGazelleProfileValidator
 
     @Test
     public void testITI9ProfileStore() throws IOException {
-        String profileString = profileStore.getProfile(ItiPixPdqProfile.ITI_9_RSP_K23.profileInfo().profileId());
+        var profileString = profileStore.getProfile(ItiPixPdqProfile.ITI_9_RSP_K23.profileInfo().profileId());
         assertNotNull(profileString);
         assertTrue(profileString.contains("HL7v2xStaticDef"));
         assertTrue(profileString.contains("EventType=\"K23\""));

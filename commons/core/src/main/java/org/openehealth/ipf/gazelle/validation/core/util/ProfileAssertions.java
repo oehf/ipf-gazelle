@@ -30,7 +30,7 @@ public abstract class ProfileAssertions {
     public static void profileViolatedWhen(boolean errorCondition, List<ValidationException> exceptions,
                                            ProfileValidationMessage validationErrorMessage, Object... details) {
         if (errorCondition) {
-            ValidationException he = new ValidationException(String.format(validationErrorMessage.errorMessage(), details));
+            var he = new ValidationException(String.format(validationErrorMessage.errorMessage(), details));
             he.setError(validationErrorMessage.errorCode());
             he.setSeverity(validationErrorMessage.severity());
             exceptions.add(he);
@@ -38,7 +38,7 @@ public abstract class ProfileAssertions {
     }
 
     public static void profileNotHL7Compliant(List<ValidationException> exceptions, ProfileValidationMessage validationErrorMessage, Object... details) {
-        ValidationException he = new ValidationException(String.format(validationErrorMessage.errorMessage(), details));
+        var he = new ValidationException(String.format(validationErrorMessage.errorMessage(), details));
         he.setError(validationErrorMessage.errorCode());
         he.setSeverity(validationErrorMessage.severity());
         exceptions.add(he);

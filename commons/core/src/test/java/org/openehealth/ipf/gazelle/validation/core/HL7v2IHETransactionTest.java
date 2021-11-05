@@ -17,15 +17,11 @@ package org.openehealth.ipf.gazelle.validation.core;
 
 
 import ca.uhn.hl7v2.HL7Exception;
-import ca.uhn.hl7v2.model.Message;
 import org.junit.jupiter.api.Test;
 import org.openehealth.ipf.gazelle.validation.core.util.MessageUtils;
-import org.openehealth.ipf.gazelle.validation.profile.ConformanceProfile;
 import org.openehealth.ipf.gazelle.validation.profile.HL7v2Transactions;
 import org.openehealth.ipf.gazelle.validation.profile.pixpdq.ItiPixPdqProfile;
 import org.openehealth.ipf.gazelle.validation.profile.pixpdq.PixPdqTransactions;
-
-import java.util.List;
 
 /**
  * @author Boris Stanojevic
@@ -35,7 +31,7 @@ public class HL7v2IHETransactionTest extends AbstractGazelleProfileValidatorTest
     @Test
     public void testIHETransaction(){
         HL7v2Transactions iheTransaction = PixPdqTransactions.ITI8;
-        List<ConformanceProfile> profiles = iheTransaction.conformanceProfiles();
+        var profiles = iheTransaction.conformanceProfiles();
 
         assert profiles.size() == 11;
         assert profiles.contains(ItiPixPdqProfile.ITI_8_ACK);
@@ -53,8 +49,8 @@ public class HL7v2IHETransactionTest extends AbstractGazelleProfileValidatorTest
 
     @Test
     public void testGuessTransactionProfile() throws HL7Exception {
-        Message message = getParsedMessage("hl7/iti-8.hl7");
-        ConformanceProfile profile = MessageUtils.guessGazelleProfile(PixPdqTransactions.ITI8, message);
+        var message = getParsedMessage("hl7/iti-8.hl7");
+        var profile = MessageUtils.guessGazelleProfile(PixPdqTransactions.ITI8, message);
         assert profile != null;
         assert profile.equals(ItiPixPdqProfile.ITI_8_ADT_A40);
 

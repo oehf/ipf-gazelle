@@ -32,13 +32,13 @@ class UsageInfo {
 
     UsageInfo(Object profileElement) {
         if (profileElement.getClass().isAssignableFrom(SegmentType.class)) {
-            SegmentType structure = (SegmentType) profileElement;
+            var structure = (SegmentType) profileElement;
             usage = structure.getUsage();
             name = structure.getName();
             max = structure.getMax().equals("*") ? Short.MAX_VALUE : Short.valueOf(structure.getMax());
             min = structure.getMin().intValue();
         } else if (profileElement.getClass().isAssignableFrom(HL7V2XStaticDef.SegGroup.class)) {
-            HL7V2XStaticDef.SegGroup segGroup = (HL7V2XStaticDef.SegGroup) profileElement;
+            var segGroup = (HL7V2XStaticDef.SegGroup) profileElement;
             usage = segGroup.getUsage();
             name = segGroup.getName();
             max = segGroup.getMax().equals("*") ? Short.MAX_VALUE : Short.valueOf(segGroup.getMax());
