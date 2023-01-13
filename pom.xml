@@ -27,12 +27,12 @@
 
         <beanutils-version>1.9.4</beanutils-version>
         <commons-io-version>2.11.0</commons-io-version>
-        <easymock-version>4.3</easymock-version>
+        <easymock-version>5.0.1</easymock-version>
         <hamcrest-version>2.2</hamcrest-version>
         <hapi-version>2.3</hapi-version>
         <jaxb-version>2.3.4</jaxb-version>
-        <slf4j-version>1.7.32</slf4j-version>
-        <junit.jupiter-version>5.7.2</junit.jupiter-version>
+        <slf4j-version>1.7.36</slf4j-version>
+        <junit.jupiter-version>5.8.2</junit.jupiter-version>
     </properties>
 
     <url>https://github.com/oehf/ipf-gazelle</url>
