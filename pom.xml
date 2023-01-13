@@ -3,7 +3,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.openehealth.ipf.gazelle</groupId>
     <artifactId>ipf-gazelle-validation</artifactId>
-    <version>2.2-SNAPSHOT</version>
+    <version>2.2.0</version>
     <name>ipf-gazelle-validation</name>
     <packaging>pom</packaging>
 
@@ -112,7 +112,7 @@
         <connection>scm:git:git@github.com:oehf/ipf-gazelle.git</connection>
         <developerConnection>scm:git:git@github.com:oehf/ipf-gazelle.git</developerConnection>
         <url>scm:git:git@github.com:oehf/ipf-gazelle.git</url>
-      <tag>HEAD</tag>
+      <tag>ipf-gazelle-2.2.0</tag>
   </scm>
 
     <modules>
