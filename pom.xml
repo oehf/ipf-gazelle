@@ -10,7 +10,7 @@
     <properties>
         <!-- Project configurations -->
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        
+
         <maven.compiler.source>11</maven.compiler.source>
         <maven.compiler.target>11</maven.compiler.target>
 
@@ -31,10 +31,10 @@
         <commons-io-version>2.15.1</commons-io-version>
         <easymock-version>5.2.0</easymock-version>
         <hamcrest-version>2.2</hamcrest-version>
-        <hapi-version>2.4.1</hapi-version>
-        <jaxb-version>2.3.9</jaxb-version>
-        <slf4j-version>1.7.36</slf4j-version>
-        <junit.jupiter-version>5.10.2</junit.jupiter-version>
+        <hapi-version>2.3</hapi-version>
+        <jaxb-version>4.0.2</jaxb-version>
+        <slf4j-version>2.0.6</slf4j-version>
+        <junit.jupiter-version>5.8.2</junit.jupiter-version>
     </properties>
 
     <url>https://github.com/oehf/ipf-gazelle</url>

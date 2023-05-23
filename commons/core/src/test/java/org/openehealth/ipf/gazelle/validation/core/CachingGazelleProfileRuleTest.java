@@ -26,7 +26,7 @@ import org.openehealth.ipf.gazelle.validation.profile.ConformanceProfile;
 import org.openehealth.ipf.gazelle.validation.profile.ConformanceProfileInfo;
 import org.openehealth.ipf.gazelle.validation.profile.ConformanceProfileInfoImpl;
 
-import javax.xml.bind.JAXBException;
+import jakarta.xml.bind.JAXBException;
 import java.io.IOException;
 import java.util.List;
 import java.util.concurrent.*;
