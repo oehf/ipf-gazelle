@@ -25,7 +25,7 @@
 
     <properties>
         <gazelle-profile-oid-prefix>1.3.6.1.4.12559.11.1.1.</gazelle-profile-oid-prefix>
-        <gazelle-profile-url-prefix>https://gazelle.ihe.net/GazelleHL7v2Validator/viewProfile.seam?oid=${gazelle-profile-oid-prefix}</gazelle-profile-url-prefix>
+        <gazelle-profile-url-prefix>https://gazelle.ihe.net/GazelleHL7Validator/viewProfile.seam?oid=${gazelle-profile-oid-prefix}</gazelle-profile-url-prefix>
         <gazelle-profile-outputdir>${project.build.directory}/gazelle-profiles/org/openehealth/ipf/gazelle/validation/profile/v2</gazelle-profile-outputdir>
     </properties>
 
