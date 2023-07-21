@@ -67,6 +67,16 @@ import org.openehealth.ipf.gazelle.validation.core.stub.SegmentType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
+
+import static org.openehealth.ipf.gazelle.validation.core.util.MessageUtils.*;
+import static org.openehealth.ipf.gazelle.validation.core.util.ProfileAssertions.profileNotHL7Compliant;
+import static org.openehealth.ipf.gazelle.validation.core.util.ProfileAssertions.profileViolatedWhen;
+import static org.openehealth.ipf.gazelle.validation.core.util.ProfileValidationMessage.*;
+
 /**
  * A modified conformance profile validator from HAPI. This implementation differs from HAPI's
  * {@link ca.uhn.hl7v2.conf.check.DefaultValidator} and cannot be returned by {@link ca.uhn.hl7v2.HapiContext#getConformanceValidator()}
@@ -74,9 +84,9 @@ import org.slf4j.LoggerFactory;
  */
 public class GazelleProfileRule extends AbstractMessageRule {
 
-    private EncodingCharacters enc;
+    private final EncodingCharacters enc;
     private static final Logger LOG = LoggerFactory.getLogger(GazelleProfileRule.class);
-    private HL7V2XConformanceProfile profile;
+    private final HL7V2XConformanceProfile profile;
     private boolean validateChildren = true;
 
     public GazelleProfileRule(HL7V2XConformanceProfile profile) {
@@ -113,7 +123,7 @@ public class GazelleProfileRule extends AbstractMessageRule {
             checkMSHVersionField(profile.getHL7Version(), terser, violations);
             violations.addAll(testGroup(message, staticDef.getSegmentsAndSegGroups()));
         }
-        return violations.toArray(new ValidationException[violations.size()]);
+        return violations.toArray(new ValidationException[0]);
     }
 
     /**
@@ -241,10 +251,7 @@ public class GazelleProfileRule extends AbstractMessageRule {
                     // test field instances with content
                     if (validateChildren) {
                         for (Type type : nonEmptyFields) {
-                            boolean escape = true; // escape field value when checking length
-                            if (profile.getName().equalsIgnoreCase("MSH") && i < 3) {
-                                escape = false;
-                            }
+                            boolean escape = !profile.getName().equalsIgnoreCase("MSH") || i >= 3; // escape field value when checking length
                             List<ValidationException> childExceptions = testField(type, field, escape);
                             for (ValidationException ex : childExceptions) {
                                 ex.setFieldPosition(i);
@@ -292,7 +299,6 @@ public class GazelleProfileRule extends AbstractMessageRule {
     }
 
     protected List<ValidationException> testField(Type type, SegmentType.Field profile, boolean escape) {
-        List<ValidationException> exList = new ArrayList<>();
 
         UsageInfo usage = new UsageInfo(profile);
 
@@ -301,7 +307,7 @@ public class GazelleProfileRule extends AbstractMessageRule {
         if (!escape && Primitive.class.isAssignableFrom(type.getClass()))
             encoded = ((Primitive) type).getValue();
 
-        exList.addAll(testType(type, profile.getDatatype(), usage, encoded, false));
+        List<ValidationException> exList = new ArrayList<>(testType(type, profile.getDatatype(), usage, encoded, false));
 
         // test children
         if (validateChildren) {
@@ -316,22 +322,21 @@ public class GazelleProfileRule extends AbstractMessageRule {
                             if (nullContext) {
                                 component2 = new SegmentType.Field.Component();
                                 component2.setConstantValue(component.getConstantValue());
-                                component2.setDatatype(component.getDatatype());
-                                component2.getDataValues().addAll(component.getDataValues());
                                 component2.setDescription(component.getDescription());
-                                component2.setImpNote(component.getImpNote());
-                                component2.setLength(component.getLength());
+                                component2.setDatatype(component.getDatatype());
                                 component2.setName(component.getName());
                                 component2.setPredicate(component.getPredicate());
                                 component2.setReference(component.getReference());
-                                component2.getSubComponents().addAll(component.getSubComponents());
+                                component2.setImpNote(component.getImpNote());
+                                component2.setLength(component.getLength());
                                 component2.setTable(component.getTable());
+                                component2.getSubComponents().addAll(component.getSubComponents());
+                                component2.getDataValues().addAll(component.getDataValues());
                                 component2.setUsage("NULL");
                             } else {
                                 component2 = component;
                                 if ((i == 1) && profile.isNullable() &&
-                                        PipeParser.encode(comp.getComponent(0), this.enc).equals("\"\""))
-                                {
+                                        PipeParser.encode(comp.getComponent(0), this.enc).equals("\"\"")) {
                                     nullContext = true;
                                 }
                             }
@@ -415,25 +420,11 @@ public class GazelleProfileRule extends AbstractMessageRule {
         } else if (usage.nullContext()) {
             profileViolatedWhen(!encoded.isEmpty(), exList, NO_ELEMENTS_AFTER_NULL, usage.name);
         }
-        /*
-        else if (usage.equalsIgnoreCase("RE")) {
-            // can't test anything
-        } else if (usage.equalsIgnoreCase("O")) {
-            // can't test anything
-        } else if (usage.equalsIgnoreCase("C")) {
-            // can't test anything yet -- wait for condition syntax in v2.6
-        } else if (usage.equalsIgnoreCase("CE")) {
-            // can't test anything
-        } else if (usage.equalsIgnoreCase("B")) {
-            // can't test anything
-        }
-        */
     }
 
     protected List<ValidationException> testComponent(Type type, SegmentType.Field.Component profile) {
-        List<ValidationException> exList = new ArrayList<>();
         UsageInfo usage = new UsageInfo(profile);
-        exList.addAll(testType(type, profile.getDatatype(), usage, null));
+        List<ValidationException> exList = new ArrayList<>(testType(type, profile.getDatatype(), usage, null));
 
         // test children
         try {
@@ -504,7 +495,7 @@ public class GazelleProfileRule extends AbstractMessageRule {
     // If all fields are empty, an empty list is returned
     private static <T extends Type> Collection<T> nonEmptyField(T... input) throws HL7Exception {
         if (input == null || input.length == 0) return Collections.emptySet();
-        if (input.length == 1) return isEmpty(input[0]) ? Collections.<T>emptySet() : Collections.singleton(input[0]);
+        if (input.length == 1) return isEmpty(input[0]) ? Collections.emptySet() : Collections.singleton(input[0]);
 
         boolean seenNonEmptyRepetition = false;
         List<T> result = new ArrayList<>();
@@ -514,7 +505,7 @@ public class GazelleProfileRule extends AbstractMessageRule {
                 seenNonEmptyRepetition = result.add(element);
             }
         }
-        return seenNonEmptyRepetition ? result : Collections.<T>emptySet();
+        return seenNonEmptyRepetition ? result : Collections.emptySet();
     }
 
     // Work around HAPI #224: TSComponentOne implementation of isEmpty is buggy
@@ -525,7 +516,7 @@ public class GazelleProfileRule extends AbstractMessageRule {
             return tsc1.getValue() == null || tsc1.getValue().isEmpty();
         }
         if (v instanceof Composite && v.getClass().getName().endsWith(".TS")) {
-            Composite ts = (Composite)v;
+            Composite ts = (Composite) v;
             return isEmpty(ts.getComponent(0));
         }
         return v.isEmpty();

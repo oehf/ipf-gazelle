@@ -22,11 +22,11 @@ import java.util.List;
 /**
  * Holder for conformance profiles that all belong to a certain group. An example for such a group is
  * an IHE transaction, but there is no restriction to IHE at this point.
- *
+ * <p>
  * Implementations of this interface return a dedicated set of conformance profiles that ultimately
  * carry an ID reference to the profile definition and information about the (set of) messages the
  * profile applies to. T
- *
+ * <p>
  * There is a number of enum implementations for IHE transactions in dedicated modules
  */
 public interface HL7v2Transactions {
