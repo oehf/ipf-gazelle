@@ -8,29 +8,31 @@
     <packaging>pom</packaging>
 
     <properties>
+        <!-- Project configurations -->
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        
         <maven.compiler.source>11</maven.compiler.source>
         <maven.compiler.target>11</maven.compiler.target>
 
-        <compiler-plugin-version>3.8.1</compiler-plugin-version>
-        <download-plugin-version>1.6.0</download-plugin-version>
+        <compiler-plugin-version>3.12.1</compiler-plugin-version>
+        <download-plugin-version>1.8.0</download-plugin-version>
         <gpg-plugin-version>1.6</gpg-plugin-version>
-        <jar-plugin-version>3.1.0</jar-plugin-version>
+        <jar-plugin-version>3.3.0</jar-plugin-version>
         <javadocs-plugin-version>3.5.0</javadocs-plugin-version>
         <nexus-staging-plugin-version>1.6.3</nexus-staging-plugin-version>
         <release-plugin-version>2.5.3</release-plugin-version>
-        <sources-plugin-version>3.0.1</sources-plugin-version>
-        <surefire-plugin-version>3.0.0-M5</surefire-plugin-version>
+        <sources-plugin-version>3.3.0</sources-plugin-version>
+        <surefire-plugin-version>3.2.3</surefire-plugin-version>
 
         <!-- You can set this to true e.g. in CI builds to force downloading the files from the source
              instead of accessing them from the cache -->
         <skipCache>false</skipCache>
 
-        <beanutils-version>1.9.4</beanutils-version>
-        <commons-io-version>2.11.0</commons-io-version>
-        <easymock-version>5.0.1</easymock-version>
+        <commons-io-version>2.15.1</commons-io-version>
+        <easymock-version>5.2.0</easymock-version>
         <hamcrest-version>2.2</hamcrest-version>
-        <hapi-version>2.3</hapi-version>
-        <jaxb-version>2.3.4</jaxb-version>
+        <hapi-version>2.4.1</hapi-version>
+        <jaxb-version>2.3.9</jaxb-version>
         <slf4j-version>1.7.36</slf4j-version>
         <junit.jupiter-version>5.8.2</junit.jupiter-version>
     </properties>
@@ -161,11 +163,6 @@
                 <groupId>commons-io</groupId>
                 <artifactId>commons-io</artifactId>
                 <version>${commons-io-version}</version>
-            </dependency>
-            <dependency>
-                <groupId>commons-beanutils</groupId>
-                <artifactId>commons-beanutils</artifactId>
-                <version>${beanutils-version}</version>
             </dependency>
             <dependency>
                 <groupId>org.slf4j</groupId>

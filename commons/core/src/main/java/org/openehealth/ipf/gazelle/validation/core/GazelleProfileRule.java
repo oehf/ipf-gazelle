@@ -16,31 +16,56 @@
 package org.openehealth.ipf.gazelle.validation.core;
 
 
+import static org.openehealth.ipf.gazelle.validation.core.util.MessageUtils.checkMSHEventField;
+import static org.openehealth.ipf.gazelle.validation.core.util.MessageUtils.checkMSHTypeField;
+import static org.openehealth.ipf.gazelle.validation.core.util.MessageUtils.checkMSHVersionField;
+import static org.openehealth.ipf.gazelle.validation.core.util.ProfileAssertions.profileNotHL7Compliant;
+import static org.openehealth.ipf.gazelle.validation.core.util.ProfileAssertions.profileViolatedWhen;
+import static org.openehealth.ipf.gazelle.validation.core.util.ProfileValidationMessage.COMPONENT_NOT_DEFINED_IN_PROFILE;
+import static org.openehealth.ipf.gazelle.validation.core.util.ProfileValidationMessage.COMPONENT_TYPE_MISMATCH;
+import static org.openehealth.ipf.gazelle.validation.core.util.ProfileValidationMessage.FIELD_NOT_DEFINED_IN_PROFILE;
+import static org.openehealth.ipf.gazelle.validation.core.util.ProfileValidationMessage.FIELD_NOT_FOUND;
+import static org.openehealth.ipf.gazelle.validation.core.util.ProfileValidationMessage.HL7_DATATYPE_MISMATCH;
+import static org.openehealth.ipf.gazelle.validation.core.util.ProfileValidationMessage.LENGTH_EXCEEDED;
+import static org.openehealth.ipf.gazelle.validation.core.util.ProfileValidationMessage.LESS_THAN_MINIMUM_CARDINALITY;
+import static org.openehealth.ipf.gazelle.validation.core.util.ProfileValidationMessage.MORE_THAN_MAXIMUM_CARDINALITY;
+import static org.openehealth.ipf.gazelle.validation.core.util.ProfileValidationMessage.NOT_SUPPORTED_ELEMENT_PRESENT;
+import static org.openehealth.ipf.gazelle.validation.core.util.ProfileValidationMessage.NO_ELEMENTS_AFTER_NULL;
+import static org.openehealth.ipf.gazelle.validation.core.util.ProfileValidationMessage.PROFILE_STRUCTURE_MISMATCH;
+import static org.openehealth.ipf.gazelle.validation.core.util.ProfileValidationMessage.PROFILE_STRUCTURE_NOT_EXIST_IN_JAVA_CLASS;
+import static org.openehealth.ipf.gazelle.validation.core.util.ProfileValidationMessage.REQUIRED_ELEMENT_MISSING;
+import static org.openehealth.ipf.gazelle.validation.core.util.ProfileValidationMessage.STRUCTURE_NOT_DEFINED_IN_PROFILE;
+import static org.openehealth.ipf.gazelle.validation.core.util.ProfileValidationMessage.SUBCOMPONENT_TYPE_MISMATCH;
+import static org.openehealth.ipf.gazelle.validation.core.util.ProfileValidationMessage.WRONG_COMPONENT_TYPE;
+import static org.openehealth.ipf.gazelle.validation.core.util.ProfileValidationMessage.WRONG_CONSTANT_VALUE;
+import static org.openehealth.ipf.gazelle.validation.core.util.ProfileValidationMessage.WRONG_FIELD_TYPE;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
+
 import ca.uhn.hl7v2.HL7Exception;
-import ca.uhn.hl7v2.model.*;
+import ca.uhn.hl7v2.model.Composite;
+import ca.uhn.hl7v2.model.DataTypeException;
+import ca.uhn.hl7v2.model.Group;
+import ca.uhn.hl7v2.model.Message;
+import ca.uhn.hl7v2.model.Primitive;
+import ca.uhn.hl7v2.model.Segment;
+import ca.uhn.hl7v2.model.Structure;
+import ca.uhn.hl7v2.model.Type;
+import ca.uhn.hl7v2.model.Visitable;
 import ca.uhn.hl7v2.model.primitive.TSComponentOne;
 import ca.uhn.hl7v2.parser.EncodingCharacters;
 import ca.uhn.hl7v2.parser.PipeParser;
 import ca.uhn.hl7v2.util.Terser;
 import ca.uhn.hl7v2.validation.ValidationException;
 import ca.uhn.hl7v2.validation.impl.AbstractMessageRule;
-import org.apache.commons.beanutils.BeanUtils;
 import org.openehealth.ipf.gazelle.validation.core.stub.HL7V2XConformanceProfile;
 import org.openehealth.ipf.gazelle.validation.core.stub.HL7V2XStaticDef;
 import org.openehealth.ipf.gazelle.validation.core.stub.SegmentType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import java.lang.reflect.InvocationTargetException;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
-
-import static org.openehealth.ipf.gazelle.validation.core.util.MessageUtils.*;
-import static org.openehealth.ipf.gazelle.validation.core.util.ProfileAssertions.profileNotHL7Compliant;
-import static org.openehealth.ipf.gazelle.validation.core.util.ProfileAssertions.profileViolatedWhen;
-import static org.openehealth.ipf.gazelle.validation.core.util.ProfileValidationMessage.*;
 
 /**
  * A modified conformance profile validator from HAPI. This implementation differs from HAPI's
@@ -290,11 +315,17 @@ public class GazelleProfileRule extends AbstractMessageRule {
                             SegmentType.Field.Component component2;
                             if (nullContext) {
                                 component2 = new SegmentType.Field.Component();
-                                try {
-                                    BeanUtils.copyProperties(component2, component);
-                                } catch (InvocationTargetException | IllegalAccessException e) {
-                                    // nop
-                                }
+                                component2.setConstantValue(component.getConstantValue());
+                                component2.setDatatype(component.getDatatype());
+                                component2.getDataValues().addAll(component.getDataValues());
+                                component2.setDescription(component.getDescription());
+                                component2.setImpNote(component.getImpNote());
+                                component2.setLength(component.getLength());
+                                component2.setName(component.getName());
+                                component2.setPredicate(component.getPredicate());
+                                component2.setReference(component.getReference());
+                                component2.getSubComponents().addAll(component.getSubComponents());
+                                component2.setTable(component.getTable());
                                 component2.setUsage("NULL");
                             } else {
                                 component2 = component;

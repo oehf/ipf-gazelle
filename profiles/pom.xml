@@ -29,48 +29,6 @@
         <gazelle-profile-outputdir>${project.build.directory}/gazelle-profiles/org/openehealth/ipf/gazelle/validation/profile/v2</gazelle-profile-outputdir>
     </properties>
 
-    <build>
-        <plugins>
-            <plugin>
-                <groupId>org.codehaus.mojo</groupId>
-                <artifactId>properties-maven-plugin</artifactId>
-                <version>1.0.0</version>
-                <executions>
-                    <execution>
-                        <id>set-ssl-properties</id>
-                        <phase>initialize</phase>
-                        <goals>
-                            <goal>set-system-properties</goal>
-                        </goals>
-                        <configuration>
-                            <properties>
-                                <javax.net.ssl.trustStore>${project.basedir}/../gazelle.jks</javax.net.ssl.trustStore>
-                                <javax.net.ssl.trustStorePassword>initinit</javax.net.ssl.trustStorePassword>
-                            </properties>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
-            <plugin>
-                <groupId>org.codehaus.gmaven</groupId>
-                <artifactId>groovy-maven-plugin</artifactId>
-                <version>2.1.1</version>
-                <executions>
-                    <execution>
-                        <phase>generate-resources</phase>
-                        <goals>
-                            <goal>execute</goal>
-                        </goals>
-                        <configuration>
-                            <source>
-                                System.clearProperty('javax.net.ssl.trustStore')
-                                System.clearProperty('javax.net.ssl.trustStorePassword')
-                            </source>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
-        </plugins>
-    </build>
+
 
 </project>
