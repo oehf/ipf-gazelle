@@ -115,6 +115,8 @@
                             <skipCache>${skipCache}</skipCache>
                         </configuration>
                     </execution>
+                    <!--
+                    #2: provide correct conformance profile overriding the noe downloaded from gazelle
                     <execution>
                         <id>download-30</id>
                         <phase>generate-resources</phase>
@@ -128,6 +130,7 @@
                             <skipCache>${skipCache}</skipCache>
                         </configuration>
                     </execution>
+                    -->
                     <execution>
                         <id>download-31</id>
                         <phase>generate-resources</phase>
@@ -349,6 +352,8 @@
                             <skipCache>${skipCache}</skipCache>
                         </configuration>
                     </execution>
+                    <!--
+                    #4: allow two repetitions in MRG-1 in ADT_A43 XPID messages
                     <execution>
                         <id>download-213</id>
                         <phase>generate-resources</phase>
@@ -361,7 +366,7 @@
                             <url>${gazelle-profile-url-prefix}213</url>
                             <skipCache>${skipCache}</skipCache>
                         </configuration>
-                    </execution>
+                    </execution>-->
                     <execution>
                         <id>download-214</id>
                         <phase>generate-resources</phase>
