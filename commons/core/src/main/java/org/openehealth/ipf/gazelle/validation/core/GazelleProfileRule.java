@@ -16,45 +16,8 @@
 package org.openehealth.ipf.gazelle.validation.core;
 
 
-import static org.openehealth.ipf.gazelle.validation.core.util.MessageUtils.checkMSHEventField;
-import static org.openehealth.ipf.gazelle.validation.core.util.MessageUtils.checkMSHTypeField;
-import static org.openehealth.ipf.gazelle.validation.core.util.MessageUtils.checkMSHVersionField;
-import static org.openehealth.ipf.gazelle.validation.core.util.ProfileAssertions.profileNotHL7Compliant;
-import static org.openehealth.ipf.gazelle.validation.core.util.ProfileAssertions.profileViolatedWhen;
-import static org.openehealth.ipf.gazelle.validation.core.util.ProfileValidationMessage.COMPONENT_NOT_DEFINED_IN_PROFILE;
-import static org.openehealth.ipf.gazelle.validation.core.util.ProfileValidationMessage.COMPONENT_TYPE_MISMATCH;
-import static org.openehealth.ipf.gazelle.validation.core.util.ProfileValidationMessage.FIELD_NOT_DEFINED_IN_PROFILE;
-import static org.openehealth.ipf.gazelle.validation.core.util.ProfileValidationMessage.FIELD_NOT_FOUND;
-import static org.openehealth.ipf.gazelle.validation.core.util.ProfileValidationMessage.HL7_DATATYPE_MISMATCH;
-import static org.openehealth.ipf.gazelle.validation.core.util.ProfileValidationMessage.LENGTH_EXCEEDED;
-import static org.openehealth.ipf.gazelle.validation.core.util.ProfileValidationMessage.LESS_THAN_MINIMUM_CARDINALITY;
-import static org.openehealth.ipf.gazelle.validation.core.util.ProfileValidationMessage.MORE_THAN_MAXIMUM_CARDINALITY;
-import static org.openehealth.ipf.gazelle.validation.core.util.ProfileValidationMessage.NOT_SUPPORTED_ELEMENT_PRESENT;
-import static org.openehealth.ipf.gazelle.validation.core.util.ProfileValidationMessage.NO_ELEMENTS_AFTER_NULL;
-import static org.openehealth.ipf.gazelle.validation.core.util.ProfileValidationMessage.PROFILE_STRUCTURE_MISMATCH;
-import static org.openehealth.ipf.gazelle.validation.core.util.ProfileValidationMessage.PROFILE_STRUCTURE_NOT_EXIST_IN_JAVA_CLASS;
-import static org.openehealth.ipf.gazelle.validation.core.util.ProfileValidationMessage.REQUIRED_ELEMENT_MISSING;
-import static org.openehealth.ipf.gazelle.validation.core.util.ProfileValidationMessage.STRUCTURE_NOT_DEFINED_IN_PROFILE;
-import static org.openehealth.ipf.gazelle.validation.core.util.ProfileValidationMessage.SUBCOMPONENT_TYPE_MISMATCH;
-import static org.openehealth.ipf.gazelle.validation.core.util.ProfileValidationMessage.WRONG_COMPONENT_TYPE;
-import static org.openehealth.ipf.gazelle.validation.core.util.ProfileValidationMessage.WRONG_CONSTANT_VALUE;
-import static org.openehealth.ipf.gazelle.validation.core.util.ProfileValidationMessage.WRONG_FIELD_TYPE;
-
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
-
 import ca.uhn.hl7v2.HL7Exception;
-import ca.uhn.hl7v2.model.Composite;
-import ca.uhn.hl7v2.model.DataTypeException;
-import ca.uhn.hl7v2.model.Group;
-import ca.uhn.hl7v2.model.Message;
-import ca.uhn.hl7v2.model.Primitive;
-import ca.uhn.hl7v2.model.Segment;
-import ca.uhn.hl7v2.model.Structure;
-import ca.uhn.hl7v2.model.Type;
-import ca.uhn.hl7v2.model.Visitable;
+import ca.uhn.hl7v2.model.*;
 import ca.uhn.hl7v2.model.primitive.TSComponentOne;
 import ca.uhn.hl7v2.parser.EncodingCharacters;
 import ca.uhn.hl7v2.parser.PipeParser;
@@ -64,8 +27,6 @@ import ca.uhn.hl7v2.validation.impl.AbstractMessageRule;
 import org.openehealth.ipf.gazelle.validation.core.stub.HL7V2XConformanceProfile;
 import org.openehealth.ipf.gazelle.validation.core.stub.HL7V2XStaticDef;
 import org.openehealth.ipf.gazelle.validation.core.stub.SegmentType;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -85,7 +46,6 @@ import static org.openehealth.ipf.gazelle.validation.core.util.ProfileValidation
 public class GazelleProfileRule extends AbstractMessageRule {
 
     private final EncodingCharacters enc;
-    private static final Logger LOG = LoggerFactory.getLogger(GazelleProfileRule.class);
     private final HL7V2XConformanceProfile profile;
     private boolean validateChildren = true;
 
@@ -107,7 +67,7 @@ public class GazelleProfileRule extends AbstractMessageRule {
         List<ValidationException> violations = new ArrayList<>();
 
         HL7V2XStaticDef staticDef = null;
-        for (Object ref : profile.getDynamicDevesAndHL7V2XStaticDevesAndHL7V2XStaticDefReves()) {
+        for (var ref : profile.getDynamicDevesAndHL7V2XStaticDevesAndHL7V2XStaticDefReves()) {
             if (ref.getClass().isAssignableFrom(HL7V2XStaticDef.class)) {
                 staticDef = (HL7V2XStaticDef) ref;
             }
@@ -116,7 +76,7 @@ public class GazelleProfileRule extends AbstractMessageRule {
         if (staticDef == null) {
             violations.add(new ValidationException("No Static Definitions found in HL7V2XConformance profile"));
         } else {
-            Terser terser = new Terser(message);
+            var terser = new Terser(message);
             checkMSHTypeField(staticDef.getMsgType(), terser, violations);
             checkMSHEventField(staticDef.getEventType(), terser, violations);
             // checkMSHStructureField(staticDef.getMsgStructID(), terser, violations);
@@ -139,19 +99,19 @@ public class GazelleProfileRule extends AbstractMessageRule {
         List<ValidationException> exList = new ArrayList<>();
         List<String> allowedStructures = new ArrayList<>();
 
-        for (Object struct : profile) {
-            UsageInfo usage = new UsageInfo(struct);
+        for (var struct : profile) {
+            var usage = new UsageInfo(struct);
 
             if (!usage.disallowed()) {
                 allowedStructures.add(usage.name);
 
                 try {
-                    List<Structure> nonEmptyStructures = nonEmptyStructure(group.getAll(usage.name));
+                    var nonEmptyStructures = nonEmptyStructure(group.getAll(usage.name));
                     exList.addAll(testCardinality(nonEmptyStructures.size(), usage));
 
                     // test children on instances with content
                     if (validateChildren) {
-                        for (Structure structure : nonEmptyStructures) {
+                        for (var structure : nonEmptyStructures) {
                             exList.addAll(testStructure(structure, struct));
                         }
                     }
@@ -174,10 +134,10 @@ public class GazelleProfileRule extends AbstractMessageRule {
      */
     protected List<ValidationException> checkForExtraStructures(Group group, List<String> allowedStructures) {
         List<ValidationException> exList = new ArrayList<>();
-        for (String childName : group.getNames()) {
+        for (var childName : group.getNames()) {
             if (!allowedStructures.contains(childName)) {
                 try {
-                    for (Structure rep : group.getAll(childName)) {
+                    for (var rep : group.getAll(childName)) {
                         profileViolatedWhen(!isEmpty(rep), exList, STRUCTURE_NOT_DEFINED_IN_PROFILE, childName);
                     }
                 } catch (HL7Exception he) {
@@ -236,24 +196,24 @@ public class GazelleProfileRule extends AbstractMessageRule {
     protected List<ValidationException> testSegment(Segment segment, SegmentType profile) {
         List<ValidationException> exList = new ArrayList<>();
         List<Integer> allowedFields = new ArrayList<>();
-        int i = 1;
-        for (SegmentType.Field field : profile.getFields()) {
-            UsageInfo usage = new UsageInfo(field);
+        var i = 1;
+        for (var field : profile.getFields()) {
+            var usage = new UsageInfo(field);
             // only test a field in detail if it isn't X
             if (!usage.disallowed()) {
                 allowedFields.add(i);
 
                 // see which instances have content
                 try {
-                    Collection<Type> nonEmptyFields = nonEmptyField(segment.getField(i));
+                    var nonEmptyFields = nonEmptyField(segment.getField(i));
                     exList.addAll(testCardinality(nonEmptyFields.size(), usage));
 
                     // test field instances with content
                     if (validateChildren) {
-                        for (Type type : nonEmptyFields) {
-                            boolean escape = !profile.getName().equalsIgnoreCase("MSH") || i >= 3; // escape field value when checking length
-                            List<ValidationException> childExceptions = testField(type, field, escape);
-                            for (ValidationException ex : childExceptions) {
+                        for (var type : nonEmptyFields) {
+                            var escape = !profile.getName().equalsIgnoreCase("MSH") || i >= 3; // escape field value when checking length
+                            var childExceptions = testField(type, field, escape);
+                            for (var ex : childExceptions) {
                                 ex.setFieldPosition(i);
                             }
                             exList.addAll(childExceptions);
@@ -268,7 +228,7 @@ public class GazelleProfileRule extends AbstractMessageRule {
         // complain about X fields with content
         exList.addAll(checkForExtraFields(segment, allowedFields));
 
-        for (ValidationException ex : exList) {
+        for (var ex : exList) {
             ex.setSegmentName(profile.getName());
         }
         return exList;
@@ -282,12 +242,12 @@ public class GazelleProfileRule extends AbstractMessageRule {
      * @param allowedFields an array of Integers containing field #s of allowed fields
      */
     protected List<ValidationException> checkForExtraFields(Segment segment, List<Integer> allowedFields) {
-        ArrayList<ValidationException> exList = new ArrayList<>();
-        for (int i = 1; i <= segment.numFields(); i++) {
+        var exList = new ArrayList<ValidationException>();
+        for (var i = 1; i <= segment.numFields(); i++) {
             if (!allowedFields.contains(i)) {
                 try {
-                    Type[] reps = segment.getField(i);
-                    for (Type rep : reps) {
+                    var reps = segment.getField(i);
+                    for (var rep : reps) {
                         profileViolatedWhen(!isEmpty(rep), exList, FIELD_NOT_DEFINED_IN_PROFILE, i, segment.getName());
                     }
                 } catch (HL7Exception he) {
@@ -300,7 +260,7 @@ public class GazelleProfileRule extends AbstractMessageRule {
 
     protected List<ValidationException> testField(Type type, SegmentType.Field profile, boolean escape) {
 
-        UsageInfo usage = new UsageInfo(profile);
+        var usage = new UsageInfo(profile);
 
         // account for MSH 1 & 2 which aren't escaped
         String encoded = null;
@@ -311,12 +271,12 @@ public class GazelleProfileRule extends AbstractMessageRule {
 
         // test children
         if (validateChildren) {
-            if (profile.getComponents().size() > 0 && !usage.disallowed()) {
+            if (!profile.getComponents().isEmpty() && !usage.disallowed()) {
                 if (Composite.class.isAssignableFrom(type.getClass())) {
-                    Composite comp = (Composite) type;
-                    int i = 1;
-                    boolean nullContext = false;
-                    for (SegmentType.Field.Component component : profile.getComponents()) {
+                    var comp = (Composite) type;
+                    var i = 1;
+                    var nullContext = false;
+                    for (var component : profile.getComponents()) {
                         try {
                             SegmentType.Field.Component component2;
                             if (nullContext) {
@@ -367,7 +327,7 @@ public class GazelleProfileRule extends AbstractMessageRule {
      *                pipe-encoded form is used to check length and constant val)
      */
     protected List<ValidationException> testType(Type type, String dataType, UsageInfo usage, String encoded, boolean testUsage) {
-        ArrayList<ValidationException> exList = new ArrayList<>();
+        var exList = new ArrayList<ValidationException>();
         if (encoded == null)
             encoded = PipeParser.encode(type, this.enc);
 
@@ -393,7 +353,7 @@ public class GazelleProfileRule extends AbstractMessageRule {
                     exList, LENGTH_EXCEEDED, usage.name, encoded.length(), usage.length);
 
             // check constant value
-            if (usage.constantValue != null && usage.constantValue.length() > 0) {
+            if (usage.constantValue != null && !usage.constantValue.isEmpty()) {
                 profileViolatedWhen(!encoded.equals(usage.constantValue),
                         exList, WRONG_CONSTANT_VALUE, encoded, usage.constantValue);
             }
@@ -423,21 +383,21 @@ public class GazelleProfileRule extends AbstractMessageRule {
     }
 
     protected List<ValidationException> testComponent(Type type, SegmentType.Field.Component profile) {
-        UsageInfo usage = new UsageInfo(profile);
+        var usage = new UsageInfo(profile);
         List<ValidationException> exList = new ArrayList<>(testType(type, profile.getDatatype(), usage, null));
 
         // test children
         try {
-            if (profile.getSubComponents().size() > 0 && !usage.disallowed() && !isEmpty(type)) {
+            if (!profile.getSubComponents().isEmpty() && !usage.disallowed() && !isEmpty(type)) {
                 if (Composite.class.isAssignableFrom(type.getClass())) {
-                    Composite comp = (Composite) type;
+                    var comp = (Composite) type;
 
                     if (validateChildren) {
-                        int i = 1;
-                        for (SegmentType.Field.Component.SubComponent subComponent : profile.getSubComponents()) {
-                            UsageInfo scUsage = new UsageInfo(subComponent);
+                        var i = 1;
+                        for (var subComponent : profile.getSubComponents()) {
+                            var scUsage = new UsageInfo(subComponent);
                             try {
-                                Type sub = comp.getComponent(i - 1);
+                                var sub = comp.getComponent(i - 1);
                                 exList.addAll(testType(sub, subComponent.getDatatype(), scUsage, null));
                             } catch (DataTypeException de) {
                                 profileNotHL7Compliant(exList, SUBCOMPONENT_TYPE_MISMATCH, type.getName(), i);
@@ -464,27 +424,28 @@ public class GazelleProfileRule extends AbstractMessageRule {
     protected List<ValidationException> checkUndefinedComponents(Composite comp, int numInProfile) {
         List<ValidationException> exList = new ArrayList<>();
 
-        StringBuilder extra = new StringBuilder();
-        for (int i = numInProfile; i < comp.getComponents().length; i++) {
+        var extra = new StringBuilder();
+        for (var i = numInProfile; i < comp.getComponents().length; i++) {
             try {
-                String s = comp.getComponent(i).encode();
-                if (s.length() > 0) {
+                var s = comp.getComponent(i).encode();
+                if (!s.isEmpty()) {
                     extra.append(s).append(enc.getComponentSeparator());
                 }
             } catch (HL7Exception de) {
                 exList.add(new ValidationException(de));
             }
         }
-        profileViolatedWhen(extra.toString().length() > 0, exList, COMPONENT_NOT_DEFINED_IN_PROFILE, extra.toString());
+        profileViolatedWhen(!extra.toString().isEmpty(), exList, COMPONENT_NOT_DEFINED_IN_PROFILE, extra.toString());
 
         return exList;
     }
 
 
+    @SafeVarargs
     private static <T extends Structure> List<T> nonEmptyStructure(T... input) throws HL7Exception {
         List<T> result = new ArrayList<>();
         if (input != null) {
-            for (T element : input) {
+            for (var element : input) {
                 if (!isEmpty(element)) result.add(element);
             }
         }
@@ -493,14 +454,15 @@ public class GazelleProfileRule extends AbstractMessageRule {
 
     // In contrast to {@link #nonEmptyStructure, this will only remove trailing empty fields.
     // If all fields are empty, an empty list is returned
+    @SafeVarargs
     private static <T extends Type> Collection<T> nonEmptyField(T... input) throws HL7Exception {
         if (input == null || input.length == 0) return Collections.emptySet();
         if (input.length == 1) return isEmpty(input[0]) ? Collections.emptySet() : Collections.singleton(input[0]);
 
-        boolean seenNonEmptyRepetition = false;
+        var seenNonEmptyRepetition = false;
         List<T> result = new ArrayList<>();
-        for (T element : input) {
-            boolean isEmpty = isEmpty(element);
+        for (var element : input) {
+            var isEmpty = isEmpty(element);
             if (!(isEmpty && seenNonEmptyRepetition)) {
                 seenNonEmptyRepetition = result.add(element);
             }
@@ -511,12 +473,10 @@ public class GazelleProfileRule extends AbstractMessageRule {
     // Work around HAPI #224: TSComponentOne implementation of isEmpty is buggy
     private static boolean isEmpty(Visitable v) throws HL7Exception {
         if (v == null) return true;
-        if (v instanceof TSComponentOne) {
-            TSComponentOne tsc1 = (TSComponentOne) v;
+        if (v instanceof TSComponentOne tsc1) {
             return tsc1.getValue() == null || tsc1.getValue().isEmpty();
         }
-        if (v instanceof Composite && v.getClass().getName().endsWith(".TS")) {
-            Composite ts = (Composite) v;
+        if (v instanceof Composite ts && v.getClass().getName().endsWith(".TS")) {
             return isEmpty(ts.getComponent(0));
         }
         return v.isEmpty();

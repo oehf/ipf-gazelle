@@ -19,31 +19,8 @@ package org.openehealth.ipf.gazelle.validation.profile;
 /**
  * Default implementation of a ConformanceProfileInfo
  */
-public class ConformanceProfileInfoImpl implements ConformanceProfileInfo {
-
-    private final String profileId;
-    private final String transaction;
-    private final String triggerEvent;
-    private final String hl7version;
-
-    public ConformanceProfileInfoImpl(String profileId, String transaction, String triggerEvent, String hl7version) {
-        this.profileId = profileId;
-        this.triggerEvent = triggerEvent;
-        this.transaction = transaction;
-        this.hl7version = hl7version;
-    }
-
-    public String profileId() {
-        return profileId;
-    }
-
-    public String transaction() {
-        return transaction;
-    }
-
-    public String triggerEvent() {
-        return triggerEvent;
-    }
+public record ConformanceProfileInfoImpl(String profileId, String transaction, String triggerEvent,
+                                         String hl7version) implements ConformanceProfileInfo {
 
     public String type() {
         return triggerEvent.split("\\^")[0];
@@ -55,9 +32,5 @@ public class ConformanceProfileInfoImpl implements ConformanceProfileInfo {
 
     public String structure() {
         return triggerEvent.split("\\^").length > 2 ? triggerEvent.split("\\^")[2] : "";
-    }
-
-    public String hl7version() {
-        return hl7version;
     }
 }

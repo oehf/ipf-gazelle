@@ -78,11 +78,11 @@ public class CachingGazelleProfileRule extends AbstractMessageRule {
     @Override
     public ValidationException[] apply(Message message) {
         try {
-            ConformanceProfile profile = this.profile == null ? guessGazelleProfile(iheTransaction, message) : this.profile;
+            var profile = this.profile == null ? guessGazelleProfile(iheTransaction, message) : this.profile;
             if (profile == null) {
                 return failed("No matching profile could be loaded for message of type " + message.getClass().getName());
             }
-            GazelleProfileRule rule = parseProfile(message.getParser().getHapiContext(), profile.profileInfo().profileId());
+            var rule = parseProfile(message.getParser().getHapiContext(), profile.profileInfo().profileId());
             if (rule == null) {
                 return failed("Cannot parse conformance profile " + profile.profileInfo().profileId() + " for message of type " + message.getClass().getName());
             }
@@ -102,13 +102,13 @@ public class CachingGazelleProfileRule extends AbstractMessageRule {
      */
     protected GazelleProfileRule parseProfile(HapiContext hapiContext, String profileId) throws JAXBException, IOException {
 
-        GazelleProfileRule validator = VALIDATOR_CACHE.get(profileId);
+        var validator = VALIDATOR_CACHE.get(profileId);
         if (validator != null) return validator;
 
         // Several threads could attempt to load the same profile, but this should only happen at the very
         // beginning. As a benefit we don't need any locking here.
         LOG.debug("Conformance Profile {} requested, but has not been parsed yet", profileId);
-        GazelleProfileRule loaded = loadRule(hapiContext, profileId);
+        var loaded = loadRule(hapiContext, profileId);
 
         if (VALIDATOR_CACHE.putIfAbsent(profileId, loaded) == null) {
             LOG.debug("Added conformance profile {} to cache", profileId);
@@ -121,8 +121,8 @@ public class CachingGazelleProfileRule extends AbstractMessageRule {
     }
 
     protected GazelleProfileRule loadRule(HapiContext hapiContext, String profileId) throws JAXBException, IOException {
-        String profileString = hapiContext.getProfileStore().getProfile(profileId);
-        HL7V2XConformanceProfile conformanceProfile =
+        var profileString = hapiContext.getProfileStore().getProfile(profileId);
+        var conformanceProfile =
                 (HL7V2XConformanceProfile) getUnmarshaller().unmarshal(new ByteArrayInputStream(profileString.getBytes()));
         return new GazelleProfileRule(conformanceProfile);
     }
@@ -130,7 +130,7 @@ public class CachingGazelleProfileRule extends AbstractMessageRule {
     // Unmarshaller are not thread-safe, but creation should happen only once for each profile
     private Unmarshaller getUnmarshaller() {
         try {
-            JAXBContext jaxbContext = JAXBContext.newInstance(HL7V2XConformanceProfile.class);
+            var jaxbContext = JAXBContext.newInstance(HL7V2XConformanceProfile.class);
             return jaxbContext.createUnmarshaller();
         } catch (JAXBException jaxbException) {
             throw new RuntimeException(jaxbException.getMessage());
