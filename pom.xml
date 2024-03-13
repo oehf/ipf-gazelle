@@ -34,7 +34,7 @@
         <hapi-version>2.4.1</hapi-version>
         <jaxb-version>2.3.9</jaxb-version>
         <slf4j-version>1.7.36</slf4j-version>
-        <junit.jupiter-version>5.8.2</junit.jupiter-version>
+        <junit.jupiter-version>5.10.2</junit.jupiter-version>
     </properties>
 
     <url>https://github.com/oehf/ipf-gazelle</url>
