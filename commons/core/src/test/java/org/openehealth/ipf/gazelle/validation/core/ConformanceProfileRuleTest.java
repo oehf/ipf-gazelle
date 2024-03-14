@@ -16,9 +16,7 @@
 package org.openehealth.ipf.gazelle.validation.core;
 
 import ca.uhn.hl7v2.Severity;
-import ca.uhn.hl7v2.validation.ValidationException;
 import org.junit.jupiter.api.Test;
-import org.openehealth.ipf.gazelle.validation.core.stub.HL7V2XConformanceProfile;
 import org.openehealth.ipf.gazelle.validation.profile.pixpdq.ItiPixPdqProfile;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -31,10 +29,10 @@ public class ConformanceProfileRuleTest extends AbstractGazelleProfileValidatorT
 
     @Test
     public void testIti8Merge() throws Exception {
-        HL7V2XConformanceProfile runtimeProfile = unmarshalProfile(ItiPixPdqProfile.ITI_8_ADT_A40);
-        GazelleProfileRule profileRule = new GazelleProfileRule(runtimeProfile);
+        var runtimeProfile = unmarshalProfile(ItiPixPdqProfile.ITI_8_ADT_A40);
+        var profileRule = new GazelleProfileRule(runtimeProfile);
 
-        ValidationException[] exceptions = profileRule.apply(getParsedMessage("hl7/iti-8.hl7"));
+        var exceptions = profileRule.apply(getParsedMessage("hl7/iti-8.hl7"));
         printOutExceptions(exceptions);
 
         assertEquals(1, countExceptions(exceptions,  Severity.ERROR));
@@ -44,10 +42,10 @@ public class ConformanceProfileRuleTest extends AbstractGazelleProfileValidatorT
 
     @Test
     public void testIti8Feed() throws Exception {
-        HL7V2XConformanceProfile runtimeProfile = unmarshalProfile(ItiPixPdqProfile.ITI_8_ADT_A01);
-        GazelleProfileRule profileRule = new GazelleProfileRule(runtimeProfile);
+        var runtimeProfile = unmarshalProfile(ItiPixPdqProfile.ITI_8_ADT_A01);
+        var profileRule = new GazelleProfileRule(runtimeProfile);
 
-        ValidationException[] exceptions = profileRule.apply(getParsedMessage("hl7/iti-8-feed.hl7"));
+        var exceptions = profileRule.apply(getParsedMessage("hl7/iti-8-feed.hl7"));
         printOutExceptions(exceptions);
 
         assertEquals(0, countExceptions(exceptions,  Severity.ERROR));
@@ -57,10 +55,10 @@ public class ConformanceProfileRuleTest extends AbstractGazelleProfileValidatorT
 
     @Test
     public void testIti9Response() throws Exception {
-        HL7V2XConformanceProfile runtimeProfile = unmarshalProfile(ItiPixPdqProfile.ITI_9_RSP_K23);
-        GazelleProfileRule profileRule = new GazelleProfileRule(runtimeProfile);
+        var runtimeProfile = unmarshalProfile(ItiPixPdqProfile.ITI_9_RSP_K23);
+        var profileRule = new GazelleProfileRule(runtimeProfile);
 
-        ValidationException[] exceptions = profileRule.apply(getParsedMessage("hl7/iti-9-response.hl7"));
+        var exceptions = profileRule.apply(getParsedMessage("hl7/iti-9-response.hl7"));
         printOutExceptions(exceptions);
 
         assertEquals(0, countExceptions(exceptions,  Severity.ERROR));
@@ -70,10 +68,10 @@ public class ConformanceProfileRuleTest extends AbstractGazelleProfileValidatorT
 
     @Test
     public void testIti21() throws Exception {
-        HL7V2XConformanceProfile runtimeProfile = unmarshalProfile(ItiPixPdqProfile.ITI_21_QBP_Q22);
-        GazelleProfileRule profileRule = new GazelleProfileRule(runtimeProfile);
+        var runtimeProfile = unmarshalProfile(ItiPixPdqProfile.ITI_21_QBP_Q22);
+        var profileRule = new GazelleProfileRule(runtimeProfile);
 
-        ValidationException[] exceptions = profileRule.apply(getParsedMessage("hl7/iti-21.hl7"));
+        var exceptions = profileRule.apply(getParsedMessage("hl7/iti-21.hl7"));
         printOutExceptions(exceptions);
 
         assertEquals(0, countExceptions(exceptions,  Severity.ERROR));
@@ -83,10 +81,10 @@ public class ConformanceProfileRuleTest extends AbstractGazelleProfileValidatorT
 
     @Test
     public void testIti10() throws Exception {
-        HL7V2XConformanceProfile runtimeProfile = unmarshalProfile(ItiPixPdqProfile.ITI_10_ADT_A31);
-        GazelleProfileRule profileRule = new GazelleProfileRule(runtimeProfile);
+        var runtimeProfile = unmarshalProfile(ItiPixPdqProfile.ITI_10_ADT_A31);
+        var profileRule = new GazelleProfileRule(runtimeProfile);
 
-        ValidationException[] exceptions = profileRule.apply(getParsedMessage("hl7/iti-10.hl7"));
+        var exceptions = profileRule.apply(getParsedMessage("hl7/iti-10.hl7"));
         printOutExceptions(exceptions);
 
         assertEquals(1, countExceptions(exceptions,  Severity.ERROR));

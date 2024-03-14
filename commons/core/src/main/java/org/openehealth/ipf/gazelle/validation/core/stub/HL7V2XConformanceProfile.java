@@ -10,18 +10,20 @@ package org.openehealth.ipf.gazelle.validation.core.stub;
 
 import java.util.ArrayList;
 import java.util.List;
-import javax.xml.bind.JAXBElement;
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlAttribute;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlElementRef;
-import javax.xml.bind.annotation.XmlElementRefs;
-import javax.xml.bind.annotation.XmlElements;
-import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlType;
-import javax.xml.bind.annotation.adapters.CollapsedStringAdapter;
-import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
+import java.util.Objects;
+
+import jakarta.xml.bind.JAXBElement;
+import jakarta.xml.bind.annotation.XmlAccessType;
+import jakarta.xml.bind.annotation.XmlAccessorType;
+import jakarta.xml.bind.annotation.XmlAttribute;
+import jakarta.xml.bind.annotation.XmlElement;
+import jakarta.xml.bind.annotation.XmlElementRef;
+import jakarta.xml.bind.annotation.XmlElementRefs;
+import jakarta.xml.bind.annotation.XmlElements;
+import jakarta.xml.bind.annotation.XmlRootElement;
+import jakarta.xml.bind.annotation.XmlType;
+import jakarta.xml.bind.annotation.adapters.CollapsedStringAdapter;
+import jakarta.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 
 /**
@@ -470,11 +472,7 @@ public class HL7V2XConformanceProfile {
          *     
          */
         public AcknowledgmentType getAccAck() {
-            if (accAck == null) {
-                return AcknowledgmentType.NE;
-            } else {
-                return accAck;
-            }
+            return Objects.requireNonNullElse(accAck, AcknowledgmentType.NE);
         }
 
         /**
@@ -498,11 +496,7 @@ public class HL7V2XConformanceProfile {
          *     
          */
         public AcknowledgmentType getAppAck() {
-            if (appAck == null) {
-                return AcknowledgmentType.AL;
-            } else {
-                return appAck;
-            }
+            return Objects.requireNonNullElse(appAck, AcknowledgmentType.AL);
         }
 
         /**
@@ -526,11 +520,7 @@ public class HL7V2XConformanceProfile {
          *     
          */
         public String getMsgAckMode() {
-            if (msgAckMode == null) {
-                return "Deferred";
-            } else {
-                return msgAckMode;
-            }
+            return Objects.requireNonNullElse(msgAckMode, "Deferred");
         }
 
         /**
@@ -554,11 +544,7 @@ public class HL7V2XConformanceProfile {
          *     
          */
         public String getQueryMessageType() {
-            if (queryMessageType == null) {
-                return "NonQuery";
-            } else {
-                return queryMessageType;
-            }
+            return Objects.requireNonNullElse(queryMessageType, "NonQuery");
         }
 
         /**
@@ -582,11 +568,7 @@ public class HL7V2XConformanceProfile {
          *     
          */
         public String getQueryMode() {
-            if (queryMode == null) {
-                return "RealTime";
-            } else {
-                return queryMode;
-            }
+            return Objects.requireNonNullElse(queryMode, "RealTime");
         }
 
         /**

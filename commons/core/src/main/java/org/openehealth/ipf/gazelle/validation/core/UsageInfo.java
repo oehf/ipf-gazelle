@@ -22,7 +22,7 @@ import org.openehealth.ipf.gazelle.validation.core.stub.SegmentType;
 /**
 * Helper class that encapsulate usage-specific attributes of a confirmance profile
 */
-class UsageInfo {
+public class UsageInfo {
     String name;
     String usage;
     int max;
@@ -32,16 +32,16 @@ class UsageInfo {
 
     UsageInfo(Object profileElement) {
         if (profileElement.getClass().isAssignableFrom(SegmentType.class)) {
-            SegmentType structure = (SegmentType) profileElement;
+            var structure = (SegmentType) profileElement;
             usage = structure.getUsage();
             name = structure.getName();
-            max = structure.getMax().equals("*") ? Short.MAX_VALUE : Short.valueOf(structure.getMax());
+            max = structure.getMax().equals("*") ? Short.MAX_VALUE : Short.parseShort(structure.getMax());
             min = structure.getMin().intValue();
         } else if (profileElement.getClass().isAssignableFrom(HL7V2XStaticDef.SegGroup.class)) {
-            HL7V2XStaticDef.SegGroup segGroup = (HL7V2XStaticDef.SegGroup) profileElement;
+            var segGroup = (HL7V2XStaticDef.SegGroup) profileElement;
             usage = segGroup.getUsage();
             name = segGroup.getName();
-            max = segGroup.getMax().equals("*") ? Short.MAX_VALUE : Short.valueOf(segGroup.getMax());
+            max = segGroup.getMax().equals("*") ? Short.MAX_VALUE : Short.parseShort(segGroup.getMax());
             min = segGroup.getMin().intValue();
         } else {
             // Should never happen as the XML schema and JAXB translation do not yield other types
@@ -52,7 +52,7 @@ class UsageInfo {
     UsageInfo(SegmentType.Field field) {
         usage = field.getUsage();
         name = field.getName();
-        max = field.getMax().equals("*") ? Short.MAX_VALUE : Short.valueOf(field.getMax());
+        max = field.getMax().equals("*") ? Short.MAX_VALUE : Short.parseShort(field.getMax());
         min = field.getMin().intValue();
         length = field.getLength().intValue();
         constantValue = field.getConstantValue();

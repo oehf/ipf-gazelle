@@ -24,12 +24,12 @@ import org.openehealth.ipf.gazelle.validation.profile.ConformanceProfileInfoImpl
  */
 public enum PatProfile implements ConformanceProfile {
 
-    PAT_10_ORU_R01                ("1.3.6.1.4.12559.11.1.1.152", "PAT-10", "ORU^R01^ORU_R01", "2.5.1");
+    PAT_10_ORU_R01                ("1.3.6.1.4.12559.11.1.1.152", "PAT-10", "ORU^R01^ORU_R01");
 
     private final ConformanceProfileInfo info;
 
-    PatProfile(String profileId, String transaction, String triggerEvent, String hl7version){
-        info = new ConformanceProfileInfoImpl(profileId, transaction, triggerEvent, hl7version);
+    PatProfile(String profileId, String transaction, String triggerEvent){
+        info = new ConformanceProfileInfoImpl(profileId, transaction, triggerEvent, "2.5.1");
     }
 
     @Override

@@ -22,8 +22,6 @@ import ca.uhn.hl7v2.validation.ValidationException;
 import org.junit.jupiter.api.Test;
 import org.openehealth.ipf.gazelle.validation.core.stub.HL7V2XConformanceProfile;
 
-import java.io.InputStream;
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -33,22 +31,22 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 public class NullFieldValidatorTest extends AbstractGazelleProfileValidatorTest {
 
     private Message getMessage(String substanceId) throws Exception {
-        final String messageString =
+        final var messageString =
                 "MSH|^~\\&|sa|sf|ra|rf|20150321213310+0200||OUL^R22^OUL_R22|123|P|2.5.1|||ER|AL||UNICODE UTF-8|||LAB-29^IHE\r" +
                 "INV|" + substanceId + "|OK\r";
         return new PipeParser().parse(messageString);
     }
 
     private GazelleProfileRule getRule(String fileName) throws Exception {
-        InputStream stream = getClass().getClassLoader().getResourceAsStream("profiles/" + fileName + ".xml");
-        HL7V2XConformanceProfile conformanceProfile = (HL7V2XConformanceProfile) unmarshaller.unmarshal(stream);
+        var stream = getClass().getClassLoader().getResourceAsStream("profiles/" + fileName + ".xml");
+        var conformanceProfile = (HL7V2XConformanceProfile) unmarshaller.unmarshal(stream);
         return new GazelleProfileRule(conformanceProfile);
     }
 
     private ValidationException[] validate(String substanceId, String ruleFileName, boolean shallFail) throws Exception {
-        Message message = getMessage(substanceId);
-        GazelleProfileRule rule = getRule(ruleFileName);
-        ValidationException[] exceptions = rule.apply(message);
+        var message = getMessage(substanceId);
+        var rule = getRule(ruleFileName);
+        var exceptions = rule.apply(message);
         assertEquals(shallFail ? 1 : 0, countExceptions(exceptions, Severity.ERROR));
         return exceptions;
     }
@@ -69,7 +67,7 @@ public class NullFieldValidatorTest extends AbstractGazelleProfileValidatorTest 
         validate("id",                     "withNulls", true);  // CE.3 is not set
         validate("\"\"",                   "withNulls", false); // CE.1 is NULL, CE.3 is not set
 
-        ValidationException[] exceptions = validate("\"\"^^HL70451", "withNulls", true); // CE.1 is NULL, CE.3 is set
+        var exceptions = validate("\"\"^^HL70451", "withNulls", true); // CE.1 is NULL, CE.3 is set
         assertTrue(exceptions[0].getMessage().startsWith("Element 'name of coding system' cannot be present when the field is set to NULL at INV-1"));
 
         validate("id^^HL70451",            "withNulls", false); // CE.1 and CE.3 are set

@@ -58,11 +58,11 @@ public enum ProfileValidationMessage {
     LESS_THAN_MINIMUM_CARDINALITY("%1s must have at least %2s repetitions (has %3s)", APPLICATION_INTERNAL_ERROR, ERROR),
     MORE_THAN_MAXIMUM_CARDINALITY("%1s must have no more than %2s repetitions (has %3s)", APPLICATION_INTERNAL_ERROR, ERROR),;
 
-    private String errorMessage;
-    private ErrorCode errorCode;
-    private Severity severity;
+    private final String errorMessage;
+    private final ErrorCode errorCode;
+    private final Severity severity;
 
-    private ProfileValidationMessage(String errorMessage, ErrorCode errorCode, Severity severity){
+    ProfileValidationMessage(String errorMessage, ErrorCode errorCode, Severity severity){
         this.errorMessage = errorMessage;
         this.errorCode = errorCode;
         this.severity = severity;
