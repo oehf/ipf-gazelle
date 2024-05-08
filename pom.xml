@@ -18,7 +18,7 @@
         <gpg-plugin-version>1.6</gpg-plugin-version>
         <jar-plugin-version>3.3.0</jar-plugin-version>
         <javadocs-plugin-version>3.5.0</javadocs-plugin-version>
-        <nexus-staging-plugin-version>1.6.3</nexus-staging-plugin-version>
+        <nexus-staging-plugin-version>1.6.13</nexus-staging-plugin-version>
         <release-plugin-version>2.5.3</release-plugin-version>
         <sources-plugin-version>3.3.0</sources-plugin-version>
         <surefire-plugin-version>3.2.3</surefire-plugin-version>
