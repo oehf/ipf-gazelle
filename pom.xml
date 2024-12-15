@@ -27,8 +27,8 @@
              instead of accessing them from the cache -->
         <skipCache>false</skipCache>
 
-        <commons-io-version>2.15.1</commons-io-version>
-        <easymock-version>5.2.0</easymock-version>
+        <commons-io-version>2.18.0</commons-io-version>
+        <easymock-version>5.5.0</easymock-version>
         <hamcrest-version>2.2</hamcrest-version>
         <hapi-version>2.5.1</hapi-version>
         <jaxb-version>4.0.4</jaxb-version>
