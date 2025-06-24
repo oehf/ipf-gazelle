@@ -27,13 +27,13 @@
              instead of accessing them from the cache -->
         <skipCache>false</skipCache>
 
-        <commons-io-version>2.18.0</commons-io-version>
+        <commons-io-version>2.19.0</commons-io-version>
         <easymock-version>5.5.0</easymock-version>
         <hamcrest-version>2.2</hamcrest-version>
-        <hapi-version>2.5.1</hapi-version>
-        <jaxb-version>4.0.4</jaxb-version>
-        <slf4j-version>2.0.11</slf4j-version>
-        <junit.jupiter-version>5.10.1</junit.jupiter-version>
+        <hapi-version>2.6.0</hapi-version>
+        <jaxb-version>4.0.5</jaxb-version>
+        <slf4j-version>2.0.17</slf4j-version>
+        <junit.jupiter-version>5.12.2</junit.jupiter-version>
     </properties>
 
     <url>https://github.com/oehf/ipf-gazelle</url>
