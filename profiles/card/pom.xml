@@ -7,7 +7,7 @@
     <parent>
         <groupId>org.openehealth.ipf.gazelle</groupId>
         <artifactId>ipf-gazelle-validation-profiles</artifactId>
-        <version>3.2-SNAPSHOT</version>
+        <version>3.2.0</version>
     </parent>
 
     <dependencies>
