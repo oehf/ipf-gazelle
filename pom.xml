@@ -13,6 +13,7 @@
 
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
+        <central-publishing-maven-plugin.version>0.8.0</central-publishing-maven-plugin.version>
         <compiler-plugin-version>3.12.1</compiler-plugin-version>
         <download-plugin-version>1.8.0</download-plugin-version>
         <gpg-plugin-version>1.6</gpg-plugin-version>
@@ -261,68 +262,6 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
             </plugin>
-            <!--
-            <plugin>
-                <groupId>org.apache.felix</groupId>
-                <artifactId>maven-bundle-plugin</artifactId>
-                <configuration>
-                    <unpackBundle>true</unpackBundle>
-                    <manifestLocation>META-INF</manifestLocation>
-                    <instructions>
-
-                        <_versionpolicy>"$(version;===;$(@))"</_versionpolicy>
-
-                        <_plugin>aQute.lib.spring.SpringComponent</_plugin>
-
-                        <Bundle-SymbolicName>${project.groupId}.${project.artifactId}</Bundle-SymbolicName>
-                        <Export-Package>${osgi.export.pkg}</Export-Package>
-                        <Import-Package>${osgi.import.pkg}</Import-Package>
-                        <DynamicImport-Package>${osgi.dynamic.import.pkg}</DynamicImport-Package>
-                        <Private-Package>${osgi.private.pkg}</Private-Package>
-                        <Bundle-Activator>${osgi.bundle.activator}</Bundle-Activator>
-                        <Bundle-ClassPath>${osgi.bundle.classpath}</Bundle-ClassPath>
-                        <Embed-Dependency>${osgi.embed.dependency}</Embed-Dependency>
-                        <Fragment-Host>${osgi.fragment.host}</Fragment-Host>
-                        <Require-Bundle>${osgi.require.bundle}</Require-Bundle>
-                        <Bundle-Category>${osgi.bundle.category}</Bundle-Category>
-
-                        <Bundle-Description>${project.description}</Bundle-Description>
-                        <Bundle-Vendor>${osgi.bundle.vendor}</Bundle-Vendor>
-                        <Bundle-License>${osgi.bundle.license}</Bundle-License>
-
-                        <Spring-Context>${osgi.spring.context}</Spring-Context>
-                        <Extension-Classes>${ipf.extension.classes}</Extension-Classes>
-                        <Extension-Beans>${ipf.extension.beans}</Extension-Beans>
-                        <Eclipse-SupplementBundle>${eclipse.supplement.bundle}</Eclipse-SupplementBundle>
-
-                        <Build-Time>$(now)</Build-Time>
-                    </instructions>
-                </configuration>
-                <executions>
-                    <execution>
-                        <id>bundle-manifest</id>
-                        <phase>process-classes</phase>
-                        <goals>
-                            <goal>manifest</goal>
-                        </goals>
-                    </execution>
-                    <execution>
-                        <id>bundle-install</id>
-                        <phase>install</phase>
-                        <goals>
-                            <goal>install</goal>
-                        </goals>
-                    </execution>
-                    <execution>
-                        <id>bundle-deploy</id>
-                        <phase>deploy</phase>
-                        <goals>
-                            <goal>deploy</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
--->
             <plugin>
                 <artifactId>maven-jar-plugin</artifactId>
             </plugin>
@@ -331,14 +270,12 @@
                 <artifactId>maven-source-plugin</artifactId>
             </plugin>
             <plugin>
-                <groupId>org.sonatype.plugins</groupId>
-                <artifactId>nexus-staging-maven-plugin</artifactId>
-                <version>${nexus-staging-plugin-version}</version>
+                <groupId>org.sonatype.central</groupId>
+                <artifactId>central-publishing-maven-plugin</artifactId>
+                <version>${central-publishing-maven-plugin.version}</version>
                 <extensions>true</extensions>
                 <configuration>
-                    <serverId>ossrh</serverId>
-                    <nexusUrl>https://oss.sonatype.org/</nexusUrl>
-                    <autoReleaseAfterClose>true</autoReleaseAfterClose>
+                    <publishingServerId>central</publishingServerId>
                 </configuration>
             </plugin>
         </plugins>
