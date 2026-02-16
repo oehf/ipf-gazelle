@@ -13,7 +13,7 @@
 
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
-        <central-publishing-maven-plugin.version>0.8.0</central-publishing-maven-plugin.version>
+        <central-publishing-maven-plugin.version>0.9.0</central-publishing-maven-plugin.version>
         <compiler-plugin-version>3.12.1</compiler-plugin-version>
         <download-plugin-version>1.8.0</download-plugin-version>
         <gpg-plugin-version>1.6</gpg-plugin-version>
@@ -28,8 +28,8 @@
              instead of accessing them from the cache -->
         <skipCache>false</skipCache>
 
-        <commons-io-version>2.19.0</commons-io-version>
-        <easymock-version>5.5.0</easymock-version>
+        <commons-io-version>2.20.0</commons-io-version>
+        <easymock-version>5.6.0</easymock-version>
         <hamcrest-version>2.2</hamcrest-version>
         <hapi-version>2.6.0</hapi-version>
         <jaxb-version>4.0.5</jaxb-version>
