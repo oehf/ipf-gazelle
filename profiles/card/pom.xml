@@ -33,7 +33,7 @@
                         <configuration>
                             <outputDirectory>${gazelle-profile-outputdir}</outputDirectory>
                             <outputFileName>${gazelle-profile-oid-prefix}138.xml</outputFileName>
-                            <url>${gazelle-profile-url-prefix}138</url>
+                            <url>${gazelle-profile-url-prefix}138#</url>
                             <skipCache>${skipCache}</skipCache>
                         </configuration>
                     </execution>
@@ -46,7 +46,7 @@
                         <configuration>
                             <outputDirectory>${gazelle-profile-outputdir}</outputDirectory>
                             <outputFileName>${gazelle-profile-oid-prefix}139.xml</outputFileName>
-                            <url>${gazelle-profile-url-prefix}139</url>
+                            <url>${gazelle-profile-url-prefix}139#</url>
                             <skipCache>${skipCache}</skipCache>
                         </configuration>
                     </execution>
@@ -59,7 +59,7 @@
                         <configuration>
                             <outputDirectory>${gazelle-profile-outputdir}</outputDirectory>
                             <outputFileName>${gazelle-profile-oid-prefix}140.xml</outputFileName>
-                            <url>${gazelle-profile-url-prefix}140</url>
+                            <url>${gazelle-profile-url-prefix}140#</url>
                             <skipCache>${skipCache}</skipCache>
                         </configuration>
                     </execution>
@@ -72,7 +72,7 @@
                         <configuration>
                             <outputDirectory>${gazelle-profile-outputdir}</outputDirectory>
                             <outputFileName>${gazelle-profile-oid-prefix}141.xml</outputFileName>
-                            <url>${gazelle-profile-url-prefix}141</url>
+                            <url>${gazelle-profile-url-prefix}141#</url>
                             <skipCache>${skipCache}</skipCache>
                         </configuration>
                     </execution>
@@ -85,7 +85,7 @@
                         <configuration>
                             <outputDirectory>${gazelle-profile-outputdir}</outputDirectory>
                             <outputFileName>${gazelle-profile-oid-prefix}142.xml</outputFileName>
-                            <url>${gazelle-profile-url-prefix}142</url>
+                            <url>${gazelle-profile-url-prefix}142#</url>
                             <skipCache>${skipCache}</skipCache>
                         </configuration>
                     </execution>
@@ -98,7 +98,7 @@
                         <configuration>
                             <outputDirectory>${gazelle-profile-outputdir}</outputDirectory>
                             <outputFileName>${gazelle-profile-oid-prefix}143.xml</outputFileName>
-                            <url>${gazelle-profile-url-prefix}143</url>
+                            <url>${gazelle-profile-url-prefix}143#</url>
                             <skipCache>${skipCache}</skipCache>
                         </configuration>
                     </execution>
@@ -111,7 +111,7 @@
                         <configuration>
                             <outputDirectory>${gazelle-profile-outputdir}</outputDirectory>
                             <outputFileName>${gazelle-profile-oid-prefix}144.xml</outputFileName>
-                            <url>${gazelle-profile-url-prefix}144</url>
+                            <url>${gazelle-profile-url-prefix}144#</url>
                             <skipCache>${skipCache}</skipCache>
                         </configuration>
                     </execution>
@@ -124,7 +124,7 @@
                         <configuration>
                             <outputDirectory>${gazelle-profile-outputdir}</outputDirectory>
                             <outputFileName>${gazelle-profile-oid-prefix}145.xml</outputFileName>
-                            <url>${gazelle-profile-url-prefix}145</url>
+                            <url>${gazelle-profile-url-prefix}145#</url>
                             <skipCache>${skipCache}</skipCache>
                         </configuration>
                     </execution>
@@ -137,7 +137,7 @@
                         <configuration>
                             <outputDirectory>${gazelle-profile-outputdir}</outputDirectory>
                             <outputFileName>${gazelle-profile-oid-prefix}146.xml</outputFileName>
-                            <url>${gazelle-profile-url-prefix}146</url>
+                            <url>${gazelle-profile-url-prefix}146#</url>
                             <skipCache>${skipCache}</skipCache>
                         </configuration>
                     </execution>

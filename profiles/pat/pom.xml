@@ -33,7 +33,7 @@
                         <configuration>
                             <outputDirectory>${gazelle-profile-outputdir}</outputDirectory>
                             <outputFileName>${gazelle-profile-oid-prefix}152.xml</outputFileName>
-                            <url>${gazelle-profile-url-prefix}152</url>
+                            <url>${gazelle-profile-url-prefix}152#</url>
                             <skipCache>${skipCache}</skipCache>
                         </configuration>
                     </execution>
