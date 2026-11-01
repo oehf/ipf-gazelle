@@ -169,7 +169,7 @@ public class GazelleProfileRule extends AbstractMessageRule {
                         profileViolatedWhen(!isEmpty(rep), exList, STRUCTURE_NOT_DEFINED_IN_PROFILE, childName);
                     }
                 } catch (HL7Exception he) {
-                    exList.add(new ValidationException("Problem checking profile:" + he.getMessage()));
+                    exList.add(new ValidationException("Problem checking profile: " + he.getMessage()));
                 }
             }
         }

@@ -32,7 +32,7 @@ import static org.openehealth.ipf.gazelle.validation.core.util.ProfileAssertions
 /**
  * @author Boris Stanojevic
  */
-public abstract class MessageUtils {
+public final class MessageUtils {
 
     private MessageUtils() {
     }

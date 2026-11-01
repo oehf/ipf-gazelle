@@ -22,7 +22,7 @@ import ca.uhn.hl7v2.validation.ValidationException;
 /**
  * @author Boris Stanojevic
  */
-public abstract class ProfileAssertions {
+public final class ProfileAssertions {
 
     private ProfileAssertions() {
     }
