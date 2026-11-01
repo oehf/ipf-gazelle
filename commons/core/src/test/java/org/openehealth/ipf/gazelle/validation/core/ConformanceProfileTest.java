@@ -46,7 +46,7 @@ public class ConformanceProfileTest {
         assert conformanceProfileInfo.event().equals("S12");
         assert conformanceProfileInfo.transaction().equals("RAD-48");
         assert conformanceProfileInfo.profileId().equals("1.3.6.1.4.12559.11.1.1.4");
-        assert conformanceProfileInfo.hl7version().equals("2.3.1");
+        assert conformanceProfileInfo.hl7version().equals("2.4");
 
         var conformanceProfileInfo1 = RadProfile.RAD_48_SIU_S12.profileInfo();
         assert conformanceProfileInfo.equals(conformanceProfileInfo1);

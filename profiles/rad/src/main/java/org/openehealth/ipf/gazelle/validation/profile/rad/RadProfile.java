@@ -26,11 +26,26 @@ import org.openehealth.ipf.gazelle.validation.profile.ConformanceProfileInfoImpl
 public enum RadProfile implements ConformanceProfile {
 
     RAD_4_ORM_O01                 ("1.3.6.1.4.12559.11.1.1.10",  "RAD-4",  "ORM^O01^ORM_O01", "2.3.1"),
-    RAD_2_ORM_O01_NW_V25          ("1.3.6.1.4.12559.11.1.1.103", "RAD-2",  "ORM^O01^ORM_O01", "2.5"),
-    RAD_2_ORM_O01_CA_V25          ("1.3.6.1.4.12559.11.1.1.104", "RAD-2",  "ORM^O01^ORM_O01", "2.5"),
-    RAD_3_ORR_O02_V25             ("1.3.6.1.4.12559.11.1.1.105", "RAD-3",  "ORR^O02^ORR_O02", "2.5"),
+    /**
+     * @deprecated IHE RAD TF-2 defines ORM^O01/ORR^O02 for HL7 v2.3.1 only (the v2.5.1 option uses OMG/ORG), and
+     * Gazelle serves the same v2.3.1 profile under this OID as for {@link #RAD_2_ORM_O01_NW_V231}. Use that constant instead.
+     */
+    @Deprecated
+    RAD_2_ORM_O01_NW_V25          ("1.3.6.1.4.12559.11.1.1.103", "RAD-2",  "ORM^O01^ORM_O01", "2.3.1"),
+    /**
+     * @deprecated IHE RAD TF-2 defines ORM^O01/ORR^O02 for HL7 v2.3.1 only (the v2.5.1 option uses OMG/ORG), and
+     * Gazelle serves the same v2.3.1 profile under this OID as for {@link #RAD_2_ORM_O01_CA_V231}. Use that constant instead.
+     */
+    @Deprecated
+    RAD_2_ORM_O01_CA_V25          ("1.3.6.1.4.12559.11.1.1.104", "RAD-2",  "ORM^O01^ORM_O01", "2.3.1"),
+    /**
+     * @deprecated IHE RAD TF-2 defines ORM^O01/ORR^O02 for HL7 v2.3.1 only (the v2.5.1 option uses OMG/ORG), and
+     * Gazelle serves the same v2.3.1 profile under this OID as for {@link #RAD_3_ORR_O02_V231}. Use that constant instead.
+     */
+    @Deprecated
+    RAD_3_ORR_O02_V25             ("1.3.6.1.4.12559.11.1.1.105", "RAD-3",  "ORR^O02^ORR_O02", "2.3.1"),
     RAD_35_DFT_P03                ("1.3.6.1.4.12559.11.1.1.11",  "RAD-35", "DFT^P03^DFT_P03", "2.3.1"),
-    RAD_28_ORU_R01                ("1.3.6.1.4.12559.11.1.1.112", "RAD-28", "ORU^R01^ORU_R01", "2.5"),
+    RAD_28_ORU_R01                ("1.3.6.1.4.12559.11.1.1.112", "RAD-28", "ORU^R01^ORU_R01", "2.3.1"),
     RAD_48_SIU_S15                ("1.3.6.1.4.12559.11.1.1.130", "RAD-48", "SIU^S15^SIU_S15", "2.4"),
     RAD_13_ACK_O01                ("1.3.6.1.4.12559.11.1.1.183", "RAD-13", "ACK^O01^ACK", "2.3.1"),
     RAD_4_ACK_O01                 ("1.3.6.1.4.12559.11.1.1.184", "RAD-4",  "ACK^O01^ACK", "2.3.1"),
@@ -55,8 +70,8 @@ public enum RadProfile implements ConformanceProfile {
     RAD_13_OMI_O23                ("1.3.6.1.4.12559.11.1.1.210", "RAD-13", "OMI^O23^OMI_O23", "2.5.1"),
     RAD_4_ACK_O23                 ("1.3.6.1.4.12559.11.1.1.211", "RAD-4", "ACK^O23^ACK", "2.5.1"),
     RAD_13_ACK_O23                ("1.3.6.1.4.12559.11.1.1.212", "RAD-13", "ACK^O23^ACK", "2.5.1"),
-    RAD_48_SIU_S12                ("1.3.6.1.4.12559.11.1.1.4",   "RAD-48", "SIU^S12^SIU_S12", "2.3.1"),
-    RAD_48_SIU_S13                ("1.3.6.1.4.12559.11.1.1.5",   "RAD-48", "SIU^S13^SIU_S13", "2.3.1"),
+    RAD_48_SIU_S12                ("1.3.6.1.4.12559.11.1.1.4",   "RAD-48", "SIU^S12^SIU_S12", "2.4"),
+    RAD_48_SIU_S13                ("1.3.6.1.4.12559.11.1.1.5",   "RAD-48", "SIU^S13^SIU_S13", "2.4"),
     RAD_3_ORM_O01_OC_RAD          ("1.3.6.1.4.12559.11.1.1.7",   "RAD-3",  "ORM^O01^ORM_O01", "2.3.1"),
     RAD_1_ADT_A38                 ("1.3.6.1.4.12559.11.1.1.76",  "RAD-1", "ADT^A38^ADT_A38", "2.3.1"),
     RAD_1_ADT_A01                 ("1.3.6.1.4.12559.11.1.1.77",  "RAD-1", "ADT^A01^ADT_A01", "2.3.1"),

@@ -38,6 +38,7 @@ public enum ProfileValidationMessage {
     WRONG_MSH_EVENT_FIELD("Message event '%1$s' doesn't match profile event of '%2$s'", UNSUPPORTED_EVENT_CODE, ERROR),
     WRONG_MSH_STRUCTURE_FIELD("Message structure '%1$s' doesn't match profile structure of '%2$s'", UNSUPPORTED_PROCESSING_ID, ERROR),
     WRONG_MSH_VERSION_FIELD("Message version '%1$s' doesn't match profile version of '%2$s'", UNSUPPORTED_VERSION_ID, ERROR),
+    COMPATIBLE_MSH_VERSION_FIELD("Message version '%1$s' differs from profile version of '%2$s', but is accepted as compatible", UNSUPPORTED_VERSION_ID, WARNING),
     NOT_SUPPORTED_ELEMENT_PRESENT("Element '%1$s' is present in the message but specified as not used (X) by the profile", APPLICATION_INTERNAL_ERROR, WARNING),
     NO_ELEMENTS_AFTER_NULL("Element '%1$s' cannot be present when the field is set to NULL", APPLICATION_INTERNAL_ERROR, ERROR),
     LENGTH_EXCEEDED("The type '%1$s' has length %2$s which exceeds max of %3$s", DATA_TYPE_ERROR, WARNING),
