@@ -1,9 +1,11 @@
-name: Build IPF-Gazelle with Java 17
+name: Build IPF-Gazelle
 
 on: [push, pull_request, workflow_dispatch]
 
 env:
   MAVEN_OPTS: -Xmx2048m
+  # JDK used for dependency submission and deployment; the other JDKs only build and test
+  DEPLOY_JAVA_VERSION: '17'
 
 # on download timeouts, consider to disable connection pooling
 # -Dhttp.keepAlive=false -Dmaven.wagon.http.pool=false -Dmaven.wagon.http.retryHandler.count=3
@@ -13,8 +15,12 @@ env:
 jobs:
   build:
     runs-on: ubuntu-latest
-    name: Java 17 build
+    name: Java ${{ matrix.java }} build
     timeout-minutes: 45
+    strategy:
+      fail-fast: false
+      matrix:
+        java: [ '17', '21', '25' ]
     steps:
       - uses: actions/checkout@v5
 
@@ -22,7 +28,7 @@ jobs:
         uses: actions/setup-java@v5
         with:
           distribution: 'temurin'
-          java-version: '17'
+          java-version: ${{ matrix.java }}
           cache: 'maven'
           server-id: ossrh
           server-username: ${{ secrets.nexus_username }}
@@ -34,15 +40,17 @@ jobs:
         run: mvn -B clean package --file pom.xml
 
       - name: Submit Dependency Snapshot
+        if: matrix.java == env.DEPLOY_JAVA_VERSION
         uses: advanced-security/maven-dependency-submission-action@v5
         with:
           ignore-maven-wrapper: true
 
       - name: Write Maven settings
+        if: matrix.java == env.DEPLOY_JAVA_VERSION
         env:
           SETTINGS_XML: ${{ secrets.PUBLISH_SETTINGS_XML }}
         run: printf '%s' "$SETTINGS_XML" > "$RUNNER_TEMP/settings-deploy.xml"
 
       - name: Deploy to Sonatype
-        if: github.ref == 'refs/heads/master'
+        if: matrix.java == env.DEPLOY_JAVA_VERSION && github.ref == 'refs/heads/master'
         run: mvn -B deploy -DskipTests --settings "$RUNNER_TEMP/settings-deploy.xml"
