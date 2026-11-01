@@ -21,7 +21,6 @@ import ca.uhn.hl7v2.model.*;
 import ca.uhn.hl7v2.model.primitive.TSComponentOne;
 import ca.uhn.hl7v2.parser.EncodingCharacters;
 import ca.uhn.hl7v2.parser.PipeParser;
-import ca.uhn.hl7v2.util.Terser;
 import ca.uhn.hl7v2.validation.ValidationException;
 import ca.uhn.hl7v2.validation.impl.AbstractMessageRule;
 import org.openehealth.ipf.gazelle.validation.core.stub.HL7V2XConformanceProfile;
@@ -47,40 +46,69 @@ public class GazelleProfileRule extends AbstractMessageRule {
 
     private final EncodingCharacters enc;
     private final HL7V2XConformanceProfile profile;
-    private boolean validateChildren = true;
+    private final HL7V2XStaticDef staticDef;
+    private volatile boolean validateChildren;
 
     public GazelleProfileRule(HL7V2XConformanceProfile profile) {
+        this(profile, true);
+    }
+
+    /**
+     * @param profile          conformance profile to validate against
+     * @param validateChildren if false, each test method will omit child validation
+     */
+    public GazelleProfileRule(HL7V2XConformanceProfile profile, boolean validateChildren) {
         enc = new EncodingCharacters('|', null); // the | is assumed later -- don't change
         this.profile = profile;
+        this.staticDef = findStaticDef(profile);
+        this.validateChildren = validateChildren;
+    }
+
+    private static HL7V2XStaticDef findStaticDef(HL7V2XConformanceProfile profile) {
+        HL7V2XStaticDef staticDef = null;
+        var refs = profile.getDynamicDevesAndHL7V2XStaticDevesAndHL7V2XStaticDefReves();
+        if (refs == null) return null;
+        for (var ref : refs) {
+            if (ref instanceof HL7V2XStaticDef def) {
+                staticDef = def;
+            }
+        }
+        return staticDef;
     }
 
     /**
      * If set to false (default is true), each test method will omit child validation
+     *
+     * @deprecated rule instances may be shared (e.g. cached by {@link CachingGazelleProfileRule}), so
+     * changing this affects all users of the instance. Use {@link #GazelleProfileRule(HL7V2XConformanceProfile, boolean)}.
      */
+    @Deprecated
     public void setValidateChildren(boolean validateChildren) {
         this.validateChildren = validateChildren;
     }
 
 
+    // for testing
+    HL7V2XConformanceProfile getProfile() {
+        return profile;
+    }
+
     @Override
     public ValidationException[] apply(Message message) {
         List<ValidationException> violations = new ArrayList<>();
 
-        HL7V2XStaticDef staticDef = null;
-        for (var ref : profile.getDynamicDevesAndHL7V2XStaticDevesAndHL7V2XStaticDefReves()) {
-            if (ref.getClass().isAssignableFrom(HL7V2XStaticDef.class)) {
-                staticDef = (HL7V2XStaticDef) ref;
-            }
-        }
-
         if (staticDef == null) {
             violations.add(new ValidationException("No Static Definitions found in HL7V2XConformance profile"));
         } else {
-            var terser = new Terser(message);
-            checkMSHTypeField(staticDef.getMsgType(), terser, violations);
-            checkMSHEventField(staticDef.getEventType(), terser, violations);
-            // checkMSHStructureField(staticDef.getMsgStructID(), terser, violations);
-            checkMSHVersionField(profile.getHL7Version(), terser, violations);
+            try {
+                var msh = msh(message);
+                checkMSHTypeField(staticDef.getMsgType(), msh, violations);
+                checkMSHEventField(staticDef.getEventType(), msh, violations);
+                // checkMSHStructureField(staticDef.getMsgStructID(), msh, violations);
+                checkMSHVersionField(profile.getHL7Version(), msh, violations);
+            } catch (HL7Exception e) {
+                violations.add(new ValidationException("Could not obtain MSH segment", e));
+            }
             violations.addAll(testGroup(message, staticDef.getSegmentsAndSegGroups()));
         }
         return violations.toArray(new ValidationException[0]);
@@ -92,7 +120,7 @@ public class GazelleProfileRule extends AbstractMessageRule {
      * {@link org.openehealth.ipf.gazelle.validation.core.stub.HL7V2XStaticDef.SegGroup}.
      *
      * @param group   current message/group element
-     * @param profile available profile objcts to test the element against
+     * @param profile available profile objects to test the element against
      * @return a list with identified violations against the profile(s)
      */
     protected List<ValidationException> testGroup(Group group, List<Object> profile) {

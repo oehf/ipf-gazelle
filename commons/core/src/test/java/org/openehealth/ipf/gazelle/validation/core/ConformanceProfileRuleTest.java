@@ -18,14 +18,26 @@ package org.openehealth.ipf.gazelle.validation.core;
 import ca.uhn.hl7v2.Severity;
 import org.junit.jupiter.api.Test;
 import org.openehealth.ipf.gazelle.validation.profile.pixpdq.ItiPixPdqProfile;
+import org.openehealth.ipf.gazelle.validation.profile.pixpdq.PixPdqTransactions;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.openehealth.ipf.gazelle.validation.core.util.MessageUtils.guessGazelleProfile;
 
 
 /**
  * @author Boris Stanojevic
  */
 public class ConformanceProfileRuleTest extends AbstractGazelleProfileValidatorTest{
+
+    @Test
+    public void testGuessProfile() throws Exception {
+        assertEquals(ItiPixPdqProfile.ITI_8_ADT_A40, guessGazelleProfile(PixPdqTransactions.ITI8, getParsedMessage("hl7/iti-8.hl7")));
+        assertEquals(ItiPixPdqProfile.ITI_8_ADT_A01, guessGazelleProfile(PixPdqTransactions.ITI8, getParsedMessage("hl7/iti-8-feed.hl7")));
+        assertEquals(ItiPixPdqProfile.ITI_9_RSP_K23, guessGazelleProfile(PixPdqTransactions.ITI9, getParsedMessage("hl7/iti-9-response.hl7")));
+        assertNull(guessGazelleProfile(PixPdqTransactions.ITI9, getParsedMessage("hl7/iti-8.hl7")));
+    }
+
 
     @Test
     public void testIti8Merge() throws Exception {

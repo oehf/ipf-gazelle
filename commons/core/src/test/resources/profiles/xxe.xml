@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE HL7v2xConformanceProfile [ <!ENTITY xxe SYSTEM "file:///etc/hosts"> ]>
+<HL7v2xConformanceProfile HL7Version="2.5" ProfileType="Implementation">
+  <MetaData Name="&xxe;" OrgName="evil"/>
+</HL7v2xConformanceProfile>

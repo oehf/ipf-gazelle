@@ -20,7 +20,7 @@ import org.openehealth.ipf.gazelle.validation.core.stub.HL7V2XStaticDef;
 import org.openehealth.ipf.gazelle.validation.core.stub.SegmentType;
 
 /**
-* Helper class that encapsulate usage-specific attributes of a confirmance profile
+* Helper class that encapsulates usage-specific attributes of a conformance profile
 */
 public class UsageInfo {
     String name;
@@ -31,14 +31,12 @@ public class UsageInfo {
     String constantValue;
 
     UsageInfo(Object profileElement) {
-        if (profileElement.getClass().isAssignableFrom(SegmentType.class)) {
-            var structure = (SegmentType) profileElement;
+        if (profileElement instanceof SegmentType structure) {
             usage = structure.getUsage();
             name = structure.getName();
             max = structure.getMax().equals("*") ? Short.MAX_VALUE : Short.parseShort(structure.getMax());
             min = structure.getMin().intValue();
-        } else if (profileElement.getClass().isAssignableFrom(HL7V2XStaticDef.SegGroup.class)) {
-            var segGroup = (HL7V2XStaticDef.SegGroup) profileElement;
+        } else if (profileElement instanceof HL7V2XStaticDef.SegGroup segGroup) {
             usage = segGroup.getUsage();
             name = segGroup.getName();
             max = segGroup.getMax().equals("*") ? Short.MAX_VALUE : Short.parseShort(segGroup.getMax());

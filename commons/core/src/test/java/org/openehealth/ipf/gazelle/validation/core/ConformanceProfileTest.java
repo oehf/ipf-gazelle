@@ -17,8 +17,11 @@ package org.openehealth.ipf.gazelle.validation.core;
 
 
 import org.junit.jupiter.api.Test;
+import org.openehealth.ipf.gazelle.validation.profile.ConformanceProfileInfoImpl;
 import org.openehealth.ipf.gazelle.validation.profile.card.CardProfile;
 import org.openehealth.ipf.gazelle.validation.profile.rad.RadProfile;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * @author Boris Stanojevic
@@ -47,5 +50,22 @@ public class ConformanceProfileTest {
 
         var conformanceProfileInfo1 = RadProfile.RAD_48_SIU_S12.profileInfo();
         assert conformanceProfileInfo.equals(conformanceProfileInfo1);
+    }
+
+    @Test
+    public void testTriggerEventComponents() {
+        assertComponents("ADT^A01^ADT_A01", "ADT", "A01", "ADT_A01");
+        assertComponents("ADT^A01", "ADT", "A01", "");
+        assertComponents("ACK", "ACK", "", "");
+        assertComponents("ACK^^ACK", "ACK", "", "ACK");
+        assertComponents("^A01", "", "A01", "");
+        assertComponents("", "", "", "");
+    }
+
+    private static void assertComponents(String triggerEvent, String type, String event, String structure) {
+        var info = new ConformanceProfileInfoImpl("id", "transaction", triggerEvent, "2.5");
+        assertEquals(type, info.type(), triggerEvent);
+        assertEquals(event, info.event(), triggerEvent);
+        assertEquals(structure, info.structure(), triggerEvent);
     }
 }

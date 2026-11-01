@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<HL7v2xConformanceProfile HL7Version="2.5" ProfileType="Implementation">
+  <MetaData Name="Grüße" OrgName="Müller"/>
+</HL7v2xConformanceProfile>

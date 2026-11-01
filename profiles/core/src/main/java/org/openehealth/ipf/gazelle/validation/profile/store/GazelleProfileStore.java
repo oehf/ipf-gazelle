@@ -28,4 +28,19 @@ public class GazelleProfileStore extends ClasspathProfileStore {
         super(DEFAULT_CLASSPATH_PREFIX);
     }
 
+    /**
+     * All instances of the same class serve identical profiles, so they are considered equal. This lets
+     * caches keyed by profile store (e.g. parsed profile rules) be shared across separately created instances.
+     * Subclasses that serve different profiles are distinguished by their class.
+     */
+    @Override
+    public boolean equals(Object o) {
+        return o != null && o.getClass() == getClass();
+    }
+
+    @Override
+    public int hashCode() {
+        return getClass().hashCode();
+    }
+
 }

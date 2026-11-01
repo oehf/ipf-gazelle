@@ -23,14 +23,26 @@ public record ConformanceProfileInfoImpl(String profileId, String transaction, S
                                          String hl7version) implements ConformanceProfileInfo {
 
     public String type() {
-        return triggerEvent.split("\\^")[0];
+        return component(0);
     }
 
     public String event() {
-        return triggerEvent.split("\\^").length > 1 ? triggerEvent.split("\\^")[1] : "";
+        return component(1);
     }
 
     public String structure() {
-        return triggerEvent.split("\\^").length > 2 ? triggerEvent.split("\\^")[2] : "";
+        return component(2);
+    }
+
+    // Returns the n-th '^'-separated component of the trigger event, or "" if there is none.
+    // Avoids String#split, as these accessors are called for every message when guessing its profile.
+    private String component(int n) {
+        var start = 0;
+        for (var i = 0; i < n; i++) {
+            start = triggerEvent.indexOf('^', start) + 1;
+            if (start == 0) return "";
+        }
+        var end = triggerEvent.indexOf('^', start);
+        return end < 0 ? triggerEvent.substring(start) : triggerEvent.substring(start, end);
     }
 }

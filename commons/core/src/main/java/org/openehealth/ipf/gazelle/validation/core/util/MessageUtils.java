@@ -20,10 +20,10 @@ import java.util.Objects;
 
 import ca.uhn.hl7v2.HL7Exception;
 import ca.uhn.hl7v2.model.Message;
+import ca.uhn.hl7v2.model.Segment;
 import ca.uhn.hl7v2.util.Terser;
 import ca.uhn.hl7v2.validation.ValidationException;
 import org.openehealth.ipf.gazelle.validation.profile.ConformanceProfile;
-import org.openehealth.ipf.gazelle.validation.profile.ConformanceProfileInfo;
 import org.openehealth.ipf.gazelle.validation.profile.HL7v2Transactions;
 
 import static org.openehealth.ipf.gazelle.validation.core.util.ProfileAssertions.profileViolatedWhen;
@@ -75,53 +75,83 @@ public abstract class MessageUtils {
      *
      * @param iheTransaction concrete IHETransaction
      * @param message        hapi message
-     * @return GazelleProfile that matches message type, event, structure & version
+     * @return GazelleProfile that matches message type, event & version
      */
     public static ConformanceProfile guessGazelleProfile(HL7v2Transactions iheTransaction, Message message)
             throws HL7Exception {
-        var terser = new Terser(message);
+        // Read the MSH values once, not once per candidate profile
+        var msh = msh(message);
+        var type = Terser.get(msh, 9, 0, 1, 1);
+        var event = Terser.get(msh, 9, 0, 2, 1);
+        var version = Terser.get(msh, 12, 0, 1, 1);
         for (var conformanceProfile : iheTransaction.conformanceProfiles()) {
-            if (matches(conformanceProfile.profileInfo(), terser)) {
+            var info = conformanceProfile.profileInfo();
+            if (info.type().equals(type)
+                    && info.event().equals(event)
+                    // && info.structure().equals(structure)
+                    && info.hl7version().equals(version)) {
                 return conformanceProfile;
             }
         }
         return null;
     }
 
-    private static boolean matches(ConformanceProfileInfo conformanceProfileInfo, Terser terser) throws HL7Exception {
-        return conformanceProfileInfo.type().equals(messageType(terser))
-                && conformanceProfileInfo.event().equals(triggerEvent(terser))
-                // && conformanceProfileInfo.structure().equals(messageStructure(terser))
-                && conformanceProfileInfo.hl7version().equals(messageVersion(terser));
+    /**
+     * @return the MSH segment of the message
+     */
+    public static Segment msh(Message message) throws HL7Exception {
+        return (Segment) message.get("MSH");
     }
 
     public static void checkMSHTypeField(String profileValue, Terser terser, List<ValidationException> violations) {
-        checkMSHField("/MSH-9-1", profileValue, terser, ProfileValidationMessage.WRONG_MSH_TYPE_FIELD, violations);
+        checkMSHField("/MSH-9-1", () -> mshField("/MSH-9-1", terser), profileValue, ProfileValidationMessage.WRONG_MSH_TYPE_FIELD, violations);
     }
 
     public static void checkMSHEventField(String profileValue, Terser terser, List<ValidationException> violations) {
         if (!"ALL".equals(profileValue))
-            checkMSHField("/MSH-9-2", profileValue, terser, ProfileValidationMessage.WRONG_MSH_EVENT_FIELD, violations);
+            checkMSHField("/MSH-9-2", () -> mshField("/MSH-9-2", terser), profileValue, ProfileValidationMessage.WRONG_MSH_EVENT_FIELD, violations);
     }
 
     public static void checkMSHStructureField(String profileValue, Terser terser, List<ValidationException> violations) {
-        checkMSHField("/MSH-9-3", profileValue, terser, ProfileValidationMessage.WRONG_MSH_STRUCTURE_FIELD, violations);
+        checkMSHField("/MSH-9-3", () -> mshField("/MSH-9-3", terser), profileValue, ProfileValidationMessage.WRONG_MSH_STRUCTURE_FIELD, violations);
     }
 
     public static void checkMSHVersionField(String profileValue, Terser terser, List<ValidationException> violations) {
-        checkMSHField("/MSH-12-1", profileValue, terser, ProfileValidationMessage.WRONG_MSH_VERSION_FIELD, violations);
+        checkMSHField("/MSH-12-1", () -> mshField("/MSH-12-1", terser), profileValue, ProfileValidationMessage.WRONG_MSH_VERSION_FIELD, violations);
     }
 
-    private static void checkMSHField(String fieldNo, String profileValue, Terser terser,
+    // The following variants take the MSH segment directly, which is considerably faster than Terser path lookups
+
+    public static void checkMSHTypeField(String profileValue, Segment msh, List<ValidationException> violations) {
+        checkMSHField("/MSH-9-1", () -> Terser.get(msh, 9, 0, 1, 1), profileValue, ProfileValidationMessage.WRONG_MSH_TYPE_FIELD, violations);
+    }
+
+    public static void checkMSHEventField(String profileValue, Segment msh, List<ValidationException> violations) {
+        if (!"ALL".equals(profileValue))
+            checkMSHField("/MSH-9-2", () -> Terser.get(msh, 9, 0, 2, 1), profileValue, ProfileValidationMessage.WRONG_MSH_EVENT_FIELD, violations);
+    }
+
+    public static void checkMSHStructureField(String profileValue, Segment msh, List<ValidationException> violations) {
+        checkMSHField("/MSH-9-3", () -> Terser.get(msh, 9, 0, 3, 1), profileValue, ProfileValidationMessage.WRONG_MSH_STRUCTURE_FIELD, violations);
+    }
+
+    public static void checkMSHVersionField(String profileValue, Segment msh, List<ValidationException> violations) {
+        checkMSHField("/MSH-12-1", () -> Terser.get(msh, 12, 0, 1, 1), profileValue, ProfileValidationMessage.WRONG_MSH_VERSION_FIELD, violations);
+    }
+
+    @FunctionalInterface
+    private interface FieldReader {
+        String read() throws HL7Exception;
+    }
+
+    private static void checkMSHField(String fieldNo, FieldReader reader, String profileValue,
                                       ProfileValidationMessage validationMessage, List<ValidationException> violations) {
-        String mshValue;
         try {
-            mshValue = mshField(fieldNo, terser);
+            var mshValue = reader.read();
             profileViolatedWhen(!Objects.equals(mshValue, profileValue), violations,
                     validationMessage, mshValue, profileValue);
         } catch (HL7Exception e) {
-            violations.add(new ValidationException("Could not obtain" + fieldNo, e));
+            violations.add(new ValidationException("Could not obtain " + fieldNo, e));
         }
-
     }
 }
