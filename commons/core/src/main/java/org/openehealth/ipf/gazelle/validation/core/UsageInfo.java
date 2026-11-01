@@ -52,7 +52,8 @@ public class UsageInfo {
         name = field.getName();
         max = field.getMax().equals("*") ? Short.MAX_VALUE : Short.parseShort(field.getMax());
         min = field.getMin().intValue();
-        length = field.getLength().intValue();
+        // Some profiles define fields without length (e.g. withdrawn fields like MSA-5): no length constraint then
+        length = field.getLength() != null ? field.getLength().intValue() : Integer.MAX_VALUE;
         constantValue = field.getConstantValue();
     }
 
