@@ -37,6 +37,11 @@ public enum LabTransactions implements HL7v2Transactions {
     LAB5(LAB_5_OUL_R22, LAB_5_OUL_R23, LAB_5_OUL_R24, LAB_5_ACK, LAB_5_ACK_R22, LAB_5_ACK_R23, LAB_5_ACK_R24),
     LAB21(LAB_21_OML_O33),
     LAB22(LAB_22_RSP_WOS, LAB_22_QBP_WOS),
+    /**
+     * @deprecated IHE PaLM TF Rev. 7.0 (2016) removed transaction LAB-23 (AWOS Status Change) from the LDA Profile and
+     * transferred it to the LAW Profile as LAB-29. Use {@link #LAB29} instead.
+     */
+    @Deprecated
     LAB23(LAB_23_ACK_R22, LAB_23_OUL_R22),
     LAB26(LAB_26_ACK_U03, LAB_26_SSU_U03),
     LAB27(LAB_27_RSP_K11, LAB_27_QBP_Q11),

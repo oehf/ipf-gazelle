@@ -30,6 +30,10 @@ public enum PcdTransactions implements HL7v2Transactions {
 
     PCD1  (PCD_1_ACK_R01_DEV_OBS_CONSUMER, PCD_1_ACK_R01_DEV_OBS_FILTER,
            PCD_1_ORU_R01_DEV_OBS_FILTER, PCD_1_ORU_R01_DEV_OBS_REPORTER),
+    /**
+     * @deprecated IHE DEV TF-2 Rev. 11.0 (2026) no longer defines transaction PCD-02 (section 3.2 is "Reserved").
+     */
+    @Deprecated
     PCD2  (PCD_2_QSB_Z02, PCD_2_ACK_Z02);
 
     private final List<ConformanceProfile> transactionTypes;

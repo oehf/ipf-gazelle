@@ -26,6 +26,11 @@ public enum LabProfile implements ConformanceProfile {
 
     LAB_4_OML_O21                 ("1.3.6.1.4.12559.11.1.1.1",   "LAB-4",  "OML^O21^OML_O21", "2.5"),
     LAB_22_RSP_WOS                ("1.3.6.1.4.12559.11.1.1.100", "LAB-22", "RSP^WOS^RSP_K11", "2.5"),
+    /**
+     * @deprecated IHE PaLM TF Rev. 7.0 (2016) removed transaction LAB-23 (AWOS Status Change) from the LDA Profile and
+     * transferred it to the LAW Profile as LAB-29. Use {@link #LAB_29_ACK_R22} instead.
+     */
+    @Deprecated
     LAB_23_ACK_R22                ("1.3.6.1.4.12559.11.1.1.101", "LAB-23", "ACK^R22^ACK",     "2.5"),
     LAB_26_ACK_U03                ("1.3.6.1.4.12559.11.1.1.102", "LAB-26", "ACK^U03^ACK",     "2.5"),
     LAB_1_OML_O21_OP              ("1.3.6.1.4.12559.11.1.1.106", "LAB-1",  "OML^O21^OML_O21", "2.5"),
@@ -34,6 +39,11 @@ public enum LabProfile implements ConformanceProfile {
     LAB_2_ORL_O34                 ("1.3.6.1.4.12559.11.1.1.109", "LAB-2",  "ORL^O34^ORL_O34", "2.5"),
     LAB_2_ORL_O36                 ("1.3.6.1.4.12559.11.1.1.110", "LAB-2",  "ORL^O36^ORL_O36", "2.5"),
     LAB_2_ORL_O22                 ("1.3.6.1.4.12559.11.1.1.111", "LAB-2",  "ORL^O22^ORL_O22", "2.5"),
+    /**
+     * @deprecated IHE PaLM TF Rev. 7.0 (2016) removed transaction LAB-23 (AWOS Status Change) from the LDA Profile and
+     * transferred it to the LAW Profile as LAB-29. Use {@link #LAB_29_OUL_R22} instead.
+     */
+    @Deprecated
     LAB_23_OUL_R22                ("1.3.6.1.4.12559.11.1.1.115", "LAB-23", "OUL^R22^OUL_R22", "2.5"),
     LAB_26_SSU_U03                ("1.3.6.1.4.12559.11.1.1.116", "LAB-26", "SSU^U03^SSU_U03", "2.5"),
     LAB_22_QBP_WOS                ("1.3.6.1.4.12559.11.1.1.117", "LAB-22", "QBP^WOS^QBP_Q11", "2.5"),

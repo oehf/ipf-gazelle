@@ -25,9 +25,19 @@ import org.openehealth.ipf.gazelle.validation.profile.ConformanceProfileInfoImpl
 public enum PcdProfile implements ConformanceProfile {
 
     PCD_1_ACK_R01_DEV_OBS_CONSUMER("1.3.6.1.4.12559.11.1.1.113", "PCD-1",  "ACK^R01^ACK",     "2.6"),
+    /**
+     * @deprecated IHE DEV TF-2 Rev. 11.0 (2026) no longer defines transaction PCD-02 (section 3.2 is "Reserved").
+     * Moreover, the Gazelle profile declares MSH-7 as DTM instead of TS (HL7 v2.5), so every message fails validation.
+     */
+    @Deprecated
     PCD_2_QSB_Z02                 ("1.3.6.1.4.12559.11.1.1.114", "PCD-2",  "QSB^Z02^QSB_Q16", "2.5"),
     PCD_1_ACK_R01_DEV_OBS_FILTER  ("1.3.6.1.4.12559.11.1.1.126", "PCD-1",  "ACK^R01^ACK", "2.6"),
     PCD_1_ORU_R01_DEV_OBS_FILTER  ("1.3.6.1.4.12559.11.1.1.127", "PCD-1",  "ORU^R01^ORU_R01", "2.6"),
+    /**
+     * @deprecated IHE DEV TF-2 Rev. 11.0 (2026) no longer defines transaction PCD-02 (section 3.2 is "Reserved").
+     * Moreover, the Gazelle profile declares MSH-7 as DTM instead of TS (HL7 v2.5), so every message fails validation.
+     */
+    @Deprecated
     PCD_2_ACK_Z02                 ("1.3.6.1.4.12559.11.1.1.128", "PCD-2",  "ACK^Z02^ACK", "2.5"),
     PCD_1_ORU_R01_DEV_OBS_REPORTER("1.3.6.1.4.12559.11.1.1.129", "PCD-1",  "ORU^R01^ORU_R01", "2.6");
 
