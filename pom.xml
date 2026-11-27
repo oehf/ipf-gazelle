@@ -275,6 +275,7 @@
                 <extensions>true</extensions>
                 <configuration>
                     <publishingServerId>ossrh</publishingServerId>
+                    <checksums>required</checksums>
                 </configuration>
             </plugin>
         </plugins>
